@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "start": "ng serve trace-q",
+    "build": "ng build trace-q",
+    "watch": "ng build trace-q --watch --configuration development",
+    "test": "ng test trace-q"
   },
   "prettier": {
     "printWidth": 100,

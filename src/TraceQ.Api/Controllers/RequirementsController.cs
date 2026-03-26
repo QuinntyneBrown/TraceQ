@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TraceQ.Core.Interfaces;
+using TraceQ.Core.Utilities;
 
 namespace TraceQ.Api.Controllers;
 
@@ -121,9 +122,7 @@ public class RequirementsController : ControllerBase
             ModifiedDate = r.ModifiedDate,
             Module = r.Module,
             ParentNumber = r.ParentNumber,
-            TracedTo = string.IsNullOrEmpty(r.TracedTo)
-                ? new List<string>()
-                : r.TracedTo.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+            TracedTo = TraceLinkParser.Parse(r.TracedTo),
             IsEmbedded = r.IsEmbedded
         };
     }

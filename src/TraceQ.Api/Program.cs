@@ -56,7 +56,10 @@ try
     builder.Services.AddControllers();
 
     // Register TraceQ Infrastructure services (DbContext, repositories, parsers, etc.)
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=traceq.db";
+    var connectionString =
+        builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? builder.Configuration.GetConnectionString("Sqlite")
+        ?? "Data Source=traceq.db";
     builder.Services.AddTraceQInfrastructure(connectionString);
 
     // Register local ONNX embedding service and background embedding worker

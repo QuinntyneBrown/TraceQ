@@ -14,7 +14,7 @@ public class Requirement
     public DateTime? ModifiedDate { get; set; }
     public string? Module { get; set; }
     public string? ParentNumber { get; set; }
-    public string? TracedTo { get; set; } // Comma-separated requirement numbers
+    public string? TracedTo { get; set; } // Delimited requirement numbers, normalized to comma-separated on import
     public bool IsEmbedded { get; set; }
     public DateTime ImportedAt { get; set; }
     public Guid ImportBatchId { get; set; }

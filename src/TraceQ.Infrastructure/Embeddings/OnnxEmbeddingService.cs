@@ -68,6 +68,8 @@ public class OnnxEmbeddingService : IEmbeddingService, IDisposable
         _logger = logger;
     }
 
+    public bool IsAvailable => true;
+
     /// <inheritdoc />
     public Task<float[]> GenerateEmbeddingAsync(string text)
     {

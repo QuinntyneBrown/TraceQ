@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using TraceQ.Core.DTOs;
 using TraceQ.Core.Interfaces;
 using TraceQ.Core.Models;
+using TraceQ.Core.Utilities;
 
 namespace TraceQ.Infrastructure.Data;
 
@@ -188,7 +189,7 @@ public class RequirementRepository : IRequirementRepository
             .ToListAsync();
 
         var distribution = allReqs
-            .Select(t => t.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Length)
+            .Select(t => TraceLinkParser.Parse(t).Count)
             .GroupBy(count => count)
             .Select(g => new DistributionDto { Label = $"{g.Key} link(s)", Count = g.Count() })
             .OrderBy(d => d.Label)
@@ -254,9 +255,7 @@ public class RequirementRepository : IRequirementRepository
             ModifiedDate = r.ModifiedDate,
             Module = r.Module,
             ParentNumber = r.ParentNumber,
-            TracedTo = string.IsNullOrEmpty(r.TracedTo)
-                ? new List<string>()
-                : r.TracedTo.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+            TracedTo = TraceLinkParser.Parse(r.TracedTo),
             IsEmbedded = r.IsEmbedded
         };
     }

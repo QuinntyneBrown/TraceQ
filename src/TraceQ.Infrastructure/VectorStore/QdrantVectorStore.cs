@@ -27,7 +27,7 @@ public class QdrantVectorStore : IVectorStore
     /// Indicates whether the Qdrant server was reachable during initialization.
     /// Exposed internally for testability.
     /// </summary>
-    internal bool IsAvailable => _isAvailable;
+    public bool IsAvailable => _isAvailable;
 
     public QdrantVectorStore(
         IQdrantClient client,

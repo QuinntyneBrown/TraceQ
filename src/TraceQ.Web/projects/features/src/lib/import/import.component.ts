@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -114,7 +115,7 @@ export class ImportComponent {
         this.loadHistory();
       },
       error: (err) => {
-        const message = err.error?.message || err.message || 'Import failed.';
+        const message = this.getErrorMessage(err);
         this.uploadError.set(message);
         this.toast.error({ title: 'Import Failed', message });
       },
@@ -134,5 +135,28 @@ export class ImportComponent {
         this.toast.error({ title: 'Error', message: 'Failed to load import history.' });
       },
     });
+  }
+
+  private getErrorMessage(err: unknown): string {
+    if (!(err instanceof HttpErrorResponse)) {
+      return 'Import failed.';
+    }
+
+    const payload = err.error;
+    if (typeof payload === 'string' && payload.trim().length > 0) {
+      return payload;
+    }
+
+    if (payload && typeof payload === 'object') {
+      const record = payload as Record<string, unknown>;
+      const parts = [record.error, record.details]
+        .filter((value): value is string => typeof value === 'string' && value.trim().length > 0);
+
+      if (parts.length > 0) {
+        return parts.join(': ');
+      }
+    }
+
+    return err.message || 'Import failed.';
   }
 }

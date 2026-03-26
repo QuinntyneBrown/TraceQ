@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using TraceQ.Core.DTOs;
 using TraceQ.Core.Interfaces;
 using TraceQ.Core.Models;
+using TraceQ.Core.Utilities;
 using TraceQ.Infrastructure.Data;
 
 namespace TraceQ.Infrastructure.Services;
@@ -77,6 +78,7 @@ public class ImportService : IImportService
             try
             {
                 var requirement = result.Requirement!;
+                requirement.TracedTo = TraceLinkParser.Normalize(requirement.TracedTo);
                 var existing = await _requirementRepository.GetByNumberAsync(requirement.RequirementNumber);
 
                 if (existing != null)
@@ -245,6 +247,15 @@ public class ImportService : IImportService
     {
         try
         {
+            if (!_embeddingService.IsAvailable || !_vectorStore.IsAvailable)
+            {
+                _logger.LogInformation(
+                    "Skipping inline embedding generation because dependencies are unavailable (Embeddings: {EmbeddingsAvailable}, VectorStore: {VectorStoreAvailable})",
+                    _embeddingService.IsAvailable,
+                    _vectorStore.IsAvailable);
+                return;
+            }
+
             var unembedded = await _requirementRepository.GetUnembeddedAsync();
             if (!unembedded.Any())
                 return;

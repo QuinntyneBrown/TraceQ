@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using TraceQ.Core.DTOs;
 using TraceQ.Core.Interfaces;
+using TraceQ.Core.Utilities;
 
 namespace TraceQ.Infrastructure.Services;
 
@@ -268,9 +269,7 @@ public class SearchService : ISearchService
             ModifiedDate = r.ModifiedDate,
             Module = r.Module,
             ParentNumber = r.ParentNumber,
-            TracedTo = string.IsNullOrEmpty(r.TracedTo)
-                ? new List<string>()
-                : r.TracedTo.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList(),
+            TracedTo = TraceLinkParser.Parse(r.TracedTo),
             IsEmbedded = r.IsEmbedded
         };
     }
