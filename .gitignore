@@ -480,3 +480,13 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# TraceQ-specific
+# ONNX model files (large binaries, download separately)
+models/*.onnx
+models/*.bin
+# SQLite database
+data/
+*.db
+*.db-shm
+*.db-wal
