@@ -148,10 +148,17 @@ This imports 30 aerospace requirements. The background service will automaticall
 
 ### Optional — Validate a CSV with the CLI first
 
-TraceQ also ships with a CLI project for validating CSV files before import:
+Install the TraceQ CLI tool and validate your CSV before importing:
+
+```bash
+dotnet tool install -g QuinntyneBrown.TraceQ
+tq validate docs/specs/sample-requirements.csv
+```
+
+Or run from source without installing:
 
 ```powershell
-dotnet run --project .\src\TraceQ.Cli -- validate .\tests\TestData\windchill_export_sample.csv
+dotnet run --project .\src\TraceQ.Cli -- validate .\docs\specs\sample-requirements.csv
 ```
 
 The CLI exits with `0` when the file is importable and `1` when validation fails.
@@ -179,29 +186,41 @@ This opens two terminal windows — one for the backend and one for the frontend
 > **Note:** Qdrant must already be running. Start it with `docker start qdrant` if you've previously created the container.
 > For the default setup in this repo, the persistent container name is `traceq-qdrant`, so use `docker start traceq-qdrant`.
 
-## CLI Usage
+## CLI Tool (`tq`)
 
-The CLI project lives in `src/TraceQ.Cli` and currently exposes a `validate` command for Windchill CSV files.
+TraceQ ships a .NET global tool called `tq` for command-line CSV validation. It requires .NET 8 or later.
 
-### Run locally from source
+### Install from NuGet
+
+```bash
+dotnet tool install -g QuinntyneBrown.TraceQ
+```
+
+Then use it anywhere:
+
+```bash
+tq validate path/to/requirements.csv
+```
+
+### Update to latest version
+
+```bash
+dotnet tool update -g QuinntyneBrown.TraceQ
+```
+
+### Run from source (without installing)
 
 ```powershell
 dotnet run --project .\src\TraceQ.Cli -- validate .\tests\TestData\windchill_export_sample.csv
 ```
 
-### Package as a .NET tool
+### Available commands
 
-`TraceQ.Cli` is configured as a .NET tool with the command name `tq`.
+| Command | Description |
+|---------|-------------|
+| `tq validate <path>` | Validate a Windchill PLM CSV export for importability |
 
-```powershell
-dotnet pack .\src\TraceQ.Cli -c Release
-```
-
-After packing, the generated NuGet package can be installed from a local source and invoked as:
-
-```powershell
-tq validate .\tests\TestData\windchill_export_sample.csv
-```
+The validate command checks file integrity, required columns (`Number`, `Name`), and row-level data. It exits with code `0` when the file can be imported and `1` when errors are found.
 
 ## Running Tests
 
@@ -246,7 +265,7 @@ All backend configuration is in `src/TraceQ.Api/appsettings.json`:
 | Component | Technology |
 |-----------|------------|
 | Backend | C# 12 / .NET 8 / ASP.NET Core |
-| CLI | .NET 8 / System.CommandLine |
+| CLI | .NET 8+ / System.CommandLine ([NuGet](https://www.nuget.org/packages/QuinntyneBrown.TraceQ)) |
 | Frontend | Angular 21 / Angular Material / Chart.js |
 | Vector Store | Qdrant (local, gRPC) |
 | Metadata DB | SQLite (EF Core 8) |
