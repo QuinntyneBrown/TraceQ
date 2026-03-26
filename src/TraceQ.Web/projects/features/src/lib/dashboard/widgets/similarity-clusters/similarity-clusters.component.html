@@ -1,0 +1,47 @@
+<mat-card class="clusters-card">
+  <div class="card-header">
+    <h3 class="card-title">Similarity Clusters</h3>
+    <tq-icon-button icon="refresh" variant="ghost" size="sm" tooltip="Refresh" (clicked)="refresh()" />
+  </div>
+
+  <mat-card-content>
+    <div class="threshold-row">
+      <span class="threshold-label">Threshold: {{ formatThreshold(threshold) }}</span>
+      <mat-slider min="0.7" max="0.99" step="0.01" class="threshold-slider">
+        <input matSliderThumb [(ngModel)]="threshold" (change)="onThresholdChange()" />
+      </mat-slider>
+    </div>
+
+    @if (isLoading()) {
+      <div class="loading-container">
+        <mat-spinner diameter="32"></mat-spinner>
+      </div>
+    } @else if (clusters().length === 0) {
+      <tq-empty-state
+        type="no-results"
+        icon="workspaces"
+        title="No Clusters Found"
+        message="No requirements exceed the similarity threshold. Try lowering the threshold."
+      />
+    } @else {
+      <div class="clusters-list">
+        @for (cluster of clusters(); track cluster.clusterId) {
+          <div class="cluster-group">
+            <div class="cluster-header">
+              <span class="cluster-label">Cluster {{ cluster.clusterId }}</span>
+              <mat-chip class="member-count">{{ cluster.members.length }} requirements</mat-chip>
+            </div>
+            <div class="cluster-members">
+              @for (member of cluster.members; track member.requirement.id) {
+                <div class="member-row">
+                  <span class="member-number">{{ member.requirement.requirementNumber }}</span>
+                  <span class="member-name">{{ member.requirement.name }}</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </mat-card-content>
+</mat-card>

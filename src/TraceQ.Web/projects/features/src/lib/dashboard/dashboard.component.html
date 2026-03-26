@@ -1,0 +1,30 @@
+<div class="dashboard-page">
+  <h1 class="page-title">Dashboard</h1>
+  <p class="page-subtitle">Requirement distribution, traceability coverage, and similarity analysis</p>
+
+  <div class="widget-grid">
+    <!-- Distribution Charts -->
+    <div class="widget widget-half">
+      <feat-distribution-chart field="type" title="By Type" />
+    </div>
+    <div class="widget widget-half">
+      <feat-distribution-chart field="state" title="By State" />
+    </div>
+    <div class="widget widget-half">
+      <feat-distribution-chart field="priority" title="By Priority" />
+    </div>
+    <div class="widget widget-half">
+      <feat-distribution-chart field="module" title="By Module" />
+    </div>
+
+    <!-- Traceability Coverage -->
+    <div class="widget widget-full">
+      <feat-traceability />
+    </div>
+
+    <!-- Similarity Clusters -->
+    <div class="widget widget-full">
+      <feat-similarity-clusters />
+    </div>
+  </div>
+</div>

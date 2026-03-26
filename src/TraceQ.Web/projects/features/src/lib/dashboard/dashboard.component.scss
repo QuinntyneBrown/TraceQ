@@ -1,0 +1,42 @@
+.dashboard-page {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--mat-sys-on-surface-variant);
+  margin: 0 0 24px;
+}
+
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.widget-half {
+  grid-column: span 1;
+}
+
+.widget-full {
+  grid-column: span 2;
+}
+
+@media (max-width: 768px) {
+  .widget-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .widget-half,
+  .widget-full {
+    grid-column: span 1;
+  }
+}
