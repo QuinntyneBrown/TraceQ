@@ -1,0 +1,118 @@
+@startuml class-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 10
+skinparam classAttributeFontSize 9
+skinparam classStereotypeFontSize 9
+skinparam packageFontSize 10
+skinparam arrowFontSize 9
+skinparam noteFontSize 9
+skinparam defaultFontSize 9
+skinparam linetype ortho
+
+skinparam class {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+    ArrowColor #A80036
+}
+
+package "Angular Frontend" #E8F5E9 {
+    class TraceabilityComponent <<Component>> {
+        - coverage: TraceabilityCoverage
+        - loading: boolean
+        + ngOnInit(): void
+        + loadCoverage(): void
+    }
+
+    class "ReportsService\n(Angular)" as AngularReportsService <<Service>> {
+        + getTraceability(): Observable<TraceabilityCoverage>
+    }
+}
+
+package "API Layer" #E3F2FD {
+    class ReportsController <<Controller>> {
+        - _requirementRepo: IRequirementRepository
+        + GetTraceability(): TraceabilityCoverageDto
+    }
+}
+
+package "Infrastructure" #FCE4EC {
+    interface IRequirementRepository <<interface>> {
+        + GetTraceabilityCoverageAsync(): Task<TraceabilityCoverageDto>
+    }
+
+    class RequirementRepository <<Repository>> {
+        - _dbContext: AppDbContext
+        + GetTraceabilityCoverageAsync(): Task<TraceabilityCoverageDto>
+        - CountTotal(): int
+        - CountTraced(): int
+        - GetUntracedRequirements(): List<RequirementSummaryDto>
+        - ComputeDistribution(): List<DistributionDto>
+    }
+}
+
+package "DTOs & Models" #F3E5F5 {
+    class TraceabilityCoverageDto <<DTO>> {
+        + TotalCount: int
+        + TracedCount: int
+        + UntracedCount: int
+        + CoveragePercentage: double
+        + UntracedRequirements: List<RequirementSummaryDto>
+        + TraceDistribution: List<DistributionDto>
+    }
+
+    class RequirementSummaryDto <<DTO>> {
+        + Id: Guid
+        + RequirementNumber: string
+        + Name: string
+    }
+
+    class DistributionDto <<DTO>> {
+        + Label: string
+        + Count: int
+    }
+
+    class Requirement <<Entity>> {
+        + Id: Guid
+        + RequirementNumber: string
+        + Name: string
+        + Description: string
+        + Type: string
+        + State: string
+        + Priority: string
+        + Module: string
+        + Owner: string
+        + **TracedTo: string**
+        + CreatedAt: DateTime
+        + UpdatedAt: DateTime
+    }
+
+    note right of Requirement::TracedTo
+      Comma-separated requirement IDs.
+      Null or empty = untraced.
+    end note
+}
+
+' Relationships
+TraceabilityComponent --> AngularReportsService : uses
+AngularReportsService ..> ReportsController : HTTP GET\n/api/reports/traceability
+
+ReportsController --> IRequirementRepository : delegates
+
+IRequirementRepository <|.. RequirementRepository : implements
+
+ReportsController ..> TraceabilityCoverageDto : returns
+TraceabilityCoverageDto --> RequirementSummaryDto : contains
+TraceabilityCoverageDto --> DistributionDto : contains
+
+RequirementRepository ..> Requirement : queries
+RequirementRepository ..> TraceabilityCoverageDto : produces
+RequirementRepository ..> RequirementSummaryDto : produces
+RequirementRepository ..> DistributionDto : produces
+
+RequirementRepository ..> "SQLite\n(External)" as SQLite : EF Core
+
+@enduml

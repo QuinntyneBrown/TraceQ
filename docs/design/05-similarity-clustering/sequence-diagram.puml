@@ -1,0 +1,103 @@
+@startuml sequence-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam sequenceMessageFontSize 9
+skinparam sequenceParticipantFontSize 10
+skinparam sequenceArrowFontSize 9
+skinparam sequenceDividerFontSize 10
+skinparam defaultFontSize 9
+
+skinparam participant {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+}
+
+skinparam database {
+    BackgroundColor #E8EAF6
+    BorderColor #3F51B5
+}
+
+actor User
+participant "SimilarityClusters\nComponent\n(Angular)" as SC
+participant "ReportsService\n(Angular)" as RS
+participant "ReportsController\n(API)" as Ctrl
+participant "SearchService\n(Backend)" as Svc
+participant "RequirementRepository" as Repo
+database "SQLite" as DB
+participant "OnnxEmbeddingService" as Embed
+participant "QdrantVectorStore" as QVS
+database "Qdrant" as Qdrant
+
+== Similarity Clustering ==
+
+User -> SC : Set threshold (e.g. 0.85)
+activate SC
+
+SC -> RS : getSimilarityClusters(threshold)
+activate RS
+
+RS -> Ctrl : GET /api/reports/\nsimilarity-clusters?threshold=0.85
+activate Ctrl
+
+Ctrl -> Svc : GetSimilarityClustersAsync(0.85)
+activate Svc
+
+Svc -> Repo : GetAllEmbeddedAsync()
+activate Repo
+Repo -> DB : SELECT * FROM Requirements\nWHERE IsEmbedded = true
+activate DB
+DB --> Repo : rows
+deactivate DB
+Repo --> Svc : List<Requirement>
+deactivate Repo
+
+note right of Svc
+  Initialize Union-Find:
+  parent[i] = i
+  rank[i] = 0
+end note
+
+loop For each requirement
+    Svc -> Embed : GenerateEmbeddingAsync(text)
+    activate Embed
+    Embed --> Svc : float[384]
+    deactivate Embed
+
+    Svc -> QVS : SearchAsync(vector, top=20)
+    activate QVS
+    QVS -> Qdrant : gRPC Search request
+    activate Qdrant
+    Qdrant --> QVS : [(id, score), ...]
+    deactivate Qdrant
+    QVS --> Svc : List<(Guid id, float score)>
+    deactivate QVS
+
+    loop For each result with score >= threshold
+        Svc -> Svc : Union(req, result)
+        Svc -> Svc : Track pairwise score\n(sourceId, targetId, score)
+    end
+end
+
+note right of Svc
+  1. Group by Find(root)
+     with path compression
+  2. Filter to clusters
+     with 2+ members
+  3. Take first 50 clusters
+end note
+
+Svc --> Ctrl : List<SimilarityClusterDto>\n(max 50 clusters)
+deactivate Svc
+
+Ctrl --> RS : 200 OK\nJSON List<SimilarityClusterDto>
+deactivate Ctrl
+
+RS --> SC : SimilarityCluster[]
+deactivate RS
+
+SC -> User : Display clusters with\nmembers and pairwise scores
+deactivate SC
+
+@enduml

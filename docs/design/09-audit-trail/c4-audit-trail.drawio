@@ -1,0 +1,115 @@
+<mxfile host="app.diagrams.net" agent="1.0" version="24.0.0">
+  <diagram id="c4-audit-trail" name="C4 Audit Trail">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- User (Person) -->
+        <mxCell id="user" value="&lt;b&gt;User&lt;/b&gt;&lt;br/&gt;[Person]&lt;br/&gt;&lt;br/&gt;Queries audit log&lt;br/&gt;for compliance review" style="shape=mxgraph.c4.person2;whiteSpace=wrap;html=1;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];resizable=0;fillColor=#08427B;fontColor=#ffffff;strokeColor=#073B6B;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="345" y="20" width="160" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Angular SPA -->
+        <mxCell id="spa-boundary" value="Angular SPA [Container]" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=5 5;fillColor=none;strokeColor=#438DD5;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="265" y="200" width="320" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ng-audit-svc" value="&lt;b&gt;AuditService&lt;/b&gt;&lt;br/&gt;[Angular Service]&lt;br/&gt;&lt;br/&gt;API client for audit log" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;fontColor=#ffffff;strokeColor=#3A7BBF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="295" y="220" width="260" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- API Server Container -->
+        <mxCell id="api-boundary" value="API Server [Container: ASP.NET Core]" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=5 5;fillColor=none;strokeColor=#438DD5;fontSize=12;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="30" y="340" width="790" height="370" as="geometry" />
+        </mxCell>
+
+        <!-- Caller Controllers -->
+        <mxCell id="import-ctrl" value="&lt;b&gt;ImportController&lt;/b&gt;&lt;br/&gt;[API Controller]&lt;br/&gt;&lt;br/&gt;Logs import events" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;fontColor=#ffffff;strokeColor=#3A7BBF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="50" y="370" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="search-ctrl" value="&lt;b&gt;SearchController&lt;/b&gt;&lt;br/&gt;[API Controller]&lt;br/&gt;&lt;br/&gt;Logs search events" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;fontColor=#ffffff;strokeColor=#3A7BBF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="50" y="455" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <mxCell id="req-ctrl" value="&lt;b&gt;RequirementsController&lt;/b&gt;&lt;br/&gt;[API Controller]&lt;br/&gt;&lt;br/&gt;Logs deletion events" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;fontColor=#ffffff;strokeColor=#3A7BBF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="50" y="540" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- AuditController -->
+        <mxCell id="audit-ctrl" value="&lt;b&gt;AuditController&lt;/b&gt;&lt;br/&gt;[API Controller]&lt;br/&gt;&lt;br/&gt;GET /api/audit&lt;br/&gt;Query audit log entries" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;fontColor=#ffffff;strokeColor=#3A7BBF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="330" y="370" width="200" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- AuditService (Backend) -->
+        <mxCell id="audit-svc" value="&lt;b&gt;AuditService&lt;/b&gt;&lt;br/&gt;[Service]&lt;br/&gt;&lt;br/&gt;Logs events to SQLite&lt;br/&gt;and Serilog. Queries&lt;br/&gt;audit entries with pagination." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;fontColor=#ffffff;strokeColor=#3A7BBF;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="310" y="510" width="230" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Serilog -->
+        <mxCell id="serilog" value="&lt;b&gt;Serilog&lt;/b&gt;&lt;br/&gt;[External Library]&lt;br/&gt;&lt;br/&gt;Structured logging" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#999999;fontColor=#ffffff;strokeColor=#666666;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="620" y="510" width="170" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- SQLite -->
+        <mxCell id="sqlite" value="&lt;b&gt;SQLite&lt;/b&gt;&lt;br/&gt;[Database]&lt;br/&gt;&lt;br/&gt;AuditLogEntries table&lt;br/&gt;(indexed on Timestamp)" style="shape=cylinder3;whiteSpace=wrap;html=1;size=15;fillColor=#999999;fontColor=#ffffff;strokeColor=#666666;fontSize=11;boundedLbl=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="780" width="180" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- Log Files -->
+        <mxCell id="logfiles" value="&lt;b&gt;Log Files&lt;/b&gt;&lt;br/&gt;[File System]&lt;br/&gt;&lt;br/&gt;./logs/traceq-{date}.log&lt;br/&gt;Rolling daily files" style="shape=note;whiteSpace=wrap;html=1;size=14;align=center;fillColor=#999999;fontColor=#ffffff;strokeColor=#666666;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="520" y="800" width="190" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows -->
+
+        <!-- User -> Angular AuditService -->
+        <mxCell id="e1" value="views audit log" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" source="user" target="ng-audit-svc" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Angular AuditService -> AuditController -->
+        <mxCell id="e2" value="GET /api/audit&lt;br/&gt;[HTTPS / JSON]" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" source="ng-audit-svc" target="audit-ctrl" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- AuditController -> AuditService -->
+        <mxCell id="e3" value="GetLogsAsync" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" source="audit-ctrl" target="audit-svc" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ImportController -> AuditService -->
+        <mxCell id="e4" value="LogImportAsync" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" source="import-ctrl" target="audit-svc" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- SearchController -> AuditService -->
+        <mxCell id="e5" value="LogSearchAsync" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" source="search-ctrl" target="audit-svc" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- RequirementsController -> AuditService -->
+        <mxCell id="e6" value="LogDeletionAsync" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" source="req-ctrl" target="audit-svc" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- AuditService -> SQLite -->
+        <mxCell id="e7" value="reads/writes&lt;br/&gt;AuditLogEntries" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" source="audit-svc" target="sqlite" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- AuditService -> Serilog -->
+        <mxCell id="e8" value="structured log&lt;br/&gt;entries" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" source="audit-svc" target="serilog" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Serilog -> Log Files -->
+        <mxCell id="e9" value="writes rolling&lt;br/&gt;daily logs" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=10;" edge="1" source="serilog" target="logfiles" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

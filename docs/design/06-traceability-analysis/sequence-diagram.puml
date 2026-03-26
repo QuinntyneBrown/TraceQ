@@ -1,0 +1,83 @@
+@startuml sequence-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam sequenceMessageFontSize 9
+skinparam sequenceParticipantFontSize 10
+skinparam sequenceArrowFontSize 9
+skinparam sequenceDividerFontSize 10
+skinparam defaultFontSize 9
+
+skinparam participant {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+}
+
+skinparam database {
+    BackgroundColor #E8EAF6
+    BorderColor #3F51B5
+}
+
+actor User
+participant "TraceabilityComponent\n(Angular)" as TC
+participant "ReportsService\n(Angular)" as RS
+participant "ReportsController\n(API)" as Ctrl
+participant "RequirementRepository" as Repo
+database "SQLite" as DB
+
+== Traceability Analysis ==
+
+User -> TC : View dashboard
+activate TC
+
+TC -> RS : getTraceability()
+activate RS
+
+RS -> Ctrl : GET /api/reports/traceability
+activate Ctrl
+
+Ctrl -> Repo : GetTraceabilityCoverageAsync()
+activate Repo
+
+Repo -> DB : SELECT COUNT(*) FROM Requirements
+activate DB
+DB --> Repo : totalCount
+deactivate DB
+
+Repo -> DB : SELECT COUNT(*) FROM Requirements\nWHERE TracedTo IS NOT NULL\nAND TracedTo != ''
+activate DB
+DB --> Repo : tracedCount
+deactivate DB
+
+Repo -> DB : SELECT Id, RequirementNumber, Name\nFROM Requirements\nWHERE TracedTo IS NULL\nOR TracedTo = ''
+activate DB
+DB --> Repo : untraced rows
+deactivate DB
+
+note right of Repo
+  Compute coverage %:
+  (tracedCount / totalCount) * 100
+
+  Compute trace distribution:
+  Parse comma-separated TracedTo,
+  count items per requirement,
+  group into buckets
+  ("1 link", "2 links", etc.)
+end note
+
+Repo -> Repo : Compute coverage %,\ntrace distribution
+
+Repo --> Ctrl : TraceabilityCoverageDto
+deactivate Repo
+
+Ctrl --> RS : 200 OK\nJSON TraceabilityCoverageDto
+deactivate Ctrl
+
+RS --> TC : TraceabilityCoverage
+deactivate RS
+
+TC -> User : Display coverage %,\nuntraced list,\nlink distribution
+deactivate TC
+
+@enduml

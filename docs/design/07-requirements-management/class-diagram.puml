@@ -1,0 +1,196 @@
+@startuml class-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 10
+skinparam classAttributeFontSize 9
+skinparam classStereotypeFontSize 9
+skinparam packageFontSize 10
+skinparam arrowFontSize 9
+skinparam noteFontSize 9
+skinparam defaultFontSize 9
+skinparam linetype ortho
+
+skinparam class {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+    ArrowColor #A80036
+}
+
+package "Angular Frontend" #E8F5E9 {
+    class RequirementsComponent <<Component>> {
+        - requirements: Requirement[]
+        - search: string
+        - sortBy: string
+        - sortDirection: string
+        - page: number
+        - pageSize: number
+        - totalCount: number
+        + onSearch(): void
+        + onSort(column: string): void
+        + onPageChange(page: number): void
+        + onViewDetail(id: string): void
+        + onDelete(id: string): void
+        + onFindSimilar(id: string): void
+    }
+
+    class TqDetailDialogComponent <<Component>> {
+        - requirement: Requirement
+        + open(requirement: Requirement): void
+    }
+
+    class TqDestructiveDialogComponent <<Component>> {
+        - message: string
+        + open(message: string): Observable<boolean>
+    }
+
+    class "RequirementsService\n(Angular)" as AngularRequirementsService <<Service>> {
+        + list(params?): Observable<PaginatedResult<Requirement>>
+        + get(id: string): Observable<Requirement>
+        + getSimilar(id: string, top?: number): Observable<SearchResult[]>
+        + delete(id: string): Observable<void>
+        + getFacets(): Observable<Facets>
+    }
+}
+
+package "API Layer" #E3F2FD {
+    class RequirementsController <<Controller>> {
+        - _requirementRepo: IRequirementRepository
+        - _searchService: ISearchService
+        - _vectorStore: IVectorStore
+        - _auditService: IAuditService
+        + List(search, sortBy, sortDirection, page, pageSize): PaginatedResultDto<RequirementDto>
+        + GetById(id: Guid): RequirementDto
+        + GetFacets(): FacetsDto
+        + GetSimilar(id: Guid, top: int): List<SearchResultDto>
+        + Delete(id: Guid): void
+    }
+}
+
+package "Application Services" #FFF3E0 {
+    interface ISearchService <<interface>> {
+        + FindSimilarAsync(id: Guid, top: int): Task<List<SearchResultDto>>
+    }
+
+    interface IAuditService <<interface>> {
+        + LogDeletionAsync(reqNumber: string): Task
+    }
+
+    class AuditService <<Service>> {
+        - _dbContext: AppDbContext
+        + LogDeletionAsync(reqNumber: string): Task
+    }
+}
+
+package "Infrastructure" #FCE4EC {
+    interface IRequirementRepository <<interface>> {
+        + GetAllAsync(search, sortBy, sortDirection, page, pageSize): Task<PaginatedResultDto<Requirement>>
+        + GetByIdAsync(id: Guid): Task<Requirement?>
+        + GetFacetsAsync(): Task<FacetsDto>
+        + UpsertAsync(req: Requirement): Task
+        + DeleteAsync(id: Guid): Task<bool>
+    }
+
+    class RequirementRepository <<Repository>> {
+        - _dbContext: AppDbContext
+        + GetAllAsync(search, sortBy, sortDirection, page, pageSize): Task<PaginatedResultDto<Requirement>>
+        + GetByIdAsync(id: Guid): Task<Requirement?>
+        + GetFacetsAsync(): Task<FacetsDto>
+        + UpsertAsync(req: Requirement): Task
+        + DeleteAsync(id: Guid): Task<bool>
+    }
+
+    interface IVectorStore <<interface>> {
+        + DeleteAsync(id: Guid): Task
+    }
+
+    class QdrantVectorStore <<Service>> {
+        - _client: QdrantClient
+        - _collectionName: string
+        + DeleteAsync(id: Guid): Task
+    }
+}
+
+package "DTOs & Models" #F3E5F5 {
+    class PaginatedResultDto<T> <<DTO>> {
+        + Items: List<T>
+        + TotalCount: int
+        + Page: int
+        + PageSize: int
+        + TotalPages: int
+    }
+
+    class RequirementDto <<DTO>> {
+        + Id: Guid
+        + RequirementNumber: string
+        + Name: string
+        + Description: string
+        + Type: string
+        + State: string
+        + Priority: string
+        + Module: string
+        + Owner: string
+        + TracedTo: List<string>
+        + CreatedAt: DateTime
+        + UpdatedAt: DateTime
+    }
+
+    class FacetsDto <<DTO>> {
+        + Type: List<FacetValueDto>
+        + State: List<FacetValueDto>
+        + Priority: List<FacetValueDto>
+        + Module: List<FacetValueDto>
+        + Owner: List<FacetValueDto>
+    }
+
+    class FacetValueDto <<DTO>> {
+        + Value: string
+        + Count: int
+    }
+
+    class Requirement <<Entity>> {
+        + Id: Guid
+        + RequirementNumber: string
+        + Name: string
+        + Description: string
+        + Type: string
+        + State: string
+        + Priority: string
+        + Module: string
+        + Owner: string
+        + TracedTo: List<string>
+        + CreatedAt: DateTime
+        + UpdatedAt: DateTime
+    }
+}
+
+' Relationships
+RequirementsComponent --> AngularRequirementsService : uses
+RequirementsComponent --> TqDetailDialogComponent : opens
+RequirementsComponent --> TqDestructiveDialogComponent : opens
+
+AngularRequirementsService ..> RequirementsController : HTTP GET/DELETE\n/api/requirements
+
+RequirementsController --> IRequirementRepository : CRUD operations
+RequirementsController --> ISearchService : find similar
+RequirementsController --> IVectorStore : delete vector
+RequirementsController --> IAuditService : log deletion
+
+IRequirementRepository <|.. RequirementRepository : implements
+IVectorStore <|.. QdrantVectorStore : implements
+IAuditService <|.. AuditService : implements
+
+RequirementsController ..> PaginatedResultDto : returns
+RequirementsController ..> RequirementDto : returns
+RequirementsController ..> FacetsDto : returns
+RequirementRepository ..> Requirement : queries
+RequirementRepository ..> FacetsDto : produces
+FacetsDto --> FacetValueDto : contains
+
+QdrantVectorStore ..> "Qdrant\n(External)" as Qdrant : gRPC
+RequirementRepository ..> "SQLite\n(External)" as SQLite : EF Core
+AuditService ..> SQLite : EF Core
+
+@enduml

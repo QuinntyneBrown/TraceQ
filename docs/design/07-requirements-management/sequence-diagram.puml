@@ -1,0 +1,177 @@
+@startuml sequence-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam sequenceMessageFontSize 9
+skinparam sequenceParticipantFontSize 10
+skinparam sequenceArrowFontSize 9
+skinparam sequenceDividerFontSize 10
+skinparam defaultFontSize 9
+
+skinparam participant {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+}
+
+skinparam database {
+    BackgroundColor #E8EAF6
+    BorderColor #3F51B5
+}
+
+actor User
+participant "RequirementsComponent\n(Angular)" as RC
+participant "RequirementsService\n(Angular)" as RS
+participant "RequirementsController\n(API)" as Ctrl
+participant "RequirementRepository" as Repo
+database "SQLite" as DB
+participant "TqDetailDialogComponent" as Detail
+participant "TqDestructiveDialogComponent" as Confirm
+participant "QdrantVectorStore" as QVS
+database "Qdrant" as Qdrant
+participant "AuditService" as Audit
+
+== List Requirements ==
+
+User -> RC : Navigate to /requirements\n(or search/sort/paginate)
+activate RC
+
+RC -> RS : list({ search, sortBy,\nsortDirection, page, pageSize })
+activate RS
+
+RS -> Ctrl : GET /api/requirements\n?search=&sortBy=&page=&pageSize=
+activate Ctrl
+
+Ctrl -> Repo : GetAllAsync(search, sortBy,\nsortDirection, page, pageSize)
+activate Repo
+
+Repo -> DB : SELECT * FROM Requirements\nWHERE Number/Name/Desc LIKE @search\nORDER BY @sortBy @dir\nOFFSET @skip FETCH NEXT @take
+activate DB
+DB --> Repo : rows + total count
+deactivate DB
+
+Repo --> Ctrl : PaginatedResultDto<Requirement>
+deactivate Repo
+
+note right of Ctrl
+  Map Requirement entities
+  to RequirementDto list
+end note
+
+Ctrl --> RS : 200 OK\nPaginatedResultDto<RequirementDto>
+deactivate Ctrl
+
+RS --> RC : PaginatedResult<Requirement>
+deactivate RS
+
+RC -> User : Display paginated table\n(Number, Name, Type, State, Priority, Module)
+deactivate RC
+
+== View Requirement Detail ==
+
+User -> RC : Click row "View" button
+activate RC
+
+RC -> RS : get(id)
+activate RS
+
+RS -> Ctrl : GET /api/requirements/{id}
+activate Ctrl
+
+Ctrl -> Repo : GetByIdAsync(id)
+activate Repo
+
+Repo -> DB : SELECT * FROM Requirements\nWHERE Id = @id
+activate DB
+DB --> Repo : row
+deactivate DB
+
+Repo --> Ctrl : Requirement
+deactivate Repo
+
+Ctrl --> RS : 200 OK\nRequirementDto
+deactivate Ctrl
+
+RS --> RC : Requirement
+deactivate RS
+
+RC -> Detail : open(requirement)
+activate Detail
+Detail -> User : Display all fields +\nTracedTo list
+deactivate Detail
+
+deactivate RC
+
+== Delete Requirement ==
+
+User -> RC : Click row "Delete" button
+activate RC
+
+RC -> Confirm : open("Delete requirement\nREQ-123?")
+activate Confirm
+Confirm -> User : Show warning:\n"This cannot be undone.\nRemoves from SQLite and Qdrant."
+User -> Confirm : Confirm deletion
+Confirm --> RC : true
+deactivate Confirm
+
+RC -> RS : delete(id)
+activate RS
+
+RS -> Ctrl : DELETE /api/requirements/{id}
+activate Ctrl
+
+Ctrl -> Repo : GetByIdAsync(id)
+activate Repo
+Repo -> DB : SELECT * FROM Requirements\nWHERE Id = @id
+activate DB
+DB --> Repo : row (for req number)
+deactivate DB
+Repo --> Ctrl : Requirement
+deactivate Repo
+
+Ctrl -> Repo : DeleteAsync(id)
+activate Repo
+Repo -> DB : DELETE FROM Requirements\nWHERE Id = @id
+activate DB
+DB --> Repo : 1 row affected
+deactivate DB
+Repo --> Ctrl : true
+deactivate Repo
+
+Ctrl -> QVS : DeleteAsync(id)
+activate QVS
+QVS -> Qdrant : gRPC Delete point
+activate Qdrant
+Qdrant --> QVS : OK
+deactivate Qdrant
+QVS --> Ctrl : Task completed
+deactivate QVS
+
+Ctrl -> Audit : LogDeletionAsync(reqNumber)
+activate Audit
+Audit -> DB : INSERT INTO AuditLogEntry\n(Action='Delete', ReqNumber)
+activate DB
+DB --> Audit : OK
+deactivate DB
+Audit --> Ctrl : Task completed
+deactivate Audit
+
+Ctrl --> RS : 204 No Content
+deactivate Ctrl
+
+RS --> RC : void
+deactivate RS
+
+RC -> RS : list(currentParams)
+activate RS
+note right of RS
+  Refresh table with
+  current search/sort/page
+end note
+RS --> RC : updated results
+deactivate RS
+
+RC -> User : Display refreshed table
+deactivate RC
+
+@enduml

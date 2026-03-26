@@ -1,0 +1,163 @@
+@startuml class-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 10
+skinparam classAttributeFontSize 9
+skinparam classStereotypeFontSize 9
+skinparam packageFontSize 10
+skinparam arrowFontSize 9
+skinparam noteFontSize 9
+skinparam defaultFontSize 9
+skinparam linetype ortho
+
+skinparam class {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+    ArrowColor #A80036
+}
+
+package "Angular Frontend" #E8F5E9 {
+    class DashboardComponent <<Component>> {
+        - layouts: DashboardLayout[]
+        - selectedLayout: DashboardLayout
+        + onSaveLayout(): void
+        + onLoadLayout(id: string): void
+        + onDeleteLayout(id: string): void
+    }
+
+    class DistributionChartComponent <<Widget>> {
+        - selectedField: string
+        - chartData: DistributionItem[]
+        + onFieldChange(field: string): void
+        - renderChart(): void
+    }
+
+    class TraceabilityComponent <<Widget>> {
+        - coveragePercent: number
+        - untracedRequirements: Requirement[]
+        - traceLinkDistribution: object
+        + loadTraceability(): void
+    }
+
+    class SimilarityClustersComponent <<Widget>> {
+        - threshold: number
+        - clusters: SimilarityCluster[]
+        + onThresholdChange(value: number): void
+        + loadClusters(): void
+    }
+
+    class "DashboardService\n(Angular)" as AngularDashboardService <<Service>> {
+        + getLayouts(): Observable<DashboardLayout[]>
+        + saveLayout(layout): Observable<DashboardLayout>
+        + deleteLayout(id: string): Observable<void>
+    }
+
+    class "ReportsService\n(Angular)" as AngularReportsService <<Service>> {
+        + getDistribution(field: string): Observable<DistributionItem[]>
+        + getTraceability(): Observable<TraceabilityReport>
+        + getSimilarityClusters(threshold?: number): Observable<SimilarityCluster[]>
+    }
+}
+
+package "API Layer" #E3F2FD {
+    class DashboardController <<Controller>> {
+        - _layoutRepo: IDashboardLayoutRepository
+        + GetLayouts(): List<DashboardLayoutDto>
+        + SaveLayout(dto: DashboardLayoutDto): DashboardLayoutDto
+        + DeleteLayout(id: Guid): void
+    }
+
+    class ReportsController <<Controller>> {
+        - _requirementRepo: IRequirementRepository
+        - _searchService: ISearchService
+        + GetDistribution(field: string): List<DistributionDto>
+        + GetTraceability(): TraceabilityReportDto
+        + GetSimilarityClusters(threshold: double): List<SimilarityClusterDto>
+    }
+}
+
+package "Application Services" #FFF3E0 {
+    interface ISearchService <<interface>> {
+        + GetSimilarityClustersAsync(threshold: double): Task<List<SimilarityClusterDto>>
+    }
+}
+
+package "Infrastructure" #FCE4EC {
+    interface IDashboardLayoutRepository <<interface>> {
+        + GetAllAsync(): Task<List<DashboardLayout>>
+        + GetByIdAsync(id: Guid): Task<DashboardLayout?>
+        + SaveAsync(layout: DashboardLayout): Task<DashboardLayout>
+        + DeleteAsync(id: Guid): Task
+    }
+
+    class DashboardLayoutRepository <<Repository>> {
+        - _dbContext: AppDbContext
+        + GetAllAsync(): Task<List<DashboardLayout>>
+        + GetByIdAsync(id: Guid): Task<DashboardLayout?>
+        + SaveAsync(layout: DashboardLayout): Task<DashboardLayout>
+        + DeleteAsync(id: Guid): Task
+    }
+
+    interface IRequirementRepository <<interface>> {
+        + GetDistributionAsync(field: string): Task<List<DistributionDto>>
+        + GetTraceabilityCoverageAsync(): Task<TraceabilityReportDto>
+    }
+}
+
+package "DTOs & Models" #F3E5F5 {
+    class DashboardLayout <<Entity>> {
+        + Id: Guid
+        + Name: string
+        + LayoutJson: string
+        + CreatedAt: DateTime
+        + UpdatedAt: DateTime
+    }
+
+    class DashboardLayoutDto <<DTO>> {
+        + Id: Guid
+        + Name: string
+        + LayoutJson: string
+        + CreatedAt: DateTime
+        + UpdatedAt: DateTime
+    }
+
+    class DistributionDto <<DTO>> {
+        + Label: string
+        + Count: int
+    }
+}
+
+' Relationships - Frontend composition
+DashboardComponent --> DistributionChartComponent : contains
+DashboardComponent --> TraceabilityComponent : contains
+DashboardComponent --> SimilarityClustersComponent : contains
+DashboardComponent --> AngularDashboardService : manages layouts
+DistributionChartComponent --> AngularReportsService : loads distribution
+TraceabilityComponent --> AngularReportsService : loads coverage
+SimilarityClustersComponent --> AngularReportsService : loads clusters
+
+' Frontend -> API
+AngularDashboardService ..> DashboardController : HTTP\n/api/dashboard/layouts
+AngularReportsService ..> ReportsController : HTTP\n/api/reports/*
+
+' API -> Services/Repos
+DashboardController --> IDashboardLayoutRepository : delegates
+ReportsController --> IRequirementRepository : distribution\n& traceability
+ReportsController --> ISearchService : similarity clusters
+
+' Implementations
+IDashboardLayoutRepository <|.. DashboardLayoutRepository : implements
+
+' Data flow
+DashboardController ..> DashboardLayoutDto : receives/returns
+ReportsController ..> DistributionDto : returns
+DashboardLayoutRepository ..> DashboardLayout : queries
+
+DashboardLayoutRepository ..> "SQLite\n(External)" as SQLite : EF Core
+IRequirementRepository ..> SQLite : EF Core
+ISearchService ..> "Qdrant\n(External)" as Qdrant : gRPC
+
+@enduml

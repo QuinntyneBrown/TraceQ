@@ -1,0 +1,156 @@
+@startuml class-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 10
+skinparam classAttributeFontSize 9
+skinparam classStereotypeFontSize 9
+skinparam packageFontSize 10
+skinparam arrowFontSize 9
+skinparam noteFontSize 9
+skinparam defaultFontSize 9
+skinparam linetype ortho
+
+skinparam class {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+    ArrowColor #A80036
+}
+
+package "Angular Frontend" #E8F5E9 {
+    class SimilarityClustersComponent <<Component>> {
+        - threshold: number = 0.85
+        - clusters: SimilarityCluster[]
+        + onThresholdChange(value: number): void
+        + loadClusters(): void
+    }
+
+    class "ReportsService\n(Angular)" as AngularReportsService <<Service>> {
+        + getSimilarityClusters(threshold?: number): Observable<SimilarityCluster[]>
+    }
+}
+
+package "API Layer" #E3F2FD {
+    class ReportsController <<Controller>> {
+        - _searchService: ISearchService
+        + GetSimilarityClusters(threshold: float): List<SimilarityClusterDto>
+    }
+}
+
+package "Application Services" #FFF3E0 {
+    interface ISearchService <<interface>> {
+        + GetSimilarityClustersAsync(threshold: float): Task<List<SimilarityClusterDto>>
+    }
+
+    class SearchService <<Service>> {
+        - _embeddingService: IEmbeddingService
+        - _vectorStore: IVectorStore
+        - _requirementRepo: IRequirementRepository
+        + GetSimilarityClustersAsync(threshold: float): Task<List<SimilarityClusterDto>>
+        - InitUnionFind(count: int): void
+        - Find(x: int): int
+        - Union(x: int, y: int): void
+    }
+
+    note right of SearchService
+      Union-Find inner logic:
+      - parent[]: int[] (parent[i] = i initially)
+      - rank[]: int[] (all zeros initially)
+      - Find: path compression
+      - Union: by rank
+      - O(alpha(n)) amortized
+    end note
+
+    interface IEmbeddingService <<interface>> {
+        + GenerateEmbeddingAsync(text: string): Task<float[]>
+    }
+
+    class OnnxEmbeddingService <<Singleton>> {
+        - _session: InferenceSession
+        - _tokenizer: WordPieceTokenizer
+        + GenerateEmbeddingAsync(text: string): Task<float[]>
+    }
+}
+
+package "Infrastructure" #FCE4EC {
+    interface IVectorStore <<interface>> {
+        + SearchAsync(vector: float[], top: int): Task<List<(Guid, float)>>
+    }
+
+    class QdrantVectorStore <<Service>> {
+        - _client: QdrantClient
+        - _collectionName: string
+        + SearchAsync(vector: float[], top: int): Task<List<(Guid, float)>>
+    }
+
+    interface IRequirementRepository <<interface>> {
+        + GetAllEmbeddedAsync(): Task<List<Requirement>>
+    }
+
+    class RequirementRepository <<Repository>> {
+        - _dbContext: AppDbContext
+        + GetAllEmbeddedAsync(): Task<List<Requirement>>
+    }
+}
+
+package "DTOs & Models" #F3E5F5 {
+    class SimilarityClusterDto <<DTO>> {
+        + ClusterId: int
+        + Members: List<ClusterMemberDto>
+        + PairwiseScores: List<PairwiseScoreDto>
+    }
+
+    class ClusterMemberDto <<DTO>> {
+        + Id: Guid
+        + RequirementNumber: string
+        + Name: string
+    }
+
+    class PairwiseScoreDto <<DTO>> {
+        + SourceId: Guid
+        + TargetId: Guid
+        + Score: float
+    }
+
+    class Requirement <<Entity>> {
+        + Id: Guid
+        + RequirementNumber: string
+        + Name: string
+        + Description: string
+        + Type: string
+        + State: string
+        + Priority: string
+        + Module: string
+        + Owner: string
+        + CreatedAt: DateTime
+        + UpdatedAt: DateTime
+    }
+}
+
+' Relationships
+SimilarityClustersComponent --> AngularReportsService : uses
+AngularReportsService ..> ReportsController : HTTP GET\n/api/reports/similarity-clusters
+
+ReportsController --> ISearchService : delegates
+
+ISearchService <|.. SearchService : implements
+SearchService --> IEmbeddingService : generates embeddings
+SearchService --> IVectorStore : vector search (top=20)
+SearchService --> IRequirementRepository : fetches all embedded
+
+IEmbeddingService <|.. OnnxEmbeddingService : implements
+IVectorStore <|.. QdrantVectorStore : implements
+IRequirementRepository <|.. RequirementRepository : implements
+
+ReportsController ..> SimilarityClusterDto : returns
+SearchService ..> SimilarityClusterDto : produces
+SimilarityClusterDto --> ClusterMemberDto : contains
+SimilarityClusterDto --> PairwiseScoreDto : contains
+RequirementRepository ..> Requirement : queries
+
+QdrantVectorStore ..> "Qdrant\n(External)" as Qdrant : gRPC
+RequirementRepository ..> "SQLite\n(External)" as SQLite : EF Core
+
+@enduml

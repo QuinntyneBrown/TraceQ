@@ -1,0 +1,110 @@
+<mxfile host="app.diagrams.net" agent="draw.io" version="24.0.0">
+  <diagram id="c4-traceability-analysis" name="C4 Component - Traceability Analysis">
+    <mxGraphModel dx="1050" dy="760" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="&lt;b&gt;C4 Component Diagram: Traceability Analysis&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="190" y="20" width="470" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- User (Person) -->
+        <mxCell id="user" value="&lt;b&gt;Systems Engineer&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;[Person]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Reviews traceability&lt;br&gt;coverage to identify gaps&lt;br&gt;in requirements linking&lt;/font&gt;" style="shape=mxgraph.c4.person2;whiteSpace=wrap;html=1;container=0;fontSize=11;fontColor=#FFFFFF;align=center;strokeColor=#3C7FC0;fillColor=#08427B;labelBackgroundColor=none;" vertex="1" parent="1">
+          <mxGeometry x="345" y="70" width="160" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Angular SPA Boundary -->
+        <mxCell id="spa_boundary" value="Angular SPA [Container]" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 4;strokeColor=#888888;fillColor=none;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="270" y="250" width="310" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- TraceabilityComponent -->
+        <mxCell id="trace_component" value="&lt;b&gt;TraceabilityComponent&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Component: Angular]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Dashboard widget showing&lt;br&gt;coverage %, untraced list,&lt;br&gt;link distribution&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;fontColor=#FFFFFF;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="290" y="270" width="270" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- API Server Boundary -->
+        <mxCell id="api_boundary" value="API Server [Container: ASP.NET Core]" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 4;strokeColor=#888888;fillColor=none;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="140" y="420" width="570" height="260" as="geometry" />
+        </mxCell>
+
+        <!-- ReportsController -->
+        <mxCell id="reports_controller" value="&lt;b&gt;ReportsController&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Component: Controller]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;GET /api/reports/traceability&lt;br&gt;Returns coverage metrics&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;fontColor=#FFFFFF;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="310" y="455" width="230" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- RequirementRepository -->
+        <mxCell id="req_repo" value="&lt;b&gt;RequirementRepository&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Component: Repository]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Counts traced/untraced,&lt;br&gt;computes coverage %,&lt;br&gt;builds distribution&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;fontColor=#FFFFFF;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="310" y="570" width="230" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- External: SQLite -->
+        <mxCell id="sqlite" value="&lt;b&gt;SQLite&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[External: Database]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Requirements table&lt;br&gt;with TracedTo field&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#999999;strokeColor=#6D6D6D;fontColor=#FFFFFF;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="325" y="760" width="200" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows -->
+
+        <!-- User -> TraceabilityComponent -->
+        <mxCell id="arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="user" target="trace_component">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow1_label" value="Views traceability&lt;br&gt;dashboard" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow1">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- TraceabilityComponent -> ReportsController -->
+        <mxCell id="arrow2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="trace_component" target="reports_controller">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow2_label" value="GET /api/reports/traceability&lt;br&gt;[JSON/HTTPS]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow2">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ReportsController -> RequirementRepository -->
+        <mxCell id="arrow3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="reports_controller" target="req_repo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow3_label" value="GetTraceabilityCoverageAsync" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow3">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- RequirementRepository -> SQLite -->
+        <mxCell id="arrow4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="req_repo" target="sqlite">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow4_label" value="COUNT, SELECT&lt;br&gt;Requirements WHERE&lt;br&gt;TracedTo IS [NOT] NULL" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow4">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend_title" value="&lt;b&gt;Legend&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="900" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_internal" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="925" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_internal_label" value="Internal Component" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="65" y="923" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_external" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#999999;strokeColor=#6D6D6D;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="945" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_external_label" value="External System" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="65" y="943" width="100" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

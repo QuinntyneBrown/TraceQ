@@ -1,0 +1,151 @@
+@startuml sequence-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam sequenceMessageFontSize 9
+skinparam sequenceParticipantFontSize 10
+skinparam sequenceArrowFontSize 9
+skinparam sequenceDividerFontSize 10
+skinparam defaultFontSize 9
+
+skinparam participant {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+}
+
+skinparam database {
+    BackgroundColor #E8EAF6
+    BorderColor #3F51B5
+}
+
+actor User
+participant "DashboardComponent\n(Angular)" as DC
+participant "DistributionChart\nComponent" as DCC
+participant "Traceability\nComponent" as TC
+participant "SimilarityClusters\nComponent" as SCC
+participant "ReportsService\n(Angular)" as RS
+participant "DashboardService\n(Angular)" as DS
+participant "ReportsController\n(API)" as RCtrl
+participant "DashboardController\n(API)" as DCtrl
+participant "RequirementRepository" as ReqRepo
+participant "SearchService\n(Backend)" as SvcS
+database "SQLite" as DB
+database "Qdrant" as Qdrant
+
+== Dashboard Load with Widgets ==
+
+User -> DC : Navigate to /dashboard
+activate DC
+
+par Parallel widget loading
+    DC -> DCC : init
+    activate DCC
+    DCC -> RS : getDistribution('type')
+    activate RS
+    RS -> RCtrl : GET /api/reports/distribution/type
+    activate RCtrl
+    RCtrl -> ReqRepo : GetDistributionAsync('type')
+    activate ReqRepo
+    ReqRepo -> DB : SELECT Type, COUNT(*)\nFROM Requirements\nGROUP BY Type
+    activate DB
+    DB --> ReqRepo : rows
+    deactivate DB
+    ReqRepo --> RCtrl : List<DistributionDto>
+    deactivate ReqRepo
+    RCtrl --> RS : 200 OK JSON
+    deactivate RCtrl
+    RS --> DCC : DistributionItem[]
+    deactivate RS
+    DCC -> DCC : Render Chart.js bar chart
+    deactivate DCC
+
+else Traceability widget
+    DC -> TC : init
+    activate TC
+    TC -> RS : getTraceability()
+    activate RS
+    RS -> RCtrl : GET /api/reports/traceability
+    activate RCtrl
+    RCtrl -> ReqRepo : GetTraceabilityCoverageAsync()
+    activate ReqRepo
+    ReqRepo -> DB : SELECT requirements\nLEFT JOIN trace_links\n+ coverage calc
+    activate DB
+    DB --> ReqRepo : coverage data
+    deactivate DB
+    ReqRepo --> RCtrl : TraceabilityReportDto
+    deactivate ReqRepo
+    RCtrl --> RS : 200 OK JSON
+    deactivate RCtrl
+    RS --> TC : TraceabilityReport
+    deactivate RS
+    TC -> TC : Render coverage %\n+ untraced list
+    deactivate TC
+
+else Similarity clusters widget
+    DC -> SCC : init
+    activate SCC
+    SCC -> RS : getSimilarityClusters(0.85)
+    activate RS
+    RS -> RCtrl : GET /api/reports/similarity-clusters\n?threshold=0.85
+    activate RCtrl
+    RCtrl -> SvcS : GetSimilarityClustersAsync(0.85)
+    activate SvcS
+    SvcS -> Qdrant : Search pairwise similarities\n>= 0.85 threshold
+    activate Qdrant
+    Qdrant --> SvcS : similarity pairs
+    deactivate Qdrant
+    note right of SvcS
+      Union-find clustering
+      of similar requirements.
+      Max 50 clusters returned.
+    end note
+    SvcS --> RCtrl : List<SimilarityClusterDto>
+    deactivate SvcS
+    RCtrl --> RS : 200 OK JSON
+    deactivate RCtrl
+    RS --> SCC : SimilarityCluster[]
+    deactivate RS
+    SCC -> SCC : Render cluster groups\nwith pairwise scores
+    deactivate SCC
+end
+
+DC -> User : Display dashboard\nwith all widgets
+deactivate DC
+
+== Save Layout ==
+
+User -> DC : Click save layout
+activate DC
+
+DC -> DC : Serialize widget\npositions/sizes/config\nto JSON
+
+DC -> DS : saveLayout({name, layoutJson})
+activate DS
+
+DS -> DCtrl : POST /api/dashboard/layouts\n{Name, LayoutJson}
+activate DCtrl
+
+DCtrl -> ReqRepo : SaveAsync(layout)
+activate ReqRepo
+note right of ReqRepo
+  Actually calls
+  DashboardLayoutRepository
+end note
+ReqRepo -> DB : INSERT OR UPDATE\nDashboardLayouts
+activate DB
+DB --> ReqRepo : OK
+deactivate DB
+ReqRepo --> DCtrl : DashboardLayout
+deactivate ReqRepo
+
+DCtrl --> DS : 200 OK\nDashboardLayoutDto
+deactivate DCtrl
+
+DS --> DC : DashboardLayout
+deactivate DS
+
+DC -> User : Confirmation toast\n"Layout saved"
+deactivate DC
+
+@enduml

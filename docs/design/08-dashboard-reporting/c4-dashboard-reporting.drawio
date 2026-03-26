@@ -1,0 +1,247 @@
+<mxfile host="app.diagrams.net" agent="draw.io" version="24.0.0">
+  <diagram id="c4-dashboard-reporting" name="C4 Component - Dashboard &amp; Reporting">
+    <mxGraphModel dx="1050" dy="760" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title -->
+        <mxCell id="title" value="&lt;b&gt;C4 Component Diagram: Dashboard &amp; Reporting&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="180" y="20" width="490" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- User (Person) -->
+        <mxCell id="user" value="&lt;b&gt;Systems Engineer&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;[Person]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:10px&quot;&gt;Views analytics dashboard,&lt;br&gt;configures widgets,&lt;br&gt;saves layouts&lt;/font&gt;" style="shape=mxgraph.c4.person2;whiteSpace=wrap;html=1;container=0;fontSize=11;fontColor=#FFFFFF;align=center;strokeColor=#3C7FC0;fillColor=#08427B;labelBackgroundColor=none;" vertex="1" parent="1">
+          <mxGeometry x="345" y="70" width="160" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Angular SPA Boundary -->
+        <mxCell id="spa_boundary" value="Angular SPA [Container]" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 4;strokeColor=#888888;fillColor=none;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="60" y="250" width="730" height="180" as="geometry" />
+        </mxCell>
+
+        <!-- DashboardComponent -->
+        <mxCell id="dashboard_component" value="&lt;b&gt;DashboardComponent&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Component: Angular]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Dashboard page at /dashboard&lt;br&gt;Layout persistence&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;fontColor=#FFFFFF;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="310" y="275" width="230" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- DistributionChartComponent -->
+        <mxCell id="dist_chart" value="&lt;b&gt;DistributionChart&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Widget: Angular]&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Chart.js bar charts&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D6A656;fontColor=#333333;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="80" y="360" width="180" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- TraceabilityComponent -->
+        <mxCell id="trace_widget" value="&lt;b&gt;TraceabilityWidget&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Widget: Angular]&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Coverage % &amp; untraced list&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D6A656;fontColor=#333333;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="335" y="360" width="180" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- SimilarityClustersComponent -->
+        <mxCell id="sim_widget" value="&lt;b&gt;SimilarityClusters&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Widget: Angular]&lt;/font&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Threshold-based clusters&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D6A656;fontColor=#333333;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="590" y="360" width="180" height="55" as="geometry" />
+        </mxCell>
+
+        <!-- API Server Boundary -->
+        <mxCell id="api_boundary" value="API Server [Container: ASP.NET Core]" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 4;strokeColor=#888888;fillColor=none;fontSize=11;fontStyle=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="490" width="770" height="310" as="geometry" />
+        </mxCell>
+
+        <!-- DashboardController -->
+        <mxCell id="dashboard_controller" value="&lt;b&gt;DashboardController&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Component: Controller]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;GET/POST/DELETE&lt;br&gt;/api/dashboard/layouts&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;fontColor=#FFFFFF;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="80" y="520" width="220" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- ReportsController -->
+        <mxCell id="reports_controller" value="&lt;b&gt;ReportsController&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Component: Controller]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;GET /api/reports/distribution&lt;br&gt;GET /api/reports/traceability&lt;br&gt;GET /api/reports/similarity-clusters&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;fontColor=#FFFFFF;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="500" y="520" width="250" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- DashboardLayoutRepository -->
+        <mxCell id="layout_repo" value="&lt;b&gt;DashboardLayout&lt;br&gt;Repository&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Component: Repository]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;CRUD for saved layouts&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;fontColor=#FFFFFF;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="80" y="640" width="220" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- RequirementRepository -->
+        <mxCell id="req_repo" value="&lt;b&gt;RequirementRepository&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Component: Repository]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Distribution aggregation,&lt;br&gt;traceability coverage&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;fontColor=#FFFFFF;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="400" y="650" width="220" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- SearchService -->
+        <mxCell id="search_service" value="&lt;b&gt;SearchService&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[Component: Service]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;Similarity clustering&lt;br&gt;via vector search&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;fontColor=#FFFFFF;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="640" y="650" width="160" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- External: SQLite -->
+        <mxCell id="sqlite" value="&lt;b&gt;SQLite&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[External: Database]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;DashboardLayouts,&lt;br&gt;Requirements, TraceLinks&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#999999;strokeColor=#6D6D6D;fontColor=#FFFFFF;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="200" y="870" width="220" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- External: Qdrant -->
+        <mxCell id="qdrant" value="&lt;b&gt;Qdrant&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;[External: Vector Database]&lt;/font&gt;&lt;br&gt;&lt;br&gt;&lt;font style=&quot;font-size:9px&quot;&gt;requirements collection&lt;br&gt;pairwise similarity search&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#999999;strokeColor=#6D6D6D;fontColor=#FFFFFF;fontSize=10;arcSize=5;" vertex="1" parent="1">
+          <mxGeometry x="550" y="870" width="200" height="75" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows -->
+
+        <!-- User -> DashboardComponent -->
+        <mxCell id="arrow1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="user" target="dashboard_component">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow1_label" value="Views dashboard &amp;&lt;br&gt;configures widgets" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow1">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- DashboardComponent -> Widgets -->
+        <mxCell id="arrow2a" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="dashboard_component" target="dist_chart">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arrow2b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="dashboard_component" target="trace_widget">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="arrow2c" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="dashboard_component" target="sim_widget">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- DashboardComponent -> DashboardController -->
+        <mxCell id="arrow3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="dashboard_component" target="dashboard_controller">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="425" y="470" />
+              <mxPoint x="190" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow3_label" value="Layout CRUD&lt;br&gt;[JSON/HTTPS]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow3">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Widgets -> ReportsController -->
+        <mxCell id="arrow4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="dist_chart" target="reports_controller">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="170" y="450" />
+              <mxPoint x="625" y="450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow4_label" value="GET /api/reports/distribution/{field}&lt;br&gt;[JSON/HTTPS]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow4">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="trace_widget" target="reports_controller">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="425" y="460" />
+              <mxPoint x="625" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arrow5_label" value="GET /api/reports/&lt;br&gt;traceability" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow5">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="sim_widget" target="reports_controller">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow6_label" value="GET /api/reports/&lt;br&gt;similarity-clusters" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow6">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- DashboardController -> LayoutRepository -->
+        <mxCell id="arrow7" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="dashboard_controller" target="layout_repo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow7_label" value="SaveAsync / GetAllAsync&lt;br&gt;/ DeleteAsync" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow7">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ReportsController -> RequirementRepository -->
+        <mxCell id="arrow8" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="reports_controller" target="req_repo">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow8_label" value="GetDistributionAsync&lt;br&gt;GetTraceabilityCoverageAsync" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow8">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ReportsController -> SearchService -->
+        <mxCell id="arrow9" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="reports_controller" target="search_service">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow9_label" value="GetSimilarity&lt;br&gt;ClustersAsync" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow9">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- LayoutRepository -> SQLite -->
+        <mxCell id="arrow10" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="layout_repo" target="sqlite">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow10_label" value="INSERT/UPDATE/DELETE&lt;br&gt;DashboardLayouts" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow10">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- RequirementRepository -> SQLite -->
+        <mxCell id="arrow11" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="req_repo" target="sqlite">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow11_label" value="GROUP BY queries,&lt;br&gt;LEFT JOIN TraceLinks" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow11">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- SearchService -> Qdrant -->
+        <mxCell id="arrow12" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;fontSize=9;fontColor=#666666;strokeColor=#666666;" edge="1" parent="1" source="search_service" target="qdrant">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arrow12_label" value="gRPC pairwise&lt;br&gt;similarity search" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;fontColor=#666666;" vertex="1" connectable="0" parent="arrow12">
+          <mxGeometry x="-0.1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="legend_title" value="&lt;b&gt;Legend&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="980" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_internal" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1005" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_internal_label" value="Internal Component" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="65" y="1003" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_widget" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D6A656;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1025" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_widget_label" value="Widget Component" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="65" y="1023" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_external" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#999999;strokeColor=#6D6D6D;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="1045" width="20" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="legend_external_label" value="External System" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="65" y="1043" width="100" height="20" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

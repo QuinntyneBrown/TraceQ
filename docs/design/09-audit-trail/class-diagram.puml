@@ -1,0 +1,101 @@
+@startuml class-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+
+package "Angular Frontend" <<Rectangle>> {
+    class AuditService <<Angular Service>> {
+        +list(params?: AuditQueryParams): Observable<PaginatedResult<AuditLogEntry>>
+    }
+}
+
+package "API Layer" <<Rectangle>> {
+    class AuditController {
+        -_auditService: IAuditService
+        +GetLogs(eventType: string?, page: int, pageSize: int): Task<PaginatedResultDto<AuditLogEntry>>
+    }
+}
+
+package "Caller Controllers" <<Rectangle>> {
+    class ImportController {
+        -_auditService: IAuditService
+        +UploadCsv(file: IFormFile): Task<ImportResultDto>
+    }
+
+    class SearchController {
+        -_auditService: IAuditService
+        +Search(query: SearchQueryDto): Task<SearchResultDto>
+    }
+
+    class RequirementsController {
+        -_auditService: IAuditService
+        +Delete(id: string): Task<IActionResult>
+    }
+}
+
+package "Service Layer" <<Rectangle>> {
+    interface IAuditService {
+        +LogImportAsync(fileName: string, insertedCount: int, updatedCount: int, errorCount: int): Task
+        +LogSearchAsync(query: string, resultCount: int): Task
+        +LogDeletionAsync(requirementNumber: string): Task
+        +GetLogsAsync(eventType: AuditEventType?, page: int, pageSize: int): Task<PaginatedResultDto<AuditLogEntry>>
+    }
+
+    class AuditService {
+        -_dbContext: AppDbContext
+        -_logger: ILogger<AuditService>
+        +LogImportAsync(fileName: string, insertedCount: int, updatedCount: int, errorCount: int): Task
+        +LogSearchAsync(query: string, resultCount: int): Task
+        +LogDeletionAsync(requirementNumber: string): Task
+        +GetLogsAsync(eventType: AuditEventType?, page: int, pageSize: int): Task<PaginatedResultDto<AuditLogEntry>>
+    }
+}
+
+package "Domain Models" <<Rectangle>> {
+    class AuditLogEntry {
+        +Id: Guid
+        +EventType: AuditEventType
+        +Details: string
+        +Timestamp: DateTime
+    }
+
+    enum AuditEventType {
+        Import
+        Search
+        Delete
+    }
+}
+
+package "DTOs" <<Rectangle>> {
+    class "PaginatedResultDto<AuditLogEntry>" as PaginatedResultDto {
+        +Items: List<AuditLogEntry>
+        +TotalCount: int
+        +Page: int
+        +PageSize: int
+    }
+}
+
+package "External" <<Rectangle>> {
+    class Serilog <<External>> {
+        +Log.Information(message: string, args: object[]): void
+    }
+}
+
+' Relationships
+AuditService ..> AuditController : HTTP
+AuditController --> IAuditService : delegates
+
+ImportController --> IAuditService : LogImportAsync
+SearchController --> IAuditService : LogSearchAsync
+RequirementsController --> IAuditService : LogDeletionAsync
+
+IAuditService <|.. AuditService : implements
+AuditService --> Serilog : structured logging
+AuditService ..> AuditLogEntry : creates / queries
+AuditLogEntry --> AuditEventType : uses
+AuditService ..> PaginatedResultDto : returns
+
+@enduml

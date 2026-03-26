@@ -1,0 +1,82 @@
+@startuml sequence-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+title Audit Trail -- Sequence Diagrams
+
+participant "ImportController" as ImportCtrl
+participant "SearchController" as SearchCtrl
+participant "AuditService\n(Backend)" as Svc
+participant "Serilog" as Serilog
+database "SQLite" as DB
+
+== 1. Log Import Event ==
+
+ImportCtrl -> Svc : LogImportAsync(fileName, inserted, updated, errors)
+activate Svc
+
+Svc -> DB : INSERT AuditLogEntry\n(EventType=Import,\nDetails={fileName, inserted,\nupdated, errors})
+activate DB
+DB --> Svc : OK
+deactivate DB
+
+Svc -> Serilog : Log.Information(\n"Import completed: {FileName},\n{Inserted} inserted, {Updated} updated,\n{Errors} errors")
+activate Serilog
+Serilog --> Svc
+deactivate Serilog
+
+Svc --> ImportCtrl : Task completed
+deactivate Svc
+
+== 2. Log Search Event ==
+
+SearchCtrl -> Svc : LogSearchAsync(query, resultCount)
+activate Svc
+
+Svc -> DB : INSERT AuditLogEntry\n(EventType=Search,\nDetails={query, resultCount})
+activate DB
+DB --> Svc : OK
+deactivate DB
+
+Svc -> Serilog : Log.Information(\n"Search performed: {Query},\n{ResultCount} results")
+activate Serilog
+Serilog --> Svc
+deactivate Serilog
+
+Svc --> SearchCtrl : Task completed
+deactivate Svc
+
+== 3. Query Audit Log ==
+
+actor User
+participant "AuditService\n(Angular)" as NgSvc
+participant "AuditController\n(API)" as AuditCtrl
+
+User -> NgSvc : list({eventType: 'Import', page: 1})
+activate NgSvc
+
+NgSvc -> AuditCtrl : GET /api/audit?eventType=Import&page=1&pageSize=20
+activate AuditCtrl
+
+AuditCtrl -> Svc : GetLogsAsync(Import, 1, 20)
+activate Svc
+
+Svc -> DB : SELECT * FROM AuditLogEntries\nWHERE EventType='Import'\nORDER BY Timestamp DESC\nOFFSET 0 FETCH 20
+activate DB
+DB --> Svc : List<AuditLogEntry>
+deactivate DB
+
+Svc --> AuditCtrl : PaginatedResultDto<AuditLogEntry>
+deactivate Svc
+
+AuditCtrl --> NgSvc : JSON response
+deactivate AuditCtrl
+
+NgSvc --> User : display audit entries
+deactivate NgSvc
+
+@enduml
