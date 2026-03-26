@@ -107,7 +107,13 @@ TraceQ requires Qdrant on:
 The repo README already documents the expected startup model:
 
 ```bash
-docker run -p 6333:6333 -p 6334:6334 qdrant/qdrant
+docker run -d --name traceq-qdrant --restart unless-stopped -p 6333:6333 -p 6334:6334 -v traceq-qdrant-data:/qdrant/storage qdrant/qdrant
+```
+
+If the container already exists, restart it instead of creating a new one:
+
+```bash
+docker start traceq-qdrant
 ```
 
 If you use a local binary instead of Docker, it still must expose:

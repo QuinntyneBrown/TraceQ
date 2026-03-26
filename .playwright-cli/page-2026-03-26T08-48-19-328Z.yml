@@ -1,0 +1,396 @@
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - img [ref=e6]: shield
+      - generic [ref=e7]: TRACEQ
+    - generic [ref=e8]:
+      - link "Dashboard" [ref=e9] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e10]: dashboard
+        - generic [ref=e11]: Dashboard
+      - link "Search" [ref=e12] [cursor=pointer]:
+        - /url: /search
+        - img [ref=e13]: search
+        - generic [ref=e14]: Search
+      - link "upload" [ref=e15] [cursor=pointer]:
+        - /url: /import
+        - img [ref=e16]: upload
+        - generic [ref=e17]: upload
+      - link "Requirements" [ref=e18] [cursor=pointer]:
+        - /url: /requirements
+        - img [ref=e19]: description
+        - generic [ref=e20]: Requirements
+  - generic [ref=e21]:
+    - banner [ref=e22]:
+      - generic:
+        - heading [level=1]
+      - generic [ref=e23] [cursor=pointer]:
+        - img [ref=e24]: search
+        - generic [ref=e25]: Search requirements...
+      - button [ref=e26] [cursor=pointer]:
+        - img [ref=e27]: light_mode
+      - generic [ref=e31]: JD
+    - main [ref=e32]:
+      - generic [ref=e34]:
+        - heading "Search" [level=1] [ref=e35]
+        - paragraph [ref=e36]: Find requirements using natural language semantic search
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - generic [ref=e41]:
+              - generic [ref=e42]: Search requirements...
+              - img [ref=e44]: search
+              - textbox "Search requirements..." [ref=e46]:
+                - /placeholder: e.g. thermal protection system
+                - text: thermal
+              - button [ref=e56]:
+                - img [ref=e57]: close
+            - button "Search" [ref=e49] [cursor=pointer]:
+              - img [ref=e50]: search
+              - generic [ref=e51]: Search
+          - generic [ref=e58]:
+            - generic [ref=e61] [cursor=pointer]:
+              - generic [ref=e62]: Type
+              - combobox "Type" [ref=e64]:
+                - img [ref=e70]
+            - generic [ref=e75] [cursor=pointer]:
+              - generic [ref=e76]: State
+              - combobox "State" [ref=e78]:
+                - img [ref=e84]
+            - generic [ref=e89] [cursor=pointer]:
+              - generic [ref=e90]: Priority
+              - combobox "Priority" [ref=e92]:
+                - img [ref=e98]
+            - generic [ref=e103] [cursor=pointer]:
+              - generic [ref=e104]: Module
+              - combobox "Module" [ref=e106]:
+                - img [ref=e112]
+            - generic [ref=e117] [cursor=pointer]:
+              - generic [ref=e118]: Owner
+              - combobox "Owner" [ref=e120]:
+                - img [ref=e126]
+        - generic [ref=e129]:
+          - generic [ref=e130]: 20 results
+          - button "Clear" [ref=e132]:
+            - img [ref=e133]: clear_all
+            - generic [ref=e134]: Clear
+        - generic [ref=e137]:
+          - generic [ref=e138]:
+            - generic [ref=e139]:
+              - generic [ref=e140]:
+                - generic [ref=e141]: REQ-001
+                - heading "Thermal Protection System" [level=3] [ref=e142]
+              - generic [ref=e143]: 47%
+            - paragraph [ref=e144]: The spacecraft shall maintain internal temperatures between -20°C and +50°C during all mission phases, including launch, orbital transfer, and station-keeping.
+            - generic [ref=e145]:
+              - generic [ref=e146]:
+                - generic [ref=e150]: Functional
+                - generic [ref=e154]: Approved
+                - generic [ref=e158]: High
+                - generic [ref=e162]: Thermal Control
+              - button "Find Similar" [ref=e164]:
+                - img [ref=e165]: hub
+                - generic [ref=e166]: Find Similar
+          - generic [ref=e169]:
+            - generic [ref=e170]:
+              - generic [ref=e171]:
+                - generic [ref=e172]: REQ-030
+                - heading "Spacecraft Thermal Model Correlation" [level=3] [ref=e173]
+              - generic [ref=e174]: 44%
+            - paragraph [ref=e175]: The thermal mathematical model shall be correlated to thermal vacuum test data within ±3°C at all critical temperature monitoring points before flight prediction runs.
+            - generic [ref=e176]:
+              - generic [ref=e177]:
+                - generic [ref=e181]: Verification
+                - generic [ref=e185]: Draft
+                - generic [ref=e189]: Medium
+                - generic [ref=e193]: Thermal Control
+              - button "Find Similar" [ref=e195]:
+                - img [ref=e196]: hub
+                - generic [ref=e197]: Find Similar
+          - generic [ref=e200]:
+            - generic [ref=e201]:
+              - generic [ref=e202]:
+                - generic [ref=e203]: REQ-013
+                - heading "Heater Control System" [level=3] [ref=e204]
+              - generic [ref=e205]: 35%
+            - paragraph [ref=e206]: The thermal control system shall provide independently controllable heater circuits for each critical component, with autonomous thermostat control and ground-commandable override.
+            - generic [ref=e207]:
+              - generic [ref=e208]:
+                - generic [ref=e212]: Functional
+                - generic [ref=e216]: Under Review
+                - generic [ref=e220]: High
+                - generic [ref=e224]: Thermal Control
+              - button "Find Similar" [ref=e226]:
+                - img [ref=e227]: hub
+                - generic [ref=e228]: Find Similar
+          - generic [ref=e231]:
+            - generic [ref=e232]:
+              - generic [ref=e233]:
+                - generic [ref=e234]: REQ-026
+                - heading "Thermal Vacuum Test Requirements" [level=3] [ref=e235]
+              - generic [ref=e236]: 32%
+            - paragraph [ref=e237]: The spacecraft shall undergo thermal vacuum testing per MIL-STD-1540E with four cycles between -30°C and +60°C at qualification-level margins.
+            - generic [ref=e238]:
+              - generic [ref=e239]:
+                - generic [ref=e243]: Verification
+                - generic [ref=e247]: Approved
+                - generic [ref=e251]: Medium
+                - generic [ref=e255]: Thermal Control
+              - button "Find Similar" [ref=e257]:
+                - img [ref=e258]: hub
+                - generic [ref=e259]: Find Similar
+          - generic [ref=e262]:
+            - generic [ref=e263]:
+              - generic [ref=e264]:
+                - generic [ref=e265]: REQ-017
+                - heading "Radiation Hardness Assurance" [level=3] [ref=e266]
+              - generic [ref=e267]: 23%
+            - paragraph [ref=e268]: All electronic components shall withstand a total ionizing dose (TID) of 50 krad(Si) with a radiation design margin of 2x over the predicted mission dose.
+            - generic [ref=e269]:
+              - generic [ref=e270]:
+                - generic [ref=e274]: Constraint
+                - generic [ref=e278]: Approved
+                - generic [ref=e282]: Critical
+                - generic [ref=e286]: Systems Engineering
+              - button "Find Similar" [ref=e288]:
+                - img [ref=e289]: hub
+                - generic [ref=e290]: Find Similar
+          - generic [ref=e293]:
+            - generic [ref=e294]:
+              - generic [ref=e295]:
+                - generic [ref=e296]: REQ-012
+                - heading "MLI Blanket Coverage" [level=3] [ref=e297]
+              - generic [ref=e298]: 21%
+            - paragraph [ref=e299]: Multi-layer insulation blankets shall cover a minimum of 85% of the spacecraft external surface area, with a maximum effective emittance of 0.02.
+            - generic [ref=e300]:
+              - generic [ref=e301]:
+                - generic [ref=e305]: Design
+                - generic [ref=e309]: Approved
+                - generic [ref=e313]: High
+                - generic [ref=e317]: Thermal Control
+              - button "Find Similar" [ref=e319]:
+                - img [ref=e320]: hub
+                - generic [ref=e321]: Find Similar
+          - generic [ref=e324]:
+            - generic [ref=e325]:
+              - generic [ref=e326]:
+                - generic [ref=e327]: REQ-016
+                - heading "Electromagnetic Compatibility" [level=3] [ref=e328]
+              - generic [ref=e329]: 19%
+            - paragraph [ref=e330]: All electronic subsystems shall comply with MIL-STD-461G RE102 and CE102 emission limits and RS103 and CS101 susceptibility requirements.
+            - generic [ref=e331]:
+              - generic [ref=e332]:
+                - generic [ref=e336]: Constraint
+                - generic [ref=e340]: Under Review
+                - generic [ref=e344]: High
+                - generic [ref=e348]: Systems Engineering
+              - button "Find Similar" [ref=e350]:
+                - img [ref=e351]: hub
+                - generic [ref=e352]: Find Similar
+          - generic [ref=e355]:
+            - generic [ref=e356]:
+              - generic [ref=e357]:
+                - generic [ref=e358]: REQ-004
+                - heading "Avionics Power Budget" [level=3] [ref=e359]
+              - generic [ref=e360]: 16%
+            - paragraph [ref=e361]: The avionics subsystem shall operate within a total power budget of 450W during nominal operations, with a 15% margin for contingency modes.
+            - generic [ref=e362]:
+              - generic [ref=e363]:
+                - generic [ref=e367]: Constraint
+                - generic [ref=e371]: Under Review
+                - generic [ref=e375]: High
+                - generic [ref=e379]: Power & Avionics
+              - button "Find Similar" [ref=e381]:
+                - img [ref=e382]: hub
+                - generic [ref=e383]: Find Similar
+          - generic [ref=e386]:
+            - generic [ref=e387]:
+              - generic [ref=e388]:
+                - generic [ref=e389]: REQ-005
+                - heading "Solar Array Sizing" [level=3] [ref=e390]
+              - generic [ref=e391]: 15%
+            - paragraph [ref=e392]: The solar array shall generate a minimum of 2.8 kW end-of-life (EOL) power in worst-case sun angle and degradation conditions.
+            - generic [ref=e393]:
+              - generic [ref=e394]:
+                - generic [ref=e398]: Functional
+                - generic [ref=e402]: Approved
+                - generic [ref=e406]: Critical
+                - generic [ref=e410]: Power & Avionics
+              - button "Find Similar" [ref=e412]:
+                - img [ref=e413]: hub
+                - generic [ref=e414]: Find Similar
+          - generic [ref=e417]:
+            - generic [ref=e418]:
+              - generic [ref=e419]:
+                - generic [ref=e420]: REQ-014
+                - heading "Propulsion System Delta-V" [level=3] [ref=e421]
+              - generic [ref=e422]: 15%
+            - paragraph [ref=e423]: The propulsion system shall provide a minimum delta-V of 320 m/s for orbit raising, station-keeping, and end-of-life disposal maneuvers.
+            - generic [ref=e424]:
+              - generic [ref=e425]:
+                - generic [ref=e429]: Functional
+                - generic [ref=e433]: Approved
+                - generic [ref=e437]: Critical
+                - generic [ref=e441]: Propulsion
+              - button "Find Similar" [ref=e443]:
+                - img [ref=e444]: hub
+                - generic [ref=e445]: Find Similar
+          - generic [ref=e448]:
+            - generic [ref=e449]:
+              - generic [ref=e450]:
+                - generic [ref=e451]: REQ-020
+                - heading "Telemetry Data Rate" [level=3] [ref=e452]
+              - generic [ref=e453]: 13%
+            - paragraph [ref=e454]: The housekeeping telemetry system shall transmit a minimum of 200 health-and-status parameters at a rate of 1 Hz during nominal operations and 10 Hz during anomaly investigation.
+            - generic [ref=e455]:
+              - generic [ref=e456]:
+                - generic [ref=e460]: Performance
+                - generic [ref=e464]: Approved
+                - generic [ref=e468]: Medium
+                - generic [ref=e472]: Flight Software
+              - button "Find Similar" [ref=e474]:
+                - img [ref=e475]: hub
+                - generic [ref=e476]: Find Similar
+          - generic [ref=e479]:
+            - generic [ref=e480]:
+              - generic [ref=e481]:
+                - generic [ref=e482]: REQ-024
+                - heading "Onboard Data Storage" [level=3] [ref=e483]
+              - generic [ref=e484]: 11%
+            - paragraph [ref=e485]: The mass memory unit shall provide a minimum of 256 Gbit of non-volatile storage with radiation-tolerant error detection and correction (EDAC), supporting a minimum write endurance of 100,000 cycles.
+            - generic [ref=e486]:
+              - generic [ref=e487]:
+                - generic [ref=e491]: Functional
+                - generic [ref=e495]: Draft
+                - generic [ref=e499]: Medium
+                - generic [ref=e503]: Flight Software
+              - button "Find Similar" [ref=e505]:
+                - img [ref=e506]: hub
+                - generic [ref=e507]: Find Similar
+          - generic [ref=e510]:
+            - generic [ref=e511]:
+              - generic [ref=e512]:
+                - generic [ref=e513]: REQ-019
+                - heading "Software Fault Tolerance" [level=3] [ref=e514]
+              - generic [ref=e515]: 11%
+            - paragraph [ref=e516]: The flight software shall implement triple modular redundancy (TMR) for all safety-critical functions and autonomous fault detection, isolation, and recovery (FDIR) within 500ms of fault onset.
+            - generic [ref=e517]:
+              - generic [ref=e518]:
+                - generic [ref=e522]: Functional
+                - generic [ref=e526]: Draft
+                - generic [ref=e530]: Critical
+                - generic [ref=e534]: Flight Software
+              - button "Find Similar" [ref=e536]:
+                - img [ref=e537]: hub
+                - generic [ref=e538]: Find Similar
+          - generic [ref=e541]:
+            - generic [ref=e542]:
+              - generic [ref=e543]:
+                - generic [ref=e544]: REQ-029
+                - heading "Electromagnetic Shielding" [level=3] [ref=e545]
+              - generic [ref=e546]: 10%
+            - paragraph [ref=e547]: The avionics enclosure shall provide a minimum of 40 dB electromagnetic shielding effectiveness across 100 MHz to 10 GHz to protect sensitive electronics from external RF interference.
+            - generic [ref=e548]:
+              - generic [ref=e549]:
+                - generic [ref=e553]: Design
+                - generic [ref=e557]: Draft
+                - generic [ref=e561]: Medium
+                - generic [ref=e565]: Systems Engineering
+              - button "Find Similar" [ref=e567]:
+                - img [ref=e568]: hub
+                - generic [ref=e569]: Find Similar
+          - generic [ref=e572]:
+            - generic [ref=e573]:
+              - generic [ref=e574]:
+                - generic [ref=e575]: REQ-025
+                - heading "End-of-Life Passivation" [level=3] [ref=e576]
+              - generic [ref=e577]: 9%
+            - paragraph [ref=e578]: Upon completion of the disposal maneuver, the spacecraft shall passivate all energy sources including batteries, propellant tanks, and reaction wheels within 30 days.
+            - generic [ref=e579]:
+              - generic [ref=e580]:
+                - generic [ref=e584]: Functional
+                - generic [ref=e588]: Approved
+                - generic [ref=e592]: High
+                - generic [ref=e596]: Propulsion
+              - button "Find Similar" [ref=e598]:
+                - img [ref=e599]: hub
+                - generic [ref=e600]: Find Similar
+          - generic [ref=e603]:
+            - generic [ref=e604]:
+              - generic [ref=e605]:
+                - generic [ref=e606]: REQ-015
+                - heading "Thruster Specific Impulse" [level=3] [ref=e607]
+              - generic [ref=e608]: 8%
+            - paragraph [ref=e609]: The monopropellant thrusters shall deliver a minimum specific impulse of 220 seconds at beginning of life.
+            - generic [ref=e610]:
+              - generic [ref=e611]:
+                - generic [ref=e615]: Performance
+                - generic [ref=e619]: Approved
+                - generic [ref=e623]: High
+                - generic [ref=e627]: Propulsion
+              - button "Find Similar" [ref=e629]:
+                - img [ref=e630]: hub
+                - generic [ref=e631]: Find Similar
+          - generic [ref=e634]:
+            - generic [ref=e635]:
+              - generic [ref=e636]:
+                - generic [ref=e637]: REQ-011
+                - heading "Reaction Wheel Momentum Management" [level=3] [ref=e638]
+              - generic [ref=e639]: 7%
+            - paragraph [ref=e640]: The momentum management system shall desaturate reaction wheels using magnetic torquers, maintaining wheel speeds below 4000 RPM during nominal operations.
+            - generic [ref=e641]:
+              - generic [ref=e642]:
+                - generic [ref=e646]: Functional
+                - generic [ref=e650]: Approved
+                - generic [ref=e654]: Medium
+                - generic [ref=e658]: GNC
+              - button "Find Similar" [ref=e660]:
+                - img [ref=e661]: hub
+                - generic [ref=e662]: Find Similar
+          - generic [ref=e665]:
+            - generic [ref=e666]:
+              - generic [ref=e667]:
+                - generic [ref=e668]: REQ-021
+                - heading "Mass Budget Allocation" [level=3] [ref=e669]
+              - generic [ref=e670]: 7%
+            - paragraph [ref=e671]: The total spacecraft wet mass shall not exceed 1,850 kg, with a minimum 10% mass margin maintained at the system level through CDR.
+            - generic [ref=e672]:
+              - generic [ref=e673]:
+                - generic [ref=e677]: Constraint
+                - generic [ref=e681]: Approved
+                - generic [ref=e685]: Critical
+                - generic [ref=e689]: Systems Engineering
+              - button "Find Similar" [ref=e691]:
+                - img [ref=e692]: hub
+                - generic [ref=e693]: Find Similar
+          - generic [ref=e696]:
+            - generic [ref=e697]:
+              - generic [ref=e698]:
+                - generic [ref=e699]: REQ-002
+                - heading "Structural Load Tolerance" [level=3] [ref=e700]
+              - generic [ref=e701]: 6%
+            - paragraph [ref=e702]: The primary structure shall withstand quasi-static loads of up to 8.5g axial and 3.0g lateral during launch without permanent deformation.
+            - generic [ref=e703]:
+              - generic [ref=e704]:
+                - generic [ref=e708]: Functional
+                - generic [ref=e712]: Approved
+                - generic [ref=e716]: Critical
+                - generic [ref=e720]: Structures
+              - button "Find Similar" [ref=e722]:
+                - img [ref=e723]: hub
+                - generic [ref=e724]: Find Similar
+          - generic [ref=e727]:
+            - generic [ref=e728]:
+              - generic [ref=e729]:
+                - generic [ref=e730]: REQ-027
+                - heading "Command Authentication" [level=3] [ref=e731]
+              - generic [ref=e732]: 4%
+            - paragraph [ref=e733]: All ground-to-spacecraft telecommands shall be authenticated using AES-256 encryption and SHA-256 message authentication codes to prevent unauthorized commanding.
+            - generic [ref=e734]:
+              - generic [ref=e735]:
+                - generic [ref=e739]: Security
+                - generic [ref=e743]: Approved
+                - generic [ref=e747]: Critical
+                - generic [ref=e751]: Communications
+              - button "Find Similar" [ref=e753]:
+                - img [ref=e754]: hub
+                - generic [ref=e755]: Find Similar
