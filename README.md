@@ -63,10 +63,22 @@ dotnet run --project src/TraceQ.Api
 
 The API starts on `http://localhost:5000`. CORS is configured for the Angular dev server at `http://localhost:4200`.
 
+If local application-control policy blocks binaries under the repo path, use:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\run-api-unblocked.ps1
+```
+
 ### 4. Run tests
 
 ```bash
 dotnet test
+```
+
+If tests fail to load assemblies because binaries under the repo path are blocked, use:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\test-unblocked.ps1
 ```
 
 ## Tech Stack
