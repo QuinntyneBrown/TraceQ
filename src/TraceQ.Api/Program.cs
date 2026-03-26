@@ -3,8 +3,8 @@ using Serilog;
 using TraceQ.Core.Interfaces;
 using TraceQ.Infrastructure;
 using TraceQ.Infrastructure.Data;
+using TraceQ.Infrastructure.Embeddings;
 using TraceQ.Infrastructure.Health;
-using TraceQ.Infrastructure.Services;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -59,10 +59,11 @@ try
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=traceq.db";
     builder.Services.AddTraceQInfrastructure(connectionString);
 
-    // Register placeholder for IEmbeddingService (replaced by real impl in later sprint)
-    builder.Services.AddSingleton<IEmbeddingService, NoOpEmbeddingService>();
+    // Register local ONNX embedding service and background embedding worker
+    // Uses all-MiniLM-L6-v2 model for 384-dim embeddings — no cloud calls
+    builder.Services.AddEmbeddingServices(builder.Configuration);
 
-    // Register Qdrant vector store (replaces NoOpVectorStore)
+    // Register Qdrant vector store (localhost-only)
     builder.Services.AddQdrantVectorStore(builder.Configuration);
 
     // -------------------------------------------------------------------------
