@@ -23,6 +23,8 @@ public class QdrantVectorStore : IVectorStore
     internal const int MaxBatchSize = 100;
 
     /// <summary>
+    /// Creates a Qdrant-backed vector store.
+    /// </summary>
     public QdrantVectorStore(
         IQdrantClient client,
         IOptions<QdrantOptions> options,

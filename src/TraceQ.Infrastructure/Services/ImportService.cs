@@ -256,11 +256,13 @@ public class ImportService : IImportService
             {
                 var payload = new Dictionary<string, string>
                 {
-                    ["number"] = req.RequirementNumber,
+                    ["requirementNumber"] = req.RequirementNumber,
                     ["name"] = req.Name,
                     ["type"] = req.Type ?? string.Empty,
                     ["state"] = req.State ?? string.Empty,
-                    ["module"] = req.Module ?? string.Empty
+                    ["module"] = req.Module ?? string.Empty,
+                    ["priority"] = req.Priority ?? string.Empty,
+                    ["owner"] = req.Owner ?? string.Empty
                 };
                 points.Add((req.Id, vector, payload));
             }

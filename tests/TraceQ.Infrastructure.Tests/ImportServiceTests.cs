@@ -168,20 +168,29 @@ public class ImportServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task ImportAsync_VectorStoreUnavailable_LeavesRequirementsUnembedded()
+    public async Task ImportAsync_WhenEmbeddingsAreGenerated_MarksRequirementsEmbeddedAndUpsertsVectors()
     {
+        _mockEmbeddingService
+            .Setup(e => e.GenerateBatchEmbeddingsAsync(It.IsAny<IEnumerable<(string id, string text)>>()))
+            .ReturnsAsync((IEnumerable<(string id, string text)> items) =>
+                items.ToDictionary(item => item.id, _ => new float[384]));
+
         var csv = new StringBuilder();
         csv.AppendLine("Number,Name,Traced To");
         csv.AppendLine("REQ-001,First Requirement,REQ-002;REQ-003");
 
         using var stream = new MemoryStream(Encoding.UTF8.GetBytes(csv.ToString()));
 
-        await _importService.ImportAsync(stream, "degraded-import.csv");
+        await _importService.ImportAsync(stream, "embedded-import.csv");
 
         var requirement = await _requirementRepository.GetByNumberAsync("REQ-001");
         requirement.Should().NotBeNull();
-        requirement!.IsEmbedded.Should().BeFalse();
+        requirement!.IsEmbedded.Should().BeTrue();
         requirement.TracedTo.Should().Be("REQ-002,REQ-003");
+
+        _mockVectorStore.Verify(v => v.UpsertBatchAsync(
+            It.Is<IEnumerable<(Guid id, float[] vector, Dictionary<string, string> payload)>>(points => points.Any())),
+            Times.Once);
     }
 
     [Fact]

@@ -38,7 +38,7 @@ public class QdrantVectorStoreTests
     #region InitializeAsync tests
 
     [Fact]
-    public async Task InitializeAsync_WhenQdrantUnreachable_SetsIsAvailableFalse()
+    public async Task InitializeAsync_WhenQdrantUnreachable_Throws()
     {
         // Arrange
         _mockClient
@@ -48,14 +48,14 @@ public class QdrantVectorStoreTests
         var store = CreateStore();
 
         // Act
-        await store.InitializeAsync();
+        var act = () => store.InitializeAsync();
 
         // Assert
-        store.IsAvailable.Should().BeFalse();
+        await act.Should().ThrowAsync<Grpc.Core.RpcException>();
     }
 
     [Fact]
-    public async Task InitializeAsync_WhenCollectionExists_SetsIsAvailableTrue()
+    public async Task InitializeAsync_WhenCollectionExists_DoesNotCreateCollection()
     {
         // Arrange
         _mockClient
@@ -68,11 +68,27 @@ public class QdrantVectorStoreTests
         await store.InitializeAsync();
 
         // Assert
-        store.IsAvailable.Should().BeTrue();
+        _mockClient.Verify(c => c.CreateCollectionAsync(
+            It.IsAny<string>(),
+            It.IsAny<VectorParams>(),
+            It.IsAny<uint>(),
+            It.IsAny<uint>(),
+            It.IsAny<uint>(),
+            It.IsAny<bool>(),
+            It.IsAny<HnswConfigDiff>(),
+            It.IsAny<OptimizersConfigDiff>(),
+            It.IsAny<WalConfigDiff>(),
+            It.IsAny<QuantizationConfig>(),
+            It.IsAny<string>(),
+            It.IsAny<ShardingMethod?>(),
+            It.IsAny<SparseVectorConfig>(),
+            It.IsAny<StrictModeConfig>(),
+            It.IsAny<TimeSpan?>(),
+            It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
-    public async Task InitializeAsync_WhenCollectionDoesNotExist_CreatesCollectionAndSetsAvailable()
+    public async Task InitializeAsync_WhenCollectionDoesNotExist_CreatesCollection()
     {
         // Arrange
         _mockClient
@@ -85,8 +101,6 @@ public class QdrantVectorStoreTests
         await store.InitializeAsync();
 
         // Assert
-        store.IsAvailable.Should().BeTrue();
-
         _mockClient.Verify(c => c.CreateCollectionAsync(
             _options.CollectionName,
             It.Is<VectorParams>(vp => vp.Size == 384 && vp.Distance == Distance.Cosine),
@@ -108,19 +122,16 @@ public class QdrantVectorStoreTests
 
     #endregion
 
-    #region Degraded mode tests
+    #region Initialization guard tests
 
     [Fact]
-    public async Task UpsertAsync_WhenNotAvailable_DoesNotThrow()
+    public async Task UpsertAsync_BeforeInitialize_Throws()
     {
-        // Arrange — never call InitializeAsync, so IsAvailable is false
         var store = CreateStore();
 
-        // Act
         var act = () => store.UpsertAsync(Guid.NewGuid(), new float[384], new Dictionary<string, string>());
 
-        // Assert
-        await act.Should().NotThrowAsync();
+        await act.Should().ThrowAsync<InvalidOperationException>();
         _mockClient.Verify(
             c => c.UpsertAsync(It.IsAny<string>(), It.IsAny<IReadOnlyList<PointStruct>>(),
                 It.IsAny<bool>(), It.IsAny<WriteOrderingType?>(),
@@ -129,7 +140,7 @@ public class QdrantVectorStoreTests
     }
 
     [Fact]
-    public async Task UpsertBatchAsync_WhenNotAvailable_DoesNotThrow()
+    public async Task UpsertBatchAsync_BeforeInitialize_Throws()
     {
         var store = CreateStore();
 
@@ -140,7 +151,7 @@ public class QdrantVectorStoreTests
 
         var act = () => store.UpsertBatchAsync(points);
 
-        await act.Should().NotThrowAsync();
+        await act.Should().ThrowAsync<InvalidOperationException>();
         _mockClient.Verify(
             c => c.UpsertAsync(It.IsAny<string>(), It.IsAny<IReadOnlyList<PointStruct>>(),
                 It.IsAny<bool>(), It.IsAny<WriteOrderingType?>(),
@@ -149,23 +160,23 @@ public class QdrantVectorStoreTests
     }
 
     [Fact]
-    public async Task SearchAsync_WhenNotAvailable_ReturnsEmptyList()
+    public async Task SearchAsync_BeforeInitialize_Throws()
     {
         var store = CreateStore();
 
-        var result = await store.SearchAsync(new float[384], 10);
+        var act = () => store.SearchAsync(new float[384], 10);
 
-        result.Should().BeEmpty();
+        await act.Should().ThrowAsync<InvalidOperationException>();
     }
 
     [Fact]
-    public async Task DeleteAsync_WhenNotAvailable_DoesNotThrow()
+    public async Task DeleteAsync_BeforeInitialize_Throws()
     {
         var store = CreateStore();
 
         var act = () => store.DeleteAsync(Guid.NewGuid());
 
-        await act.Should().NotThrowAsync();
+        await act.Should().ThrowAsync<InvalidOperationException>();
         _mockClient.Verify(
             c => c.DeleteAsync(It.IsAny<string>(), It.IsAny<Guid>(),
                 It.IsAny<bool>(), It.IsAny<WriteOrderingType?>(),
@@ -328,19 +339,11 @@ public class QdrantVectorStoreTests
         try
         {
             await store.InitializeAsync();
-
-            // If Qdrant is available, this should succeed
-            if (store.IsAvailable)
-            {
-                store.IsAvailable.Should().BeTrue();
-
-                // Clean up the test collection
-                await client.DeleteCollectionAsync(options.Value.CollectionName);
-            }
+            await client.DeleteCollectionAsync(options.Value.CollectionName);
         }
         catch
         {
-            // If Qdrant is not available, the test is inconclusive — not a failure
+            // Qdrant is not available in this environment.
         }
     }
 
@@ -358,11 +361,12 @@ public class QdrantVectorStoreTests
         });
 
         var store = new QdrantVectorStore(client, options, _logger);
-        await store.InitializeAsync();
-
-        if (!store.IsAvailable)
+        try
         {
-            // Qdrant not running — skip
+            await store.InitializeAsync();
+        }
+        catch
+        {
             return;
         }
 
@@ -413,9 +417,11 @@ public class QdrantVectorStoreTests
         });
 
         var store = new QdrantVectorStore(client, options, _logger);
-        await store.InitializeAsync();
-
-        if (!store.IsAvailable)
+        try
+        {
+            await store.InitializeAsync();
+        }
+        catch
         {
             return;
         }

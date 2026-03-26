@@ -117,7 +117,7 @@ Check the health endpoint to confirm everything is connected:
 curl http://localhost:5000/health
 ```
 
-A response of `Healthy` means all systems are go. `Degraded` means Qdrant is unreachable — go back to Step 3.
+A response of `Healthy` means all systems are go. Any other result means a required dependency is missing or unavailable — go back to Step 3.
 
 > **Execution policy issues on Windows?** If local policy blocks binaries under the repo path:
 > ```powershell

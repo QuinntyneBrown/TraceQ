@@ -10,16 +10,16 @@ This document explains how to get the TraceQ backend into a fully working state,
 
 ## Current failure mode
 
-When either dependency is missing, the backend starts in degraded mode:
+When either dependency is missing, the backend fails startup or reports unhealthy dependency status:
 
-- if the ONNX model files are missing, TraceQ falls back to a dummy embedding service
-- if Qdrant is down, the vector store accepts no writes and returns no search results
+- if the ONNX model files are missing, the production embedding service cannot initialize
+- if Qdrant is down, the vector store cannot initialize
 
 In that state:
 
-- `GET /health` returns `Degraded`
-- `POST /api/search` returns `[]`
-- imported requirements remain `isEmbedded: false`
+- the API may fail to start, or `GET /health` returns `Unhealthy`
+- semantic search requests cannot succeed
+- imports cannot complete semantic indexing successfully
 
 This is expected behavior. Semantic search only works after both the model and Qdrant are available and the API has been restarted.
 
@@ -133,15 +133,15 @@ Expected result:
 healthz check passed
 ```
 
-If that endpoint does not respond, the backend will remain degraded and semantic search will not work.
+If that endpoint does not respond, the backend will not initialize correctly and semantic search will not work.
 
 ## Step 3: Restart the API after both dependencies are ready
 
 This part is important.
 
-TraceQ decides dependency availability at startup:
+TraceQ initializes its required dependencies at startup:
 
-- the embedding service is selected during DI registration
+- the production embedding service is resolved during startup
 - Qdrant connectivity is checked during vector store initialization
 
 That means:
@@ -156,7 +156,7 @@ You must restart the API after both dependencies are in place.
 This machine uses local Application Control rules that may block binaries under the repo path. Use the bundled workaround script:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\run-api-unblocked.ps1
+powershell -ExecutionPolicy Bypass -File .\eng\scripts\run-api-unblocked.ps1
 ```
 
 ### Normal command
@@ -181,7 +181,7 @@ Expected result:
 Healthy
 ```
 
-If the response is still `Degraded`, one of these is still wrong:
+If the response is not `Healthy`, one of these is still wrong:
 
 - model file path
 - vocab file path
@@ -197,9 +197,9 @@ TraceQ handles this automatically in two ways:
 - inline after import
 - background polling every 30 seconds
 
-The background service only processes rows when both dependencies are available.
+The background service assumes the production embedding and vector services are available. If they are not, the API should not be considered healthy.
 
-### If you already imported data while the backend was degraded
+### If you already imported data before the dependencies were fixed
 
 That is recoverable. The rows stay marked as `isEmbedded: false`, so after the backend is restarted in a healthy state, the background service should pick them up automatically.
 
@@ -262,7 +262,7 @@ Use this exact order when recovering the backend:
 
 ## Troubleshooting
 
-### `GET /health` says `Degraded`
+### `GET /health` is not `Healthy`
 
 Cause:
 
@@ -289,7 +289,7 @@ Action:
 
 Cause:
 
-- API was still running in degraded mode when Qdrant came up
+- API started before Qdrant or the model files were ready
 
 Action:
 
@@ -303,7 +303,7 @@ Cause:
 
 Action:
 
-- run [run-api-unblocked.ps1](C:/projects/TraceQ/scripts/run-api-unblocked.ps1)
+- run [run-api-unblocked.ps1](C:/projects/TraceQ/eng/scripts/run-api-unblocked.ps1)
 
 ### Tests fail to load assemblies under the repo path
 
@@ -313,7 +313,7 @@ Cause:
 
 Action:
 
-- run [test-unblocked.ps1](C:/projects/TraceQ/scripts/test-unblocked.ps1)
+- run [test-unblocked.ps1](C:/projects/TraceQ/eng/scripts/test-unblocked.ps1)
 
 ## Expected steady-state behavior
 

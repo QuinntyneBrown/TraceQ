@@ -96,7 +96,7 @@ Abstracts interaction with the Qdrant vector database.
 
 - **SearchAsync(float[384] queryVector, int top, Dictionary\<string, string\> filters) -> List\<(Guid id, float score)\>**: Constructs a Qdrant search request with the provided query vector and limit. If filters are provided, builds a Qdrant `Filter` object with `Match` conditions on the corresponding payload fields (e.g., `type`, `state`, `module`). Executes the search via gRPC and returns the matched point IDs with their similarity scores.
 
-**Graceful degradation:** If Qdrant is unreachable, the service logs a warning and returns an empty result list rather than throwing an exception. This allows the application to remain functional (with degraded search) even if the vector database is temporarily unavailable.
+**Startup requirement:** Qdrant must be reachable for the backend to initialize successfully. Semantic search does not degrade to an empty-result mode when the vector database is unavailable.
 
 #### IRequirementRepository / RequirementRepository
 

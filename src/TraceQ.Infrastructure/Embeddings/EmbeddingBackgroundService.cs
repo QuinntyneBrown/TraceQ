@@ -114,7 +114,8 @@ public class EmbeddingBackgroundService : BackgroundService
                         ["type"] = req.Type ?? string.Empty,
                         ["state"] = req.State ?? string.Empty,
                         ["module"] = req.Module ?? string.Empty,
-                        ["priority"] = req.Priority ?? string.Empty
+                        ["priority"] = req.Priority ?? string.Empty,
+                        ["owner"] = req.Owner ?? string.Empty
                     };
 
                     vectorPoints.Add((req.Id, vector, payload));

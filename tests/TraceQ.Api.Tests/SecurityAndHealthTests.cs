@@ -1,5 +1,4 @@
 using System.Net;
-using System.Text.Json;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -106,8 +105,8 @@ public class SecurityAndHealthTests : IClassFixture<WebApplicationFactory<Progra
             (HttpStatusCode)200);
 
         var content = await response.Content.ReadAsStringAsync();
-        // The default health check response returns "Healthy", "Degraded", or "Unhealthy" as plain text
+        // The default health check response returns plain text.
         content.Should().NotBeNullOrEmpty();
-        content.Should().BeOneOf("Healthy", "Degraded", "Unhealthy");
+        content.Should().BeOneOf("Healthy", "Unhealthy");
     }
 }
