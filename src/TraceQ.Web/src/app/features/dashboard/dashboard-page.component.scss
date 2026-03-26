@@ -2,6 +2,8 @@
   display: flex;
   align-items: center;
   margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 4px;
 
   h2 {
     margin: 0;
@@ -21,6 +23,24 @@
       height: 18px;
       width: 18px;
     }
+  }
+}
+
+.delete-layout-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  mat-icon {
+    font-size: 16px;
+    height: 16px;
+    width: 16px;
   }
 }
 
@@ -64,12 +84,26 @@
 .widget-content {
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: auto;
+  padding: 0 !important;
 }
 
-.placeholder-content {
+.widget-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  > * {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.default-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   color: rgba(0, 0, 0, 0.3);
 
@@ -85,6 +119,6 @@
   }
 }
 
-:host-context(.dark-theme) .placeholder-content {
+:host-context(.dark-theme) .default-placeholder {
   color: rgba(255, 255, 255, 0.3);
 }

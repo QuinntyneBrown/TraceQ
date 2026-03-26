@@ -1,10 +1,28 @@
 <div class="dashboard-header">
   <h2>Dashboard</h2>
   <span class="spacer"></span>
-  <button mat-stroked-button (click)="addWidget()" class="action-btn">
+  <button mat-stroked-button (click)="openAddWidgetDialog()" class="action-btn">
     <mat-icon>add</mat-icon>
     Add Widget
   </button>
+  <button mat-stroked-button (click)="openSaveLayoutDialog()" class="action-btn">
+    <mat-icon>save</mat-icon>
+    Save Layout
+  </button>
+  <button mat-stroked-button [matMenuTriggerFor]="layoutMenu" class="action-btn"
+          *ngIf="savedLayouts.length > 0">
+    <mat-icon>folder_open</mat-icon>
+    Load Layout
+  </button>
+  <mat-menu #layoutMenu="matMenu">
+    <button mat-menu-item *ngFor="let layout of savedLayouts" (click)="loadSavedLayout(layout)">
+      <mat-icon>dashboard</mat-icon>
+      <span>{{ layout.name }}</span>
+      <button mat-icon-button (click)="deleteLayout(layout, $event)" matTooltip="Delete layout" class="delete-layout-btn">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+    </button>
+  </mat-menu>
   <button mat-stroked-button (click)="resetLayout()" class="action-btn">
     <mat-icon>refresh</mat-icon>
     Reset Layout
@@ -21,23 +39,24 @@
           <mat-icon>close</mat-icon>
         </button>
       </mat-card-header>
-      <mat-card-content class="widget-content">
-        <div class="placeholder-content" [ngSwitch]="widget.widgetType">
-          <div *ngSwitchCase="'stat'" class="stat-placeholder">
-            <mat-icon class="placeholder-icon">analytics</mat-icon>
-            <p>Statistics widget placeholder</p>
-          </div>
-          <div *ngSwitchCase="'chart'" class="chart-placeholder">
-            <mat-icon class="placeholder-icon">bar_chart</mat-icon>
-            <p>Chart widget placeholder</p>
-          </div>
-          <div *ngSwitchCase="'table'" class="table-placeholder">
-            <mat-icon class="placeholder-icon">table_chart</mat-icon>
-            <p>Table widget placeholder</p>
-          </div>
+      <mat-card-content class="widget-content widget-content-area">
+        <div [ngSwitch]="getBaseWidgetType(widget.widgetType)" class="widget-inner">
+          <app-stats-widget *ngSwitchCase="'stats'"></app-stats-widget>
+
+          <app-distribution-chart-widget
+            *ngSwitchCase="'distribution'"
+            [field]="getDistributionField(widget.widgetType)">
+          </app-distribution-chart-widget>
+
+          <app-traceability-widget *ngSwitchCase="'traceability'"></app-traceability-widget>
+
+          <app-similarity-clusters-widget *ngSwitchCase="'similarity'"></app-similarity-clusters-widget>
+
+          <app-recent-imports-widget *ngSwitchCase="'recent-imports'"></app-recent-imports-widget>
+
           <div *ngSwitchDefault class="default-placeholder">
             <mat-icon class="placeholder-icon">widgets</mat-icon>
-            <p>Widget placeholder</p>
+            <p>Unknown widget type</p>
           </div>
         </div>
       </mat-card-content>

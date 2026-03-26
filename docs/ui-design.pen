@@ -53,13 +53,13 @@
                   "height": 24,
                   "iconFontName": "shield",
                   "iconFontFamily": "lucide",
-                  "fill": "#C9A962"
+                  "fill": "#00897b"
                 },
                 {
                   "type": "text",
                   "id": "jKHhJ",
                   "name": "logoText",
-                  "fill": "#C9A962",
+                  "fill": "#FFFFFF",
                   "content": "TRACEQ",
                   "fontFamily": "Space Grotesk",
                   "fontSize": 20,
@@ -86,7 +86,7 @@
                   "id": "M5zJ2",
                   "name": "Nav – Dashboard",
                   "width": "fill_container",
-                  "fill": "#C9A96218",
+                  "fill": "#00897b18",
                   "cornerRadius": 6,
                   "gap": 12,
                   "padding": [
@@ -103,13 +103,13 @@
                       "height": 20,
                       "iconFontName": "layout-grid",
                       "iconFontFamily": "lucide",
-                      "fill": "#C9A962"
+                      "fill": "#00897b"
                     },
                     {
                       "type": "text",
                       "id": "jQBRm",
                       "name": "dashLabel",
-                      "fill": "#C9A962",
+                      "fill": "#00897b",
                       "content": "Dashboard",
                       "fontFamily": "Space Grotesk",
                       "fontSize": 14,
@@ -337,6 +337,30 @@
                       "fill": "#777777"
                     }
                   ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CzHPi",
+                  "name": "userAvatar",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "#00897b",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "nJuAD",
+                      "name": "avatarText",
+                      "fill": "#FFFFFF",
+                      "content": "JD",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
                 }
               ]
             },
@@ -450,7 +474,7 @@
                           "type": "text",
                           "id": "wUK2i",
                           "name": "card2Value",
-                          "fill": "#C9A962",
+                          "fill": "#00897b",
                           "content": "78.4%",
                           "fontFamily": "Space Grotesk",
                           "fontSize": 36,
@@ -552,7 +576,7 @@
                           "type": "text",
                           "id": "5rSPQ",
                           "name": "card4Sub",
-                          "fill": "#EF4444",
+                          "fill": "#c62828",
                           "content": "Potential duplicates",
                           "fontFamily": "IBM Plex Mono",
                           "fontSize": 12,
@@ -746,7 +770,7 @@
                   "height": 28,
                   "iconFontName": "shield",
                   "iconFontFamily": "lucide",
-                  "fill": "#C9A962"
+                  "fill": "#00897b"
                 }
               ]
             },
@@ -766,7 +790,7 @@
                   "name": "tabNavDash",
                   "width": 44,
                   "height": 44,
-                  "fill": "#C9A96218",
+                  "fill": "#00897b18",
                   "cornerRadius": 8,
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -779,7 +803,7 @@
                       "height": 20,
                       "iconFontName": "layout-grid",
                       "iconFontFamily": "lucide",
-                      "fill": "#C9A962"
+                      "fill": "#00897b"
                     }
                   ]
                 },
@@ -1044,7 +1068,7 @@
                         {
                           "type": "text",
                           "id": "s0eox",
-                          "fill": "#C9A962",
+                          "fill": "#00897b",
                           "content": "78.4%",
                           "fontFamily": "Space Grotesk",
                           "fontSize": 28,
@@ -1250,13 +1274,13 @@
                   "height": 20,
                   "iconFontName": "shield",
                   "iconFontFamily": "lucide",
-                  "fill": "#C9A962"
+                  "fill": "#00897b"
                 },
                 {
                   "type": "text",
                   "id": "TuPcL",
                   "name": "mobLogoText",
-                  "fill": "#C9A962",
+                  "fill": "#FFFFFF",
                   "content": "TRACEQ",
                   "fontFamily": "Space Grotesk",
                   "fontSize": 16,
@@ -1378,7 +1402,7 @@
                     {
                       "type": "text",
                       "id": "LPLh5",
-                      "fill": "#C9A962",
+                      "fill": "#00897b",
                       "content": "78.4%",
                       "fontFamily": "Space Grotesk",
                       "fontSize": 24,
@@ -1550,12 +1574,12 @@
                   "height": 20,
                   "iconFontName": "layout-grid",
                   "iconFontFamily": "lucide",
-                  "fill": "#C9A962"
+                  "fill": "#00897b"
                 },
                 {
                   "type": "text",
                   "id": "ufO7y",
-                  "fill": "#C9A962",
+                  "fill": "#00897b",
                   "content": "DASHBOARD",
                   "fontFamily": "IBM Plex Mono",
                   "fontSize": 8,
@@ -1711,7 +1735,7 @@
             {
               "type": "text",
               "id": "cgIdz",
-              "fill": "#C9A962",
+              "fill": "#00897b",
               "content": "PRIMARY",
               "fontFamily": "IBM Plex Mono",
               "fontSize": 11,
@@ -1730,8 +1754,8 @@
                   "type": "frame",
                   "id": "Fgzgw",
                   "name": "btnPriLg",
-                  "height": 48,
-                  "fill": "#C9A962",
+                  "height": 44,
+                  "fill": "#00897b",
                   "gap": 8,
                   "padding": [
                     0,
@@ -1746,12 +1770,12 @@
                       "height": 18,
                       "iconFontName": "upload",
                       "iconFontFamily": "lucide",
-                      "fill": "#0A0A0A"
+                      "fill": "#FFFFFF"
                     },
                     {
                       "type": "text",
                       "id": "wBQkj",
-                      "fill": "#0A0A0A",
+                      "fill": "#FFFFFF",
                       "content": "IMPORT CSV",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 13,
@@ -1764,8 +1788,8 @@
                   "type": "frame",
                   "id": "5X9Yg",
                   "name": "btnPriMd",
-                  "height": 40,
-                  "fill": "#C9A962",
+                  "height": 36,
+                  "fill": "#00897b",
                   "gap": 8,
                   "padding": [
                     0,
@@ -1780,12 +1804,12 @@
                       "height": 16,
                       "iconFontName": "search",
                       "iconFontFamily": "lucide",
-                      "fill": "#0A0A0A"
+                      "fill": "#FFFFFF"
                     },
                     {
                       "type": "text",
                       "id": "9tAn6",
-                      "fill": "#0A0A0A",
+                      "fill": "#FFFFFF",
                       "content": "SEARCH",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 12,
@@ -1798,8 +1822,8 @@
                   "type": "frame",
                   "id": "k04GM",
                   "name": "btnPriSm",
-                  "height": 32,
-                  "fill": "#C9A962",
+                  "height": 28,
+                  "fill": "#00897b",
                   "gap": 6,
                   "padding": [
                     0,
@@ -1810,7 +1834,7 @@
                     {
                       "type": "text",
                       "id": "llvhb",
-                      "fill": "#0A0A0A",
+                      "fill": "#FFFFFF",
                       "content": "SAVE",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 11,
@@ -1823,8 +1847,8 @@
                   "type": "frame",
                   "id": "16ox9",
                   "name": "btnPriDis",
-                  "height": 40,
-                  "fill": "#C9A96240",
+                  "height": 36,
+                  "fill": "#00897b40",
                   "gap": 8,
                   "padding": [
                     0,
@@ -1835,7 +1859,7 @@
                     {
                       "type": "text",
                       "id": "HcgN4",
-                      "fill": "#0A0A0A80",
+                      "fill": "#FFFFFF80",
                       "content": "DISABLED",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 12,
@@ -1877,7 +1901,7 @@
             {
               "type": "text",
               "id": "Z61um",
-              "fill": "#C9A962",
+              "fill": "#00897b",
               "content": "SECONDARY (OUTLINED)",
               "fontFamily": "IBM Plex Mono",
               "fontSize": 11,
@@ -1896,10 +1920,10 @@
                   "type": "frame",
                   "id": "0VuzK",
                   "name": "btnSecLg",
-                  "height": 48,
+                  "height": 44,
                   "stroke": {
                     "thickness": 1,
-                    "fill": "#C9A962"
+                    "fill": "#00897b"
                   },
                   "gap": 8,
                   "padding": [
@@ -1911,7 +1935,7 @@
                     {
                       "type": "text",
                       "id": "FSLJX",
-                      "fill": "#C9A962",
+                      "fill": "#00897b",
                       "content": "CANCEL",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 13,
@@ -1924,7 +1948,7 @@
                   "type": "frame",
                   "id": "jYagW",
                   "name": "btnSecMd",
-                  "height": 40,
+                  "height": 36,
                   "stroke": {
                     "thickness": 1,
                     "fill": "#777777"
@@ -1952,7 +1976,7 @@
                   "type": "frame",
                   "id": "NbsyV",
                   "name": "btnSecSm",
-                  "height": 32,
+                  "height": 28,
                   "stroke": {
                     "thickness": 1,
                     "fill": "#777777"
@@ -1980,7 +2004,7 @@
                   "type": "frame",
                   "id": "3owHe",
                   "name": "btnSecDis",
-                  "height": 40,
+                  "height": 36,
                   "stroke": {
                     "thickness": 1,
                     "fill": "#33333380"
@@ -2019,7 +2043,7 @@
             {
               "type": "text",
               "id": "3h2VM",
-              "fill": "#EF4444",
+              "fill": "#c62828",
               "content": "DANGER / DESTRUCTIVE",
               "fontFamily": "IBM Plex Mono",
               "fontSize": 11,
@@ -2038,8 +2062,8 @@
                   "type": "frame",
                   "id": "JEOLl",
                   "name": "btnDanLg",
-                  "height": 48,
-                  "fill": "#EF4444",
+                  "height": 44,
+                  "fill": "#c62828",
                   "gap": 8,
                   "padding": [
                     0,
@@ -2072,8 +2096,8 @@
                   "type": "frame",
                   "id": "xGw8u",
                   "name": "btnDanMd",
-                  "height": 40,
-                  "fill": "#EF4444",
+                  "height": 36,
+                  "fill": "#c62828",
                   "gap": 8,
                   "padding": [
                     0,
@@ -2097,10 +2121,10 @@
                   "type": "frame",
                   "id": "89eTf",
                   "name": "btnDanOut",
-                  "height": 40,
+                  "height": 36,
                   "stroke": {
                     "thickness": 1,
-                    "fill": "#EF4444"
+                    "fill": "#c62828"
                   },
                   "gap": 8,
                   "padding": [
@@ -2112,7 +2136,7 @@
                     {
                       "type": "text",
                       "id": "i7y4m",
-                      "fill": "#EF4444",
+                      "fill": "#c62828",
                       "content": "REMOVE",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 12,
@@ -2125,8 +2149,8 @@
                   "type": "frame",
                   "id": "BSZUZ",
                   "name": "btnDanDis",
-                  "height": 40,
-                  "fill": "#EF444440",
+                  "height": 36,
+                  "fill": "#c6282840",
                   "gap": 8,
                   "padding": [
                     0,
@@ -2161,7 +2185,7 @@
             {
               "type": "text",
               "id": "8nzNp",
-              "fill": "#C9A962",
+              "fill": "#00897b",
               "content": "GHOST / TEXT",
               "fontFamily": "IBM Plex Mono",
               "fontSize": 11,
@@ -2191,7 +2215,7 @@
                     {
                       "type": "text",
                       "id": "46Ykf",
-                      "fill": "#C9A962",
+                      "fill": "#00897b",
                       "content": "VIEW ALL",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 12,
@@ -2205,7 +2229,7 @@
                       "height": 16,
                       "iconFontName": "arrow-right",
                       "iconFontFamily": "lucide",
-                      "fill": "#C9A962"
+                      "fill": "#00897b"
                     }
                   ]
                 },
@@ -2272,7 +2296,7 @@
             {
               "type": "text",
               "id": "w6fz7",
-              "fill": "#C9A962",
+              "fill": "#00897b",
               "content": "ICON BUTTONS",
               "fontFamily": "IBM Plex Mono",
               "fontSize": 11,
@@ -2395,7 +2419,7 @@
                   "name": "ico4",
                   "width": 44,
                   "height": 44,
-                  "fill": "#C9A962",
+                  "fill": "#00897b",
                   "cornerRadius": 22,
                   "justifyContent": "center",
                   "alignItems": "center",
@@ -2407,7 +2431,7 @@
                       "height": 20,
                       "iconFontName": "plus",
                       "iconFontFamily": "lucide",
-                      "fill": "#0A0A0A"
+                      "fill": "#FFFFFF"
                     }
                   ]
                 },
@@ -2470,7 +2494,7 @@
             {
               "type": "text",
               "id": "VAakk",
-              "fill": "#C9A962",
+              "fill": "#00897b",
               "content": "BUTTON GROUP / SEGMENTED",
               "fontFamily": "IBM Plex Mono",
               "fontSize": 11,
@@ -2491,7 +2515,7 @@
                   "id": "yo7uu",
                   "name": "grpActive",
                   "height": 40,
-                  "fill": "#C9A962",
+                  "fill": "#00897b",
                   "gap": 6,
                   "padding": [
                     0,
@@ -2506,12 +2530,12 @@
                       "height": 16,
                       "iconFontName": "list",
                       "iconFontFamily": "lucide",
-                      "fill": "#0A0A0A"
+                      "fill": "#FFFFFF"
                     },
                     {
                       "type": "text",
                       "id": "KMnEw",
-                      "fill": "#0A0A0A",
+                      "fill": "#FFFFFF",
                       "content": "LIST",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 12,
@@ -2552,6 +2576,181 @@
                       "letterSpacing": 1
                     }
                   ]
+                },
+                {
+                  "type": "frame",
+                  "id": "58IOM",
+                  "name": "grpCards",
+                  "height": 40,
+                  "gap": 6,
+                  "padding": [
+                    0,
+                    24
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "4uFAj",
+                      "name": "cardsIcon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "layout-dashboard",
+                      "iconFontFamily": "lucide",
+                      "fill": "#777777"
+                    },
+                    {
+                      "type": "text",
+                      "id": "4IjT7",
+                      "name": "cardsLabel",
+                      "fill": "#777777",
+                      "content": "CARDS",
+                      "fontFamily": "IBM Plex Mono",
+                      "fontSize": 12,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "XeXdT",
+          "name": "FAB Section",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "BN4qe",
+              "name": "fabLabel",
+              "fill": "#00897b",
+              "content": "FLOATING ACTION BUTTON (FAB)",
+              "fontFamily": "IBM Plex Mono",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 2
+            },
+            {
+              "type": "frame",
+              "id": "5wA4e",
+              "name": "fabBtns",
+              "width": "fill_container",
+              "gap": 24,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "ukX3k",
+                  "name": "fabLarge",
+                  "width": 56,
+                  "height": 56,
+                  "fill": "#00897b",
+                  "cornerRadius": 28,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00897b40",
+                    "offset": {
+                      "x": 0,
+                      "y": 4
+                    },
+                    "blur": 12
+                  },
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "JvFcw",
+                      "name": "fabLgIcon",
+                      "width": 24,
+                      "height": 24,
+                      "iconFontName": "plus",
+                      "iconFontFamily": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "hbCoT",
+                  "name": "fabMedium",
+                  "width": 48,
+                  "height": 48,
+                  "fill": "#00897b",
+                  "cornerRadius": 24,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00897b40",
+                    "offset": {
+                      "x": 0,
+                      "y": 4
+                    },
+                    "blur": 12
+                  },
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "oiV0P",
+                      "name": "fabMdIcon",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "plus",
+                      "iconFontFamily": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ZBOVa",
+                  "name": "fabSmall",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "#00897b",
+                  "cornerRadius": 20,
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00897b40",
+                    "offset": {
+                      "x": 0,
+                      "y": 3
+                    },
+                    "blur": 8
+                  },
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "2vwcM",
+                      "name": "fabSmIcon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "plus",
+                      "iconFontFamily": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "zOCw5",
+                  "name": "fabDesc",
+                  "fill": "#555555",
+                  "content": "Large (56px) / Medium (48px) / Small (40px)",
+                  "fontFamily": "IBM Plex Mono",
+                  "fontSize": 10,
+                  "fontWeight": "normal"
                 }
               ]
             }
@@ -2611,7 +2810,7 @@
                 "thickness": {
                   "left": 4
                 },
-                "fill": "#4ADE80"
+                "fill": "#2e7d32"
               },
               "gap": 12,
               "padding": [
@@ -2627,7 +2826,7 @@
                   "height": 20,
                   "iconFontName": "circle-check",
                   "iconFontFamily": "lucide",
-                  "fill": "#4ADE80"
+                  "fill": "#2e7d32"
                 },
                 {
                   "type": "frame",
@@ -2650,7 +2849,7 @@
                       "type": "text",
                       "id": "QH5zt",
                       "fill": "#999999",
-                      "content": "142 requirements added, 8 updated successfully.",
+                      "content": "Import completed — 142 requirements added",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 12,
                       "fontWeight": "normal"
@@ -2667,7 +2866,7 @@
                     {
                       "type": "text",
                       "id": "MjKpN",
-                      "fill": "#4ADE80",
+                      "fill": "#2e7d32",
                       "content": "VIEW",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 11,
@@ -2697,7 +2896,7 @@
                 "thickness": {
                   "left": 4
                 },
-                "fill": "#EF4444"
+                "fill": "#c62828"
               },
               "gap": 12,
               "padding": [
@@ -2713,7 +2912,7 @@
                   "height": 20,
                   "iconFontName": "circle-x",
                   "iconFontFamily": "lucide",
-                  "fill": "#EF4444"
+                  "fill": "#c62828"
                 },
                 {
                   "type": "frame",
@@ -2736,7 +2935,7 @@
                       "type": "text",
                       "id": "2meSj",
                       "fill": "#999999",
-                      "content": "Invalid CSV format — could not parse headers.",
+                      "content": "Import failed — invalid CSV format",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 12,
                       "fontWeight": "normal"
@@ -2753,7 +2952,7 @@
                     {
                       "type": "text",
                       "id": "FTL2V",
-                      "fill": "#EF4444",
+                      "fill": "#c62828",
                       "content": "DETAILS",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 11,
@@ -2783,7 +2982,7 @@
                 "thickness": {
                   "left": 4
                 },
-                "fill": "#F59E0B"
+                "fill": "#f57f17"
               },
               "gap": 12,
               "padding": [
@@ -2799,7 +2998,7 @@
                   "height": 20,
                   "iconFontName": "triangle-alert",
                   "iconFontFamily": "lucide",
-                  "fill": "#F59E0B"
+                  "fill": "#f57f17"
                 },
                 {
                   "type": "frame",
@@ -2822,7 +3021,7 @@
                       "type": "text",
                       "id": "aHRqA",
                       "fill": "#999999",
-                      "content": "3 requirements skipped due to missing fields.",
+                      "content": "3 requirements skipped due to missing fields",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 12,
                       "fontWeight": "normal"
@@ -2836,6 +3035,17 @@
                   "gap": 12,
                   "alignItems": "center",
                   "children": [
+                    {
+                      "type": "text",
+                      "id": "5vHod",
+                      "name": "showDetails",
+                      "fill": "#f57f17",
+                      "content": "SHOW DETAILS",
+                      "fontFamily": "IBM Plex Mono",
+                      "fontSize": 11,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    },
                     {
                       "type": "icon_font",
                       "id": "BwIzo",
@@ -2859,7 +3069,7 @@
                 "thickness": {
                   "left": 4
                 },
-                "fill": "#3B82F6"
+                "fill": "#1565c0"
               },
               "gap": 12,
               "padding": [
@@ -2875,7 +3085,7 @@
                   "height": 20,
                   "iconFontName": "info",
                   "iconFontFamily": "lucide",
-                  "fill": "#3B82F6"
+                  "fill": "#1565c0"
                 },
                 {
                   "type": "frame",
@@ -2898,10 +3108,33 @@
                       "type": "text",
                       "id": "lMLdm",
                       "fill": "#999999",
-                      "content": "Embedding generation in progress… 47/142",
+                      "content": "Embedding generation in progress...",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 12,
                       "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ZidqC",
+                      "name": "progressBarBg",
+                      "width": "fill_container",
+                      "height": 4,
+                      "fill": "#333333",
+                      "cornerRadius": 2,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "cAzHb",
+                          "layoutPosition": "absolute",
+                          "x": 0,
+                          "y": 0,
+                          "name": "progressBarFill",
+                          "width": 120,
+                          "height": 4,
+                          "fill": "#1565c0",
+                          "cornerRadius": 2
+                        }
+                      ]
                     }
                   ]
                 },
@@ -2938,7 +3171,7 @@
             {
               "type": "text",
               "id": "EfyaR",
-              "fill": "#C9A962",
+              "fill": "#00897b",
               "content": "STACKED NOTIFICATIONS",
               "fontFamily": "IBM Plex Mono",
               "fontSize": 11,
@@ -2965,7 +3198,7 @@
                     "thickness": {
                       "left": 4
                     },
-                    "fill": "#4ADE80"
+                    "fill": "#2e7d32"
                   },
                   "gap": 12,
                   "padding": [
@@ -2981,7 +3214,7 @@
                       "height": 20,
                       "iconFontName": "circle-check",
                       "iconFontFamily": "lucide",
-                      "fill": "#4ADE80"
+                      "fill": "#2e7d32"
                     },
                     {
                       "type": "text",
@@ -3017,7 +3250,7 @@
                     "thickness": {
                       "left": 4
                     },
-                    "fill": "#F59E0B"
+                    "fill": "#f57f17"
                   },
                   "gap": 12,
                   "padding": [
@@ -3033,7 +3266,7 @@
                       "height": 20,
                       "iconFontName": "triangle-alert",
                       "iconFontFamily": "lucide",
-                      "fill": "#F59E0B"
+                      "fill": "#f57f17"
                     },
                     {
                       "type": "text",
@@ -3069,7 +3302,7 @@
                     "thickness": {
                       "left": 4
                     },
-                    "fill": "#3B82F6"
+                    "fill": "#1565c0"
                   },
                   "gap": 12,
                   "padding": [
@@ -3085,7 +3318,7 @@
                       "height": 20,
                       "iconFontName": "info",
                       "iconFontFamily": "lucide",
-                      "fill": "#3B82F6"
+                      "fill": "#1565c0"
                     },
                     {
                       "type": "text",
@@ -3301,7 +3534,7 @@
                           "id": "yyRY8",
                           "name": "deleteBtn",
                           "height": 36,
-                          "fill": "#EF4444",
+                          "fill": "#c62828",
                           "gap": 6,
                           "padding": [
                             0,
@@ -3558,7 +3791,7 @@
                           "id": "bZOBx",
                           "name": "formSave",
                           "height": 36,
-                          "fill": "#C9A962",
+                          "fill": "#00897b",
                           "gap": 6,
                           "padding": [
                             0,
@@ -3569,7 +3802,7 @@
                             {
                               "type": "text",
                               "id": "5ONQo",
-                              "fill": "#0A0A0A",
+                              "fill": "#FFFFFF",
                               "content": "SAVE LAYOUT",
                               "fontFamily": "IBM Plex Mono",
                               "fontSize": 11,
@@ -4016,7 +4249,7 @@
                           "height": 36,
                           "stroke": {
                             "thickness": 1,
-                            "fill": "#C9A962"
+                            "fill": "#00897b"
                           },
                           "gap": 6,
                           "padding": [
@@ -4028,7 +4261,7 @@
                             {
                               "type": "text",
                               "id": "zd9Um",
-                              "fill": "#C9A962",
+                              "fill": "#00897b",
                               "content": "FIND SIMILAR",
                               "fontFamily": "IBM Plex Mono",
                               "fontSize": 11,
@@ -4042,7 +4275,7 @@
                           "id": "m8q3H",
                           "name": "closeDetailBtn",
                           "height": 36,
-                          "fill": "#C9A962",
+                          "fill": "#00897b",
                           "padding": [
                             0,
                             20
@@ -4052,7 +4285,7 @@
                             {
                               "type": "text",
                               "id": "zMmxJ",
-                              "fill": "#0A0A0A",
+                              "fill": "#FFFFFF",
                               "content": "CLOSE",
                               "fontFamily": "IBM Plex Mono",
                               "fontSize": 11,
@@ -4087,7 +4320,7 @@
                   "fill": "#111111",
                   "stroke": {
                     "thickness": 1,
-                    "fill": "#EF4444"
+                    "fill": "#c62828"
                   },
                   "layout": "vertical",
                   "children": [
@@ -4096,12 +4329,12 @@
                       "id": "zsxox",
                       "name": "destructHeader",
                       "width": "fill_container",
-                      "fill": "#EF444415",
+                      "fill": "#c6282815",
                       "stroke": {
                         "thickness": {
                           "bottom": 1
                         },
-                        "fill": "#EF444440"
+                        "fill": "#c6282840"
                       },
                       "gap": 12,
                       "padding": [
@@ -4117,13 +4350,13 @@
                           "height": 20,
                           "iconFontName": "triangle-alert",
                           "iconFontFamily": "lucide",
-                          "fill": "#EF4444"
+                          "fill": "#c62828"
                         },
                         {
                           "type": "text",
                           "id": "y75xl",
-                          "fill": "#EF4444",
-                          "content": "Dangerous Action",
+                          "fill": "#c62828",
+                          "content": "Permanently Delete All Data",
                           "fontFamily": "Space Grotesk",
                           "fontSize": 16,
                           "fontWeight": "600"
@@ -4153,7 +4386,7 @@
                         {
                           "type": "text",
                           "id": "ZUzJL",
-                          "fill": "#EF4444",
+                          "fill": "#c62828",
                           "content": "This action is irreversible.",
                           "fontFamily": "IBM Plex Mono",
                           "fontSize": 13,
@@ -4266,7 +4499,7 @@
                           "id": "TB64X",
                           "name": "destructConfirm",
                           "height": 36,
-                          "fill": "#EF444440",
+                          "fill": "#c6282840",
                           "gap": 6,
                           "padding": [
                             0,
@@ -4350,7 +4583,7 @@
             {
               "type": "text",
               "id": "EN5QN",
-              "fill": "#C9A962",
+              "fill": "#00897b",
               "content": "INLINE FORM ERRORS",
               "fontFamily": "IBM Plex Mono",
               "fontSize": 11,
@@ -4423,7 +4656,7 @@
                     {
                       "type": "text",
                       "id": "v4nGj",
-                      "fill": "#777777",
+                      "fill": "#c62828",
                       "content": "FILE UPLOAD",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 11,
@@ -4439,7 +4672,7 @@
                       "fill": "#0A0A0A",
                       "stroke": {
                         "thickness": 1,
-                        "fill": "#EF4444"
+                        "fill": "#c62828"
                       },
                       "padding": [
                         0,
@@ -4472,12 +4705,12 @@
                           "height": 14,
                           "iconFontName": "circle-x",
                           "iconFontFamily": "lucide",
-                          "fill": "#EF4444"
+                          "fill": "#c62828"
                         },
                         {
                           "type": "text",
                           "id": "bza21",
-                          "fill": "#EF4444",
+                          "fill": "#c62828",
                           "content": "File must be .csv format",
                           "fontFamily": "IBM Plex Mono",
                           "fontSize": 11,
@@ -4559,7 +4792,7 @@
                   "id": "LKFeM",
                   "name": "go404Btn",
                   "height": 40,
-                  "fill": "#C9A962",
+                  "fill": "#00897b",
                   "gap": 8,
                   "padding": [
                     0,
@@ -4574,12 +4807,12 @@
                       "height": 16,
                       "iconFontName": "arrow-left",
                       "iconFontFamily": "lucide",
-                      "fill": "#0A0A0A"
+                      "fill": "#FFFFFF"
                     },
                     {
                       "type": "text",
                       "id": "V0uHF",
-                      "fill": "#0A0A0A",
+                      "fill": "#FFFFFF",
                       "content": "GO TO DASHBOARD",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 12,
@@ -4640,7 +4873,7 @@
                   "type": "text",
                   "id": "2HF2U",
                   "fill": "#777777",
-                  "content": "An unexpected error occurred. Please try again.",
+                  "content": "We encountered an unexpected error. Please try again.",
                   "textAlign": "center",
                   "fontFamily": "IBM Plex Mono",
                   "fontSize": 12,
@@ -4653,7 +4886,7 @@
                   "height": 40,
                   "stroke": {
                     "thickness": 1,
-                    "fill": "#C9A962"
+                    "fill": "#00897b"
                   },
                   "gap": 8,
                   "padding": [
@@ -4669,12 +4902,12 @@
                       "height": 16,
                       "iconFontName": "refresh-cw",
                       "iconFontFamily": "lucide",
-                      "fill": "#C9A962"
+                      "fill": "#00897b"
                     },
                     {
                       "type": "text",
                       "id": "v8HSU",
-                      "fill": "#C9A962",
+                      "fill": "#00897b",
                       "content": "RETRY",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 12,
@@ -4726,7 +4959,7 @@
                   "type": "text",
                   "id": "EgoT6",
                   "fill": "#FFFFFF",
-                  "content": "No Requirements Imported",
+                  "content": "No Requirements Yet",
                   "fontFamily": "Space Grotesk",
                   "fontSize": 18,
                   "fontWeight": "600"
@@ -4735,7 +4968,7 @@
                   "type": "text",
                   "id": "Nq4Fy",
                   "fill": "#777777",
-                  "content": "Import a CSV file to get started with requirement analysis.",
+                  "content": "Import a CSV export from Windchill PLM to get started.",
                   "textAlign": "center",
                   "fontFamily": "IBM Plex Mono",
                   "fontSize": 12,
@@ -4746,7 +4979,7 @@
                   "id": "llHdO",
                   "name": "emptyBtn",
                   "height": 40,
-                  "fill": "#C9A962",
+                  "fill": "#00897b",
                   "gap": 8,
                   "padding": [
                     0,
@@ -4761,12 +4994,12 @@
                       "height": 16,
                       "iconFontName": "upload",
                       "iconFontFamily": "lucide",
-                      "fill": "#0A0A0A"
+                      "fill": "#FFFFFF"
                     },
                     {
                       "type": "text",
                       "id": "e0rza",
-                      "fill": "#0A0A0A",
+                      "fill": "#FFFFFF",
                       "content": "IMPORT CSV",
                       "fontFamily": "IBM Plex Mono",
                       "fontSize": 12,
@@ -4818,7 +5051,7 @@
                   "type": "text",
                   "id": "mlNDX",
                   "fill": "#777777",
-                  "content": "No results found for \"thermal shielding v3\". Try a different query.",
+                  "content": "No requirements matched your query. Try different keywords or adjust filters.",
                   "textAlign": "center",
                   "fontFamily": "IBM Plex Mono",
                   "fontSize": 12,
@@ -4867,7 +5100,7 @@
             {
               "type": "text",
               "id": "whj0i",
-              "fill": "#C9A962",
+              "fill": "#00897b",
               "content": "VALIDATION ERROR SUMMARY",
               "fontFamily": "IBM Plex Mono",
               "fontSize": 11,
@@ -4879,10 +5112,10 @@
               "id": "Lkm6J",
               "name": "Error Banner",
               "width": 600,
-              "fill": "#EF444410",
+              "fill": "#c6282810",
               "stroke": {
                 "thickness": 1,
-                "fill": "#EF444440"
+                "fill": "#c6282840"
               },
               "gap": 12,
               "padding": [
@@ -4897,7 +5130,7 @@
                   "height": 20,
                   "iconFontName": "triangle-alert",
                   "iconFontFamily": "lucide",
-                  "fill": "#EF4444"
+                  "fill": "#c62828"
                 },
                 {
                   "type": "frame",
@@ -4910,7 +5143,7 @@
                     {
                       "type": "text",
                       "id": "N78KL",
-                      "fill": "#EF4444",
+                      "fill": "#c62828",
                       "content": "Please fix the following errors:",
                       "fontFamily": "Space Grotesk",
                       "fontSize": 14,
