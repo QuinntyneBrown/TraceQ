@@ -1,0 +1,43 @@
+.history-container {
+  mat-progress-bar {
+    margin-bottom: 8px;
+  }
+}
+
+.count-badge {
+  display: inline-block;
+  min-width: 28px;
+  text-align: center;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+
+  &.inserted {
+    background-color: rgba(46, 125, 50, 0.1);
+    color: #2e7d32;
+  }
+
+  &.updated {
+    background-color: rgba(21, 101, 192, 0.1);
+    color: #1565c0;
+  }
+
+  &.errors {
+    background-color: rgba(198, 40, 40, 0.1);
+    color: #c62828;
+  }
+}
+
+.no-data-row {
+  .no-data {
+    text-align: center;
+    padding: 24px;
+    color: rgba(0, 0, 0, 0.4);
+    font-style: italic;
+  }
+}
+
+:host-context(.dark-theme) .no-data-row .no-data {
+  color: rgba(255, 255, 255, 0.4);
+}

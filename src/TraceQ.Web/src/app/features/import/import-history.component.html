@@ -1,0 +1,58 @@
+<div class="history-container">
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+  <table mat-table [dataSource]="dataSource" class="dense-table full-width">
+    <!-- Date Column -->
+    <ng-container matColumnDef="importedAt">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let row">{{ row.importedAt | date:'short' }}</td>
+    </ng-container>
+
+    <!-- Filename Column -->
+    <ng-container matColumnDef="fileName">
+      <th mat-header-cell *matHeaderCellDef>Filename</th>
+      <td mat-cell *matCellDef="let row">{{ row.fileName }}</td>
+    </ng-container>
+
+    <!-- Inserted Column -->
+    <ng-container matColumnDef="insertedCount">
+      <th mat-header-cell *matHeaderCellDef>Inserted</th>
+      <td mat-cell *matCellDef="let row">
+        <span class="count-badge inserted">{{ row.insertedCount }}</span>
+      </td>
+    </ng-container>
+
+    <!-- Updated Column -->
+    <ng-container matColumnDef="updatedCount">
+      <th mat-header-cell *matHeaderCellDef>Updated</th>
+      <td mat-cell *matCellDef="let row">
+        <span class="count-badge updated">{{ row.updatedCount }}</span>
+      </td>
+    </ng-container>
+
+    <!-- Errors Column -->
+    <ng-container matColumnDef="errorCount">
+      <th mat-header-cell *matHeaderCellDef>Errors</th>
+      <td mat-cell *matCellDef="let row">
+        <span class="count-badge" [class.errors]="row.errorCount > 0">{{ row.errorCount }}</span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!-- No Data Row -->
+    <tr class="mat-row no-data-row" *matNoDataRow>
+      <td class="mat-cell" [colSpan]="displayedColumns.length">
+        <div class="no-data" *ngIf="!isLoading">No import history found.</div>
+      </td>
+    </tr>
+  </table>
+
+  <mat-paginator [length]="totalCount"
+                 [pageSize]="pageSize"
+                 [pageSizeOptions]="[5, 10, 25, 50]"
+                 (page)="onPageChange($event)"
+                 showFirstLastButtons>
+  </mat-paginator>
+</div>

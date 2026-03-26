@@ -1,0 +1,51 @@
+<div class="upload-container">
+  <!-- Drop Zone -->
+  <div class="drop-zone"
+       [class.drag-over]="isDragOver"
+       (dragover)="onDragOver($event)"
+       (dragleave)="onDragLeave($event)"
+       (drop)="onDrop($event)"
+       *ngIf="!selectedFile">
+    <mat-icon class="drop-zone-icon">cloud_upload</mat-icon>
+    <div class="drop-zone-text">
+      Drag and drop a CSV file here, or
+      <label class="browse-link">
+        browse
+        <input type="file" accept=".csv" (change)="onFileSelected($event)" hidden>
+      </label>
+    </div>
+    <div class="drop-zone-hint">Accepts .csv files up to 50 MB</div>
+  </div>
+
+  <!-- Selected File Info -->
+  <mat-card *ngIf="selectedFile" class="file-info-card">
+    <mat-card-content>
+      <div class="file-info">
+        <mat-icon class="file-icon">description</mat-icon>
+        <div class="file-details">
+          <span class="file-name">{{ selectedFile.name }}</span>
+          <span class="file-size">{{ formatFileSize(selectedFile.size) }}</span>
+        </div>
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="removeFile()" matTooltip="Remove file" *ngIf="!isUploading">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <!-- Progress Bar -->
+      <mat-progress-bar *ngIf="isUploading"
+                        mode="determinate"
+                        [value]="uploadProgress"
+                        class="upload-progress">
+      </mat-progress-bar>
+      <span *ngIf="isUploading" class="progress-text">{{ uploadProgress }}%</span>
+    </mat-card-content>
+
+    <mat-card-actions align="end" *ngIf="!isUploading">
+      <button mat-raised-button color="accent" (click)="upload()">
+        <mat-icon>upload</mat-icon>
+        Upload & Import
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

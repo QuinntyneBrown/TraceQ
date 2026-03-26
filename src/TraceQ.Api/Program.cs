@@ -3,6 +3,7 @@ using Serilog;
 using TraceQ.Core.Interfaces;
 using TraceQ.Infrastructure;
 using TraceQ.Infrastructure.Data;
+using TraceQ.Infrastructure.Health;
 using TraceQ.Infrastructure.Services;
 
 Log.Logger = new LoggerConfiguration()
@@ -24,20 +25,30 @@ try
         .WriteTo.Console()
         .WriteTo.File("./logs/traceq-.log", rollingInterval: RollingInterval.Day));
 
-    // Configure Kestrel for localhost:5000 only
+    // -------------------------------------------------------------------------
+    // L2-7.1: Localhost-Only Binding
+    // TraceQ is designed for air-gapped environments. Kestrel is explicitly
+    // configured to bind only to the loopback interface (127.0.0.1:5000).
+    // This prevents any network-accessible exposure of the API.
+    // The "Urls" key in appsettings.json also enforces http://localhost:5000.
+    // -------------------------------------------------------------------------
     builder.WebHost.ConfigureKestrel(options =>
     {
         options.ListenLocalhost(5000);
     });
 
-    // Configure CORS for localhost:4200 only
+    // -------------------------------------------------------------------------
+    // L2-7.4: CORS Configuration
+    // Only the local Angular frontend at http://localhost:4200 is permitted.
+    // AllowAnyOrigin() is NOT used. Methods and headers are explicitly listed.
+    // -------------------------------------------------------------------------
     builder.Services.AddCors(options =>
     {
         options.AddDefaultPolicy(policy =>
         {
             policy.WithOrigins("http://localhost:4200")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
+                .WithMethods("GET", "POST", "PUT", "DELETE")
+                .WithHeaders("Content-Type", "Authorization");
         });
     });
 
@@ -48,10 +59,28 @@ try
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=traceq.db";
     builder.Services.AddTraceQInfrastructure(connectionString);
 
-    // Register placeholder services for IEmbeddingService and IVectorStore
-    // These will be replaced by real implementations in later sprints
+    // Register placeholder for IEmbeddingService (replaced by real impl in later sprint)
     builder.Services.AddSingleton<IEmbeddingService, NoOpEmbeddingService>();
-    builder.Services.AddSingleton<IVectorStore, NoOpVectorStore>();
+
+    // Register Qdrant vector store (replaces NoOpVectorStore)
+    builder.Services.AddQdrantVectorStore(builder.Configuration);
+
+    // -------------------------------------------------------------------------
+    // L2-7.2: Network Egress Verification
+    // All NuGet packages used in TraceQ have been audited:
+    //   - CsvHelper: File-based CSV parsing, no network access required.
+    //   - Microsoft.EntityFrameworkCore.Sqlite: Local SQLite database, no network.
+    //   - Microsoft.ML.OnnxRuntime: Local ONNX model inference, no network.
+    //   - Qdrant.Client: Connects to localhost-only Qdrant instance.
+    //   - Serilog: Writes to console and local files only.
+    //   - No HttpClient is configured to reach external URLs.
+    // The AirGapHealthCheck verifies at startup that the ONNX model and vocab
+    // files exist locally, and that Qdrant is reachable on localhost.
+    // -------------------------------------------------------------------------
+
+    // Register health checks for air-gap compliance verification
+    builder.Services.AddHealthChecks()
+        .AddCheck<AirGapHealthCheck>("air-gap");
 
     var app = builder.Build();
 
@@ -62,10 +91,16 @@ try
         await db.Database.EnsureCreatedAsync();
     }
 
+    // Initialize the vector store (connects to Qdrant, creates collection if needed)
+    // If Qdrant is unreachable, the store enters degraded mode gracefully
+    var vectorStore = app.Services.GetRequiredService<IVectorStore>();
+    await vectorStore.InitializeAsync();
+
     // Configure the HTTP request pipeline
     app.UseSerilogRequestLogging();
     app.UseCors();
     app.MapControllers();
+    app.MapHealthChecks("/health");
 
     app.Run();
 }
@@ -77,3 +112,6 @@ finally
 {
     Log.CloseAndFlush();
 }
+
+// Expose Program class for WebApplicationFactory in integration tests
+public partial class Program { }

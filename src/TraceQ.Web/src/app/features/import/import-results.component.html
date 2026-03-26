@@ -1,0 +1,32 @@
+<div class="results-container">
+  <h3>Import Summary</h3>
+  <div class="results-grid">
+    <mat-card class="stat-card inserted">
+      <mat-card-content>
+        <div class="stat-value">{{ result.insertedCount }}</div>
+        <div class="stat-label">Inserted</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card updated">
+      <mat-card-content>
+        <div class="stat-value">{{ result.updatedCount }}</div>
+        <div class="stat-label">Updated</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card skipped">
+      <mat-card-content>
+        <div class="stat-value">{{ result.skippedCount }}</div>
+        <div class="stat-label">Skipped</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card errors" [class.has-errors]="result.errorCount > 0">
+      <mat-card-content>
+        <div class="stat-value">{{ result.errorCount }}</div>
+        <div class="stat-label">Errors</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

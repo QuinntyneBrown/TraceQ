@@ -1,0 +1,57 @@
+.results-container {
+  margin: 24px 0;
+
+  h3 {
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 16px;
+
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  &.inserted .stat-value {
+    color: #2e7d32;
+  }
+
+  &.updated .stat-value {
+    color: #1565c0;
+  }
+
+  &.skipped .stat-value {
+    color: #f57f17;
+  }
+
+  &.errors .stat-value {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  &.has-errors .stat-value {
+    color: #c62828;
+  }
+}
+
+:host-context(.dark-theme) .stat-card .stat-label {
+  color: rgba(255, 255, 255, 0.6);
+}

@@ -1,0 +1,90 @@
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h2 {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .spacer {
+    flex: 1 1 auto;
+  }
+
+  .action-btn {
+    margin-left: 8px;
+
+    mat-icon {
+      margin-right: 4px;
+      font-size: 18px;
+      height: 18px;
+      width: 18px;
+    }
+  }
+}
+
+.dashboard-grid {
+  height: calc(100vh - 140px);
+}
+
+.widget-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  mat-card-header {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    min-height: 40px;
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+  }
+
+  .widget-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .remove-btn {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover .remove-btn {
+    opacity: 1;
+  }
+}
+
+.widget-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+
+.placeholder-content {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.3);
+
+  .placeholder-icon {
+    font-size: 48px;
+    height: 48px;
+    width: 48px;
+  }
+
+  p {
+    margin-top: 8px;
+    font-size: 13px;
+  }
+}
+
+:host-context(.dark-theme) .placeholder-content {
+  color: rgba(255, 255, 255, 0.3);
+}

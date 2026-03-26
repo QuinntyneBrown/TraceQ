@@ -8,13 +8,15 @@ namespace TraceQ.Api.Controllers;
 public class ImportController : ControllerBase
 {
     private readonly IImportService _importService;
+    private readonly IAuditService _auditService;
     private readonly ILogger<ImportController> _logger;
 
     private const long MaxFileSize = 50 * 1024 * 1024; // 50 MB
 
-    public ImportController(IImportService importService, ILogger<ImportController> logger)
+    public ImportController(IImportService importService, IAuditService auditService, ILogger<ImportController> logger)
     {
         _importService = importService;
+        _auditService = auditService;
         _logger = logger;
     }
 
@@ -42,6 +44,9 @@ public class ImportController : ControllerBase
         {
             using var stream = file.OpenReadStream();
             var result = await _importService.ImportAsync(stream, file.FileName);
+
+            // Log import to audit trail
+            await _auditService.LogImportAsync(file.FileName, result.InsertedCount, result.UpdatedCount, result.ErrorCount);
 
             if (result.ErrorCount > 0 && result.InsertedCount == 0 && result.UpdatedCount == 0 && result.SkippedCount == 0)
             {
