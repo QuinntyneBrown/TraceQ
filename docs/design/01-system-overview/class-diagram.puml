@@ -1,0 +1,187 @@
+@startuml class-diagram
+!pragma layout smetana
+skinparam dpi 150
+skinparam pageMargin 10
+skinparam classAttributeIconSize 0
+skinparam classFontSize 10
+skinparam classAttributeFontSize 9
+skinparam packageFontSize 11
+scale max 1024 width
+scale max 1400 height
+
+title TraceQ — System Class Diagram
+
+package "TraceQ.Core.Models" {
+  class Requirement {
+    +Id : Guid
+    +RequirementNumber : string
+    +Name : string
+    +Description : string
+    +Type : string
+    +State : string
+    +Priority : string
+    +Owner : string
+    +Module : string
+    +ParentNumber : string
+    +TracedTo : string
+    +IsEmbedded : bool
+    +ImportedAt : DateTime
+    +ImportBatchId : Guid
+  }
+
+  class ImportBatch {
+    +Id : Guid
+    +FileName : string
+    +ImportedAt : DateTime
+    +InsertedCount : int
+    +UpdatedCount : int
+    +ErrorCount : int
+    +SkippedCount : int
+  }
+
+  class ImportRecord {
+    +Id : Guid
+    +ImportBatchId : Guid
+    +RequirementNumber : string
+    +Status : ImportStatus
+    +ErrorMessage : string
+  }
+
+  class AuditLogEntry {
+    +Id : Guid
+    +EventType : AuditEventType
+    +Details : string
+    +Timestamp : DateTime
+  }
+
+  class DashboardLayout {
+    +Id : Guid
+    +Name : string
+    +LayoutJson : string
+    +CreatedAt : DateTime
+    +UpdatedAt : DateTime
+  }
+
+  enum ImportStatus {
+    Inserted
+    Updated
+    Skipped
+    Error
+  }
+
+  enum AuditEventType {
+    Import
+    Search
+    Delete
+  }
+
+  ImportBatch "1" --> "*" ImportRecord
+  ImportBatch "1" --> "*" Requirement
+  ImportRecord ..> ImportStatus
+  AuditLogEntry ..> AuditEventType
+}
+
+package "TraceQ.Core.Interfaces" {
+  interface ISearchService {
+    +SemanticSearchAsync(request) : Task<List<SearchResultDto>>
+    +FindSimilarAsync(id, top) : Task<List<SearchResultDto>>
+    +GetSimilarityClustersAsync(threshold) : Task<List<SimilarityClusterDto>>
+  }
+
+  interface IVectorStore {
+    +InitializeAsync() : Task
+    +UpsertAsync(id, vector, payload) : Task
+    +UpsertBatchAsync(items) : Task
+    +DeleteAsync(id) : Task
+    +SearchAsync(vector, top, filters) : Task<List<(Guid, float)>>
+  }
+
+  interface IEmbeddingService {
+    +GenerateEmbeddingAsync(text) : Task<float[]>
+    +GenerateBatchEmbeddingsAsync(items) : Task<Dict<string, float[]>>
+  }
+
+  interface IImportService {
+    +ImportAsync(stream, fileName) : Task<ImportResultDto>
+    +GetHistoryAsync(page, size) : Task<PaginatedResultDto>
+    +GetBatchDetailAsync(batchId) : Task<ImportBatchDetailDto>
+  }
+
+  interface ICsvParser {
+    +ParseAsync(stream) : Task<List<RequirementParseResult>>
+  }
+
+  interface IRequirementRepository {
+    +GetByIdAsync(id) : Task<Requirement>
+    +GetByNumberAsync(number) : Task<Requirement>
+    +GetByIdsAsync(ids) : Task<List<Requirement>>
+    +UpsertAsync(requirement) : Task
+    +DeleteAsync(id) : Task
+    +GetAllAsync(params) : Task<PaginatedResult>
+    +GetFacetsAsync() : Task<FacetsDto>
+    +GetDistributionAsync(field) : Task<List<DistributionDto>>
+    +GetTraceabilityCoverageAsync() : Task<TraceabilityCoverageDto>
+    +GetUnembeddedAsync() : Task<List<Requirement>>
+    +MarkAsEmbeddedAsync(ids) : Task
+  }
+
+  interface IDashboardLayoutRepository {
+    +GetAllAsync() : Task<List<DashboardLayout>>
+    +GetByIdAsync(id) : Task<DashboardLayout>
+    +SaveAsync(layout) : Task<DashboardLayout>
+    +DeleteAsync(id) : Task
+  }
+
+  interface IAuditService {
+    +LogImportAsync(details) : Task
+    +LogSearchAsync(details) : Task
+    +LogDeletionAsync(details) : Task
+    +GetLogsAsync(params) : Task<PaginatedResult>
+  }
+}
+
+package "TraceQ.Infrastructure" {
+  class SearchService implements ISearchService
+  class QdrantVectorStore implements IVectorStore
+  class OnnxEmbeddingService implements IEmbeddingService
+  class ImportService implements IImportService
+  class CsvParser implements ICsvParser
+  class RequirementRepository implements IRequirementRepository
+  class DashboardLayoutRepository implements IDashboardLayoutRepository
+  class AuditService implements IAuditService
+  class EmbeddingBackgroundService
+
+  SearchService --> IEmbeddingService
+  SearchService --> IVectorStore
+  SearchService --> IRequirementRepository
+  ImportService --> ICsvParser
+  ImportService --> IRequirementRepository
+  ImportService --> IEmbeddingService
+  ImportService --> IVectorStore
+  ImportService --> IAuditService
+  EmbeddingBackgroundService --> IRequirementRepository
+  EmbeddingBackgroundService --> IEmbeddingService
+  EmbeddingBackgroundService --> IVectorStore
+}
+
+package "TraceQ.Api.Controllers" {
+  class SearchController
+  class RequirementsController
+  class ImportController
+  class ReportsController
+  class DashboardController
+  class AuditController
+
+  SearchController --> ISearchService
+  SearchController --> IAuditService
+  RequirementsController --> IRequirementRepository
+  RequirementsController --> ISearchService
+  RequirementsController --> IVectorStore
+  ImportController --> IImportService
+  ReportsController --> IRequirementRepository
+  ReportsController --> ISearchService
+  DashboardController --> IDashboardLayoutRepository
+  AuditController --> IAuditService
+}
+
+@enduml

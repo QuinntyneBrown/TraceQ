@@ -1,0 +1,113 @@
+@startuml sequence-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+skinparam responseMessageBelowArrow true
+
+' ════════════════════════════════════════════
+' Diagram 1: Single Embedding Generation
+' ════════════════════════════════════════════
+
+title **Single Embedding Generation**
+
+participant "Caller\n(ImportService / SearchService)" as Caller
+participant "OnnxEmbeddingService" as Onnx
+participant "WordPieceTokenizer" as Tokenizer
+participant "InferenceSession\n(ONNX Runtime)" as Session
+
+Caller -> Onnx: GenerateEmbeddingAsync(text)
+activate Onnx
+
+Onnx -> Tokenizer: Tokenize(text)
+activate Tokenizer
+Tokenizer -> Tokenizer: lowercase, split punctuation
+Tokenizer -> Tokenizer: WordPiece lookup (vocab.txt)
+Tokenizer -> Tokenizer: Add [CLS], [SEP], pad to 256
+Tokenizer --> Onnx: TokenizedInput\n(input_ids, attention_mask, token_type_ids)
+deactivate Tokenizer
+
+Onnx -> Session: Run(input_ids, attention_mask, token_type_ids)
+activate Session
+note right of Session
+    Input shapes: [1, 256]
+    Model: all-MiniLM-L6-v2.onnx
+end note
+Session --> Onnx: last_hidden_state [1, 256, 384]
+deactivate Session
+
+Onnx -> Onnx: Mean pool with attention mask\n(sum weighted embeddings / mask count)
+
+Onnx -> Onnx: L2 normalize\n(divide by vector magnitude)
+
+Onnx --> Caller: float[384] (unit vector)
+deactivate Onnx
+
+@enduml
+
+
+@startuml sequence-diagram-background
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam sequenceMessageAlign center
+skinparam shadowing false
+skinparam responseMessageBelowArrow true
+
+' ════════════════════════════════════════════
+' Diagram 2: Background Embedding Service
+' ════════════════════════════════════════════
+
+title **Background Embedding Service (every 30s)**
+
+participant "Timer" as Timer
+participant "EmbeddingBackgroundService" as BgService
+participant "RequirementRepository\n(SQLite)" as Repo
+participant "OnnxEmbeddingService" as Onnx
+participant "QdrantVectorStore" as VectorStore
+database "Qdrant" as Qdrant
+
+Timer -> BgService: ExecuteAsync (every 30s)
+activate BgService
+
+BgService -> Repo: GetUnembeddedAsync()
+activate Repo
+Repo --> BgService: List<Requirement>
+deactivate Repo
+
+alt Has unembedded requirements
+
+    BgService -> BgService: Build input list\n("{Number} {Name} {Description}")
+
+    BgService -> Onnx: GenerateBatchEmbeddingsAsync(items)
+    activate Onnx
+    loop for each item
+        Onnx -> Onnx: Tokenize, Infer, Pool, Normalize
+    end
+    Onnx --> BgService: Dictionary<string, float[]>
+    deactivate Onnx
+
+    BgService -> VectorStore: UpsertBatchAsync(vectors)
+    activate VectorStore
+    loop chunks of 100
+        VectorStore -> Qdrant: gRPC Upsert\n(id, vector[384], payload)
+        Qdrant --> VectorStore: OK
+    end
+    VectorStore --> BgService: Complete
+    deactivate VectorStore
+
+    BgService -> Repo: MarkAsEmbeddedAsync(ids)
+    activate Repo
+    Repo --> BgService: Done
+    deactivate Repo
+
+else No unembedded requirements
+    BgService -> BgService: Skip (nothing to process)
+end
+
+deactivate BgService
+
+@enduml

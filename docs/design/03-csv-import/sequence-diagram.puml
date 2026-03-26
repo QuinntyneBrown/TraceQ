@@ -1,0 +1,150 @@
+@startuml sequence-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+title CSV Import Pipeline -- Sequence Diagram
+
+actor User
+participant "ImportComponent\n(Angular)" as IC
+participant "ImportService\n(Angular)" as IS
+participant "ImportController\n(API)" as Ctrl
+participant "ImportService\n(Backend)" as Svc
+participant "CsvParser" as Parser
+participant "RequirementRepository" as Repo
+participant "OnnxEmbeddingService" as Embed
+participant "QdrantVectorStore" as Qdrant
+participant "AuditService" as Audit
+database "SQLite" as DB
+database "Qdrant DB" as QDB
+
+== CSV Upload Flow ==
+
+User -> IC : drag-drop CSV file
+activate IC
+
+IC -> IC : validate file\n(.csv, <50 MB)
+IC -> IS : uploadCsv(file)
+activate IS
+
+IS -> Ctrl : POST /api/import/csv\n(multipart form)
+activate Ctrl
+
+Ctrl -> Svc : ImportAsync(stream, fileName)
+activate Svc
+
+Svc -> Parser : ParseAsync(stream)
+activate Parser
+Parser -> Parser : detect encoding (BOM)
+Parser -> Parser : parse rows via\nWindchillRequirementMap
+Parser --> Svc : List<RequirementParseResult>
+deactivate Parser
+
+Svc -> Svc : create ImportBatch
+
+loop For each RequirementParseResult
+    alt Parse error
+        Svc -> Svc : create ImportRecord(Error)
+    else Parse success
+        Svc -> Repo : GetByNumberAsync(number)
+        activate Repo
+        Repo -> DB : SELECT by number
+        Repo --> Svc : Requirement?
+        deactivate Repo
+
+        alt New requirement
+            Svc -> Repo : UpsertAsync(requirement)
+            activate Repo
+            Repo -> DB : INSERT
+            Repo --> Svc
+            deactivate Repo
+            Svc -> Svc : create ImportRecord(Inserted)
+        else Changed requirement
+            Svc -> Repo : UpsertAsync(updated)\nIsEmbedded = false
+            activate Repo
+            Repo -> DB : UPDATE
+            Repo --> Svc
+            deactivate Repo
+            Svc -> Svc : create ImportRecord(Updated)
+        else Unchanged requirement
+            Svc -> Svc : create ImportRecord(Skipped)
+        end
+    end
+end
+
+Svc -> Repo : save ImportBatch + ImportRecords
+activate Repo
+Repo -> DB : INSERT batch & records
+Repo --> Svc
+deactivate Repo
+
+Svc -> Embed : GenerateBatchEmbeddingsAsync\n(new/changed requirements)
+activate Embed
+Embed --> Svc : List<float[]>
+deactivate Embed
+
+Svc -> Qdrant : UpsertBatchAsync(points)\nchunked at 100
+activate Qdrant
+Qdrant -> QDB : upsert vectors
+Qdrant --> Svc
+deactivate Qdrant
+
+Svc -> Repo : MarkAsEmbeddedAsync(ids)
+activate Repo
+Repo -> DB : UPDATE IsEmbedded = true
+Repo --> Svc
+deactivate Repo
+
+Svc --> Ctrl : ImportResultDto
+deactivate Svc
+
+Ctrl -> Audit : LogImportAsync\n(fileName, counts)
+activate Audit
+Audit -> DB : INSERT audit log
+Audit --> Ctrl
+deactivate Audit
+
+Ctrl --> IS : JSON response
+deactivate Ctrl
+
+IS --> IC : ImportResult
+deactivate IS
+
+IC -> User : show summary\n(inserted/updated/skipped/errors)
+deactivate IC
+
+== Background Embedding Safety Net ==
+
+participant "EmbeddingBackground\nService" as BG
+
+loop every 30 seconds
+    BG -> Repo : GetUnembeddedAsync()
+    activate Repo
+    Repo -> DB : SELECT WHERE\nIsEmbedded = false
+    Repo --> BG : List<Requirement>
+    deactivate Repo
+
+    opt Unembedded requirements found
+        BG -> Embed : GenerateBatchEmbeddingsAsync\n(requirements)
+        activate Embed
+        Embed --> BG : List<float[]>
+        deactivate Embed
+
+        BG -> Qdrant : UpsertBatchAsync(points)
+        activate Qdrant
+        Qdrant -> QDB : upsert vectors
+        Qdrant --> BG
+        deactivate Qdrant
+
+        BG -> Repo : MarkAsEmbeddedAsync(ids)
+        activate Repo
+        Repo -> DB : UPDATE IsEmbedded = true
+        Repo --> BG
+        deactivate Repo
+    end
+end
+
+@enduml

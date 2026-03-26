@@ -1,0 +1,188 @@
+@startuml class-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 10
+skinparam classAttributeFontSize 9
+skinparam classStereotypeFontSize 9
+skinparam packageFontSize 10
+skinparam arrowFontSize 9
+skinparam noteFontSize 9
+skinparam defaultFontSize 9
+skinparam linetype ortho
+
+skinparam class {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+    ArrowColor #A80036
+}
+
+package "Angular Frontend" #E8F5E9 {
+    class SearchComponent <<Component>> {
+        - query: string
+        - filters: SearchFilters
+        - results: SearchResult[]
+        - facets: Facets
+        + onSearch(): void
+        + onFindSimilar(id: string): void
+        + loadFacets(): void
+    }
+
+    class "SearchService\n(Angular)" as AngularSearchService <<Service>> {
+        + search(request: SearchRequest): Observable<SearchResult[]>
+        + findSimilar(id: string, top?: number): Observable<SearchResult[]>
+    }
+
+    class RequirementsService <<Service>> {
+        + getFacets(): Observable<Facets>
+    }
+}
+
+package "API Layer" #E3F2FD {
+    class SearchController <<Controller>> {
+        - _searchService: ISearchService
+        - _auditService: IAuditService
+        + Search(request: SearchRequestDto): List<SearchResultDto>
+        + FindSimilar(id: Guid, top: int): List<SearchResultDto>
+    }
+}
+
+package "Application Services" #FFF3E0 {
+    interface ISearchService <<interface>> {
+        + SemanticSearchAsync(request: SearchRequestDto): Task<List<SearchResultDto>>
+        + FindSimilarAsync(id: Guid, top: int): Task<List<SearchResultDto>>
+    }
+
+    class SearchService <<Service>> {
+        - _embeddingService: IEmbeddingService
+        - _vectorStore: IVectorStore
+        - _requirementRepo: IRequirementRepository
+        + SemanticSearchAsync(request: SearchRequestDto): Task<List<SearchResultDto>>
+        + FindSimilarAsync(id: Guid, top: int): Task<List<SearchResultDto>>
+    }
+
+    interface IEmbeddingService <<interface>> {
+        + GenerateEmbeddingAsync(text: string): Task<float[]>
+    }
+
+    class OnnxEmbeddingService <<Singleton>> {
+        - _session: InferenceSession
+        - _tokenizer: WordPieceTokenizer
+        + GenerateEmbeddingAsync(text: string): Task<float[]>
+        - MeanPool(hiddenStates: Tensor, mask: Tensor): float[]
+        - L2Normalize(vector: float[]): float[]
+    }
+
+    interface IAuditService <<interface>> {
+        + LogSearchAsync(query: string, resultCount: int): Task
+    }
+
+    class AuditService <<Service>> {
+        - _dbContext: AppDbContext
+        + LogSearchAsync(query: string, resultCount: int): Task
+    }
+}
+
+package "Infrastructure" #FCE4EC {
+    interface IVectorStore <<interface>> {
+        + SearchAsync(vector: float[], top: int, filters: Dictionary<string,string>): Task<List<(Guid, float)>>
+    }
+
+    class QdrantVectorStore <<Service>> {
+        - _client: QdrantClient
+        - _collectionName: string
+        + SearchAsync(vector: float[], top: int, filters: Dictionary<string,string>): Task<List<(Guid, float)>>
+        - BuildFilter(filters: Dictionary<string,string>): Filter
+    }
+
+    interface IRequirementRepository <<interface>> {
+        + GetByIdsAsync(ids: IEnumerable<Guid>): Task<List<Requirement>>
+        + GetFacetsAsync(): Task<FacetsDto>
+    }
+
+    class RequirementRepository <<Repository>> {
+        - _dbContext: AppDbContext
+        + GetByIdsAsync(ids: IEnumerable<Guid>): Task<List<Requirement>>
+        + GetFacetsAsync(): Task<FacetsDto>
+    }
+}
+
+package "DTOs & Models" #F3E5F5 {
+    class SearchRequestDto <<DTO>> {
+        + Query: string
+        + Top: int
+        + Filters: SearchFiltersDto
+    }
+
+    class SearchFiltersDto <<DTO>> {
+        + Type: string?
+        + State: string?
+        + Priority: string?
+        + Module: string?
+        + Owner: string?
+    }
+
+    class SearchResultDto <<DTO>> {
+        + Id: Guid
+        + RequirementNumber: string
+        + Name: string
+        + Description: string
+        + Score: float
+    }
+
+    class FacetsDto <<DTO>> {
+        + Types: List<FacetValue>
+        + States: List<FacetValue>
+        + Priorities: List<FacetValue>
+        + Modules: List<FacetValue>
+        + Owners: List<FacetValue>
+    }
+
+    class Requirement <<Entity>> {
+        + Id: Guid
+        + RequirementNumber: string
+        + Name: string
+        + Description: string
+        + Type: string
+        + State: string
+        + Priority: string
+        + Module: string
+        + Owner: string
+        + CreatedAt: DateTime
+        + UpdatedAt: DateTime
+    }
+}
+
+' Relationships
+SearchComponent --> AngularSearchService : uses
+SearchComponent --> RequirementsService : loads facets
+AngularSearchService ..> SearchController : HTTP POST\n/api/search
+RequirementsService ..> SearchController : HTTP GET\n/api/requirements/facets
+
+SearchController --> ISearchService : delegates
+SearchController --> IAuditService : logs
+
+ISearchService <|.. SearchService : implements
+SearchService --> IEmbeddingService : generates embeddings
+SearchService --> IVectorStore : vector search
+SearchService --> IRequirementRepository : fetches details
+
+IEmbeddingService <|.. OnnxEmbeddingService : implements
+IAuditService <|.. AuditService : implements
+IVectorStore <|.. QdrantVectorStore : implements
+IRequirementRepository <|.. RequirementRepository : implements
+
+SearchController ..> SearchRequestDto : receives
+SearchController ..> SearchResultDto : returns
+SearchRequestDto --> SearchFiltersDto : contains
+RequirementRepository ..> Requirement : queries
+SearchService ..> SearchResultDto : produces
+RequirementRepository ..> FacetsDto : produces
+
+QdrantVectorStore ..> "Qdrant\n(External)" as Qdrant : gRPC
+RequirementRepository ..> "SQLite\n(External)" as SQLite : EF Core
+AuditService ..> SQLite : EF Core
+
+@enduml

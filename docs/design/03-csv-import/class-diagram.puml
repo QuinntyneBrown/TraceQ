@@ -1,0 +1,217 @@
+@startuml class-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+
+package "Angular Frontend" <<Rectangle>> {
+    class ImportComponent {
+        +onFileDrop(event: DragEvent): void
+        +onFileSelect(event: Event): void
+        +upload(): void
+        +loadHistory(page: number): void
+        +viewBatch(batchId: string): void
+    }
+
+    class ImportService <<Angular Service>> {
+        +uploadCsv(file: File): Observable<ImportResult>
+        +getHistory(params?: PaginationParams): Observable<PaginatedResult<ImportBatch>>
+        +getBatch(batchId: string): Observable<ImportBatchDetail>
+    }
+}
+
+package "API Layer" <<Rectangle>> {
+    class ImportController {
+        -_importService: IImportService
+        -_auditService: IAuditService
+        +UploadCsv(file: IFormFile): Task<ImportResultDto>
+        +GetHistory(page: int, pageSize: int): Task<PaginatedResult<ImportBatchDto>>
+        +GetBatch(batchId: string): Task<ImportBatchDetailDto>
+    }
+}
+
+package "Service Layer" <<Rectangle>> {
+    interface IImportService {
+        +ImportAsync(stream: Stream, fileName: string): Task<ImportResultDto>
+    }
+
+    class ImportService {
+        -_csvParser: ICsvParser
+        -_requirementRepo: IRequirementRepository
+        -_embeddingService: IEmbeddingService
+        -_vectorStore: IVectorStore
+        +ImportAsync(stream: Stream, fileName: string): Task<ImportResultDto>
+    }
+
+    interface ICsvParser {
+        +ParseAsync(stream: Stream): Task<List<RequirementParseResult>>
+    }
+
+    class CsvParser {
+        +ParseAsync(stream: Stream): Task<List<RequirementParseResult>>
+        -DetectEncoding(stream: Stream): Encoding
+    }
+
+    class WindchillRequirementMap <<ClassMap>> {
+        +WindchillRequirementMap()
+    }
+
+    interface IEmbeddingService {
+        +GenerateBatchEmbeddingsAsync(requirements: IReadOnlyList<Requirement>): Task<IReadOnlyList<float[]>>
+    }
+
+    class OnnxEmbeddingService {
+        +GenerateBatchEmbeddingsAsync(requirements: IReadOnlyList<Requirement>): Task<IReadOnlyList<float[]>>
+    }
+
+    interface IVectorStore {
+        +UpsertBatchAsync(points: IReadOnlyList<VectorPoint>): Task
+    }
+
+    class QdrantVectorStore {
+        +UpsertBatchAsync(points: IReadOnlyList<VectorPoint>): Task
+        -ChunkSize: int = 100
+    }
+
+    interface IRequirementRepository {
+        +UpsertAsync(requirement: Requirement): Task
+        +GetByNumberAsync(number: string): Task<Requirement?>
+        +MarkAsEmbeddedAsync(ids: IEnumerable<string>): Task
+        +GetUnembeddedAsync(): Task<List<Requirement>>
+    }
+
+    class RequirementRepository {
+        +UpsertAsync(requirement: Requirement): Task
+        +GetByNumberAsync(number: string): Task<Requirement?>
+        +MarkAsEmbeddedAsync(ids: IEnumerable<string>): Task
+        +GetUnembeddedAsync(): Task<List<Requirement>>
+    }
+
+    interface IAuditService {
+        +LogImportAsync(fileName: string, inserted: int, updated: int, errors: int): Task
+    }
+
+    class AuditService {
+        +LogImportAsync(fileName: string, inserted: int, updated: int, errors: int): Task
+    }
+
+    class EmbeddingBackgroundService <<BackgroundService>> {
+        -_requirementRepo: IRequirementRepository
+        -_embeddingService: IEmbeddingService
+        -_vectorStore: IVectorStore
+        -PollIntervalMs: int = 30000
+        +ExecuteAsync(stoppingToken: CancellationToken): Task
+    }
+}
+
+package "Domain Models" <<Rectangle>> {
+    class ImportBatch {
+        +Id: string
+        +FileName: string
+        +ImportedAt: DateTime
+        +InsertedCount: int
+        +UpdatedCount: int
+        +SkippedCount: int
+        +ErrorCount: int
+        +Records: List<ImportRecord>
+    }
+
+    class ImportRecord {
+        +Id: string
+        +ImportBatchId: string
+        +RequirementNumber: string
+        +Status: ImportStatus
+        +ErrorMessage: string?
+    }
+
+    enum ImportStatus {
+        Inserted
+        Updated
+        Skipped
+        Error
+    }
+
+    class Requirement {
+        +Id: string
+        +RequirementNumber: string
+        +Name: string?
+        +Description: string?
+        +Type: string?
+        +State: string?
+        +Priority: string?
+        +Owner: string?
+        +CreatedOn: DateTime?
+        +ModifiedOn: DateTime?
+        +Module: string?
+        +ParentNumber: string?
+        +TracedTo: string?
+        +IsEmbedded: bool
+    }
+}
+
+package "DTOs" <<Rectangle>> {
+    class ImportResultDto {
+        +BatchId: string
+        +FileName: string
+        +InsertedCount: int
+        +UpdatedCount: int
+        +SkippedCount: int
+        +ErrorCount: int
+    }
+
+    class ImportBatchDto {
+        +Id: string
+        +FileName: string
+        +ImportedAt: DateTime
+        +InsertedCount: int
+        +UpdatedCount: int
+        +SkippedCount: int
+        +ErrorCount: int
+    }
+
+    class ImportBatchDetailDto {
+        +Batch: ImportBatchDto
+        +Records: List<ImportRecordDto>
+    }
+
+    class RequirementParseResult {
+        +IsSuccess: bool
+        +Requirement: Requirement?
+        +ErrorMessage: string?
+        +RowNumber: int
+    }
+}
+
+' Relationships
+ImportComponent --> ImportService : uses
+ImportService ..> ImportController : HTTP
+ImportController --> IImportService : delegates
+ImportController --> IAuditService : logs
+
+IImportService <|.. ImportService : implements
+ImportService --> ICsvParser : parses CSV
+ImportService --> IRequirementRepository : upserts
+ImportService --> IEmbeddingService : embeds
+ImportService --> IVectorStore : upserts vectors
+
+ICsvParser <|.. CsvParser : implements
+CsvParser --> WindchillRequirementMap : uses
+IEmbeddingService <|.. OnnxEmbeddingService : implements
+IVectorStore <|.. QdrantVectorStore : implements
+IRequirementRepository <|.. RequirementRepository : implements
+IAuditService <|.. AuditService : implements
+
+EmbeddingBackgroundService --> IRequirementRepository : polls
+EmbeddingBackgroundService --> IEmbeddingService : embeds
+EmbeddingBackgroundService --> IVectorStore : upserts
+
+ImportBatch "1" *-- "many" ImportRecord : contains
+ImportRecord --> ImportStatus : uses
+CsvParser ..> RequirementParseResult : produces
+ImportService ..> ImportResultDto : returns
+ImportService ..> ImportBatch : creates
+ImportService ..> ImportRecord : creates
+
+@enduml

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="C4 Container" id="c4-container">
+    <mxGraphModel dx="1024" dy="768" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <!-- Title -->
+        <mxCell id="title" value="TraceQ — C4 Container Diagram" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="240" y="10" width="320" height="40" as="geometry"/>
+        </mxCell>
+        <!-- System Boundary -->
+        <mxCell id="boundary" value="TraceQ [Software System]" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;strokeColor=#0050ef;fillColor=none;fontColor=#0050ef;fontSize=12;fontStyle=1;dashed=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="40" y="140" width="770" height="550" as="geometry"/>
+        </mxCell>
+        <!-- User -->
+        <mxCell id="user" value="&lt;b&gt;Systems Engineer&lt;/b&gt;&lt;br&gt;[Person]" style="shape=mxgraph.c4.person2;whiteSpace=wrap;html=1;container=0;spriteWidth=48;spriteHeight=48;labelBackgroundColor=none;strokeColor=#0050ef;fillColor=#1168BD;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="330" y="50" width="140" height="80" as="geometry"/>
+        </mxCell>
+        <!-- Angular SPA -->
+        <mxCell id="spa" value="&lt;b&gt;Web Application&lt;/b&gt;&lt;br&gt;[Container: Angular 17+]&lt;br&gt;&lt;br&gt;Material Design UI&lt;br&gt;with search, import,&lt;br&gt;reports, and audit pages" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;strokeColor=#0050ef;fillColor=#438DD5;fontColor=#FFFFFF;fontSize=10;align=center;" vertex="1" parent="1">
+          <mxGeometry x="290" y="170" width="220" height="110" as="geometry"/>
+        </mxCell>
+        <!-- API -->
+        <mxCell id="api" value="&lt;b&gt;API Server&lt;/b&gt;&lt;br&gt;[Container: ASP.NET Core 8]&lt;br&gt;&lt;br&gt;REST API on localhost:5000&lt;br&gt;6 controllers, 18+ endpoints&lt;br&gt;Business logic services" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;strokeColor=#0050ef;fillColor=#438DD5;fontColor=#FFFFFF;fontSize=10;align=center;" vertex="1" parent="1">
+          <mxGeometry x="290" y="350" width="220" height="120" as="geometry"/>
+        </mxCell>
+        <!-- SQLite -->
+        <mxCell id="sqlite" value="&lt;b&gt;SQLite Database&lt;/b&gt;&lt;br&gt;[Container: SQLite + EF Core]&lt;br&gt;&lt;br&gt;Requirements metadata,&lt;br&gt;import history, audit logs,&lt;br&gt;dashboard layouts" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;labelBackgroundColor=none;strokeColor=#0050ef;fillColor=#438DD5;fontColor=#FFFFFF;fontSize=10;align=center;" vertex="1" parent="1">
+          <mxGeometry x="80" y="530" width="200" height="130" as="geometry"/>
+        </mxCell>
+        <!-- Qdrant -->
+        <mxCell id="qdrant" value="&lt;b&gt;Qdrant Vector DB&lt;/b&gt;&lt;br&gt;[Container: Qdrant gRPC]&lt;br&gt;&lt;br&gt;384-dim embeddings,&lt;br&gt;cosine similarity search,&lt;br&gt;metadata filtering" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;labelBackgroundColor=none;strokeColor=#0050ef;fillColor=#438DD5;fontColor=#FFFFFF;fontSize=10;align=center;" vertex="1" parent="1">
+          <mxGeometry x="520" y="530" width="200" height="130" as="geometry"/>
+        </mxCell>
+        <!-- ONNX Model -->
+        <mxCell id="onnx" value="&lt;b&gt;ONNX Model&lt;/b&gt;&lt;br&gt;[Container: File]&lt;br&gt;&lt;br&gt;all-MiniLM-L6-v2&lt;br&gt;CPU-only inference&lt;br&gt;via ONNX Runtime" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;size=15;labelBackgroundColor=none;strokeColor=#0050ef;fillColor=#438DD5;fontColor=#FFFFFF;fontSize=10;align=center;" vertex="1" parent="1">
+          <mxGeometry x="620" y="330" width="160" height="120" as="geometry"/>
+        </mxCell>
+        <!-- Relationships -->
+        <mxCell id="r1" style="rounded=1;strokeColor=#707070;fontSize=9;" edge="1" source="user" target="spa" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="r1l" value="Uses [HTTPS]" style="edgeLabel;html=1;fontSize=9;" vertex="1" connectable="0" parent="r1">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="r2" style="rounded=1;strokeColor=#707070;fontSize=9;" edge="1" source="spa" target="api" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="r2l" value="REST/JSON [HTTP]" style="edgeLabel;html=1;fontSize=9;" vertex="1" connectable="0" parent="r2">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="r3" style="rounded=1;strokeColor=#707070;fontSize=9;" edge="1" source="api" target="sqlite" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="r3l" value="EF Core [SQL]" style="edgeLabel;html=1;fontSize=9;" vertex="1" connectable="0" parent="r3">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="r4" style="rounded=1;strokeColor=#707070;fontSize=9;" edge="1" source="api" target="qdrant" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="r4l" value="gRPC [localhost:6334]" style="edgeLabel;html=1;fontSize=9;" vertex="1" connectable="0" parent="r4">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+        <mxCell id="r5" style="rounded=1;strokeColor=#707070;fontSize=9;" edge="1" source="api" target="onnx" parent="1">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="r5l" value="ONNX Runtime [file I/O]" style="edgeLabel;html=1;fontSize=9;" vertex="1" connectable="0" parent="r5">
+          <mxGeometry relative="1" as="geometry"><mxPoint as="offset"/></mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="C4 Component — Frontend" id="c4-comp-frontend">
+    <mxGraphModel dx="1024" dy="768" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="TraceQ — C4 Component Diagram (Frontend)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="10" width="400" height="30" as="geometry"/>
+        </mxCell>
+        <!-- SPA Boundary -->
+        <mxCell id="spaBoundary" value="Web Application [Container: Angular 17+ / Material]" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;strokeColor=#0050ef;fillColor=none;fontColor=#0050ef;fontSize=11;fontStyle=1;dashed=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="20" y="50" width="810" height="620" as="geometry"/>
+        </mxCell>
+        <!-- Feature Pages -->
+        <mxCell id="featLabel" value="Feature Pages" style="text;html=1;align=left;fontSize=10;fontStyle=3;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="75" width="100" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="dashPage" value="&lt;b&gt;DashboardComponent&lt;/b&gt;&lt;br&gt;[Page: /dashboard]&lt;br&gt;Reports + analytics widgets" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3A7BBF;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="170" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="searchPage" value="&lt;b&gt;SearchComponent&lt;/b&gt;&lt;br&gt;[Page: /search]&lt;br&gt;Semantic search + filters" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3A7BBF;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="230" y="100" width="170" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="importPage" value="&lt;b&gt;ImportComponent&lt;/b&gt;&lt;br&gt;[Page: /import]&lt;br&gt;CSV upload + history" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3A7BBF;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="420" y="100" width="170" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="reqPage" value="&lt;b&gt;RequirementsComponent&lt;/b&gt;&lt;br&gt;[Page: /requirements]&lt;br&gt;Browse + CRUD" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3A7BBF;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="610" y="100" width="170" height="60" as="geometry"/>
+        </mxCell>
+        <!-- Dashboard Widgets -->
+        <mxCell id="widgetLabel" value="Dashboard Widgets" style="text;html=1;align=left;fontSize=10;fontStyle=3;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="185" width="130" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="distChart" value="&lt;b&gt;DistributionChartComponent&lt;/b&gt;&lt;br&gt;[Widget]&lt;br&gt;Chart.js bar charts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#5D8AB4;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="210" width="180" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="traceWidget" value="&lt;b&gt;TraceabilityComponent&lt;/b&gt;&lt;br&gt;[Widget]&lt;br&gt;Coverage % + untraced list" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#5D8AB4;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="240" y="210" width="180" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="clusterWidget" value="&lt;b&gt;SimilarityClustersComponent&lt;/b&gt;&lt;br&gt;[Widget]&lt;br&gt;Cluster groups + scores" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#5D8AB4;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="440" y="210" width="180" height="55" as="geometry"/>
+        </mxCell>
+        <!-- Shared Components -->
+        <mxCell id="compLabel" value="Shared Components Library (16 components)" style="text;html=1;align=left;fontSize=10;fontStyle=3;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="290" width="280" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="buttons" value="&lt;b&gt;Buttons&lt;/b&gt;&lt;br&gt;TqButton, TqIconButton,&lt;br&gt;TqButtonGroup, TqFab" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="315" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="dialogs" value="&lt;b&gt;Dialogs&lt;/b&gt;&lt;br&gt;Confirm, Destructive,&lt;br&gt;Detail, Form" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="220" y="315" width="160" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="feedback" value="&lt;b&gt;Feedback&lt;/b&gt;&lt;br&gt;Toast, ValidationBanner,&lt;br&gt;InlineError, EmptyState" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="400" y="315" width="170" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="errorPage" value="&lt;b&gt;ErrorPage&lt;/b&gt;&lt;br&gt;404 / fatal error" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="590" y="315" width="130" height="55" as="geometry"/>
+        </mxCell>
+        <!-- API Library -->
+        <mxCell id="apiLabel" value="API Client Library" style="text;html=1;align=left;fontSize=10;fontStyle=3;fontColor=#555555;" vertex="1" parent="1">
+          <mxGeometry x="40" y="395" width="120" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="searchApi" value="&lt;b&gt;SearchService&lt;/b&gt;&lt;br&gt;search()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D6B656;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="420" width="120" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="reqApi" value="&lt;b&gt;RequirementsService&lt;/b&gt;&lt;br&gt;list(), get(), delete()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D6B656;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="175" y="420" width="140" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="importApi" value="&lt;b&gt;ImportService&lt;/b&gt;&lt;br&gt;uploadCsv(), getHistory()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D6B656;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="330" y="420" width="150" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="reportsApi" value="&lt;b&gt;ReportsService&lt;/b&gt;&lt;br&gt;getDistribution(),&lt;br&gt;getTraceability()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D6B656;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="495" y="420" width="140" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="dashApi" value="&lt;b&gt;DashboardService&lt;/b&gt;&lt;br&gt;getLayouts(), save()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D6B656;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="650" y="420" width="130" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="auditApi" value="&lt;b&gt;AuditService&lt;/b&gt;&lt;br&gt;list()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE6CC;strokeColor=#D6B656;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="480" width="100" height="40" as="geometry"/>
+        </mxCell>
+        <!-- External: API Server -->
+        <mxCell id="apiServer" value="&lt;b&gt;API Server&lt;/b&gt;&lt;br&gt;[Container: ASP.NET Core]&lt;br&gt;localhost:5000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#999999;strokeColor=#707070;fontColor=#FFFFFF;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="270" y="570" width="260" height="60" as="geometry"/>
+        </mxCell>
+        <!-- Key relationships -->
+        <mxCell id="f1" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="dashPage" target="distChart" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f2" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="dashPage" target="traceWidget" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f3" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="dashPage" target="clusterWidget" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f4" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="searchPage" target="searchApi" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f5" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="importPage" target="importApi" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f6" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="reqPage" target="reqApi" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f7" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="distChart" target="reportsApi" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f8" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="traceWidget" target="reportsApi" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f9" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="clusterWidget" target="reportsApi" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f10" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="searchApi" target="apiServer" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f11" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="reqApi" target="apiServer" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f12" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="importApi" target="apiServer" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f13" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="reportsApi" target="apiServer" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="f14" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="dashApi" target="apiServer" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

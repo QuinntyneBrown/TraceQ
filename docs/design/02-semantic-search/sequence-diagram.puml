@@ -1,0 +1,108 @@
+@startuml sequence-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam sequenceMessageFontSize 9
+skinparam sequenceParticipantFontSize 10
+skinparam sequenceArrowFontSize 9
+skinparam sequenceDividerFontSize 10
+skinparam defaultFontSize 9
+
+skinparam participant {
+    BackgroundColor #FEFECE
+    BorderColor #A80036
+}
+
+skinparam database {
+    BackgroundColor #E8EAF6
+    BorderColor #3F51B5
+}
+
+actor User
+participant "SearchComponent\n(Angular)" as SC
+participant "SearchService\n(Angular)" as SS
+participant "SearchController\n(API)" as Ctrl
+participant "SearchService\n(Backend)" as SvcS
+participant "OnnxEmbeddingService" as Embed
+participant "QdrantVectorStore" as QVS
+database "Qdrant" as Qdrant
+participant "RequirementRepository" as Repo
+database "SQLite" as DB
+participant "AuditService" as Audit
+
+== Semantic Search ==
+
+User -> SC : Enter query text\n+ select filters
+activate SC
+
+SC -> SS : search(SearchRequest)
+activate SS
+
+SS -> Ctrl : POST /api/search\n{Query, Top, Filters}
+activate Ctrl
+
+Ctrl -> SvcS : SemanticSearchAsync(request)
+activate SvcS
+
+SvcS -> Embed : GenerateEmbeddingAsync(query)
+activate Embed
+note right of Embed
+  1. WordPiece tokenize (max 256)
+  2. ONNX inference
+  3. Mean pool hidden states
+  4. L2 normalize
+end note
+Embed --> SvcS : float[384]
+deactivate Embed
+
+SvcS -> QVS : SearchAsync(vector, top, filters)
+activate QVS
+note right of QVS
+  Build Qdrant Filter from
+  non-null filter fields
+end note
+QVS -> Qdrant : gRPC Search request
+activate Qdrant
+Qdrant --> QVS : [(id, score), ...]
+deactivate Qdrant
+QVS --> SvcS : List<(Guid id, float score)>
+deactivate QVS
+
+SvcS -> Repo : GetByIdsAsync(ids)
+activate Repo
+Repo -> DB : SELECT * FROM Requirements\nWHERE Id IN (...)
+activate DB
+DB --> Repo : rows
+deactivate DB
+Repo --> SvcS : List<Requirement>
+deactivate Repo
+
+note right of SvcS
+  Map requirements + scores
+  to SearchResultDto list,
+  preserving rank order
+end note
+
+SvcS --> Ctrl : List<SearchResultDto>
+deactivate SvcS
+
+Ctrl -> Audit : LogSearchAsync(query, resultCount)
+activate Audit
+Audit -> DB : INSERT INTO AuditLogEntry
+activate DB
+DB --> Audit : OK
+deactivate DB
+Audit --> Ctrl : Task completed
+deactivate Audit
+
+Ctrl --> SS : 200 OK\nJSON List<SearchResultDto>
+deactivate Ctrl
+
+SS --> SC : SearchResult[]
+deactivate SS
+
+SC -> User : Display ranked results\n(number, name, score %, actions)
+deactivate SC
+
+@enduml

@@ -1,0 +1,124 @@
+@startuml class-diagram
+skinparam dpi 150
+scale max 1024 width
+scale max 1400 height
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype ortho
+
+' ── Interfaces ──
+
+interface IEmbeddingService {
+    +GenerateEmbeddingAsync(text: string): Task<float[]>
+    +GenerateBatchEmbeddingsAsync(items: IEnumerable<(string id, string text)>): Task<Dictionary<string, float[]>>
+}
+
+interface IVectorStore {
+    +UpsertAsync(id: Guid, vector: float[], payload: Dictionary<string, string>): Task
+    +UpsertBatchAsync(vectors: IEnumerable<VectorEntry>): Task
+    +SearchAsync(queryVector: float[], limit: int): Task<IEnumerable<SearchResult>>
+}
+
+interface IRequirementRepository {
+    +GetUnembeddedAsync(): Task<List<Requirement>>
+    +MarkAsEmbeddedAsync(ids: IEnumerable<string>): Task
+}
+
+' ── Core Classes ──
+
+class OnnxEmbeddingService <<Singleton>> {
+    -_session: InferenceSession
+    -_tokenizer: WordPieceTokenizer
+    -_modelPath: string
+    -_vocabPath: string
+    --
+    +OnnxEmbeddingService(config: EmbeddingModelConfig)
+    +GenerateEmbeddingAsync(text: string): Task<float[]>
+    +GenerateBatchEmbeddingsAsync(items: IEnumerable<(string id, string text)>): Task<Dictionary<string, float[]>>
+    -MeanPool(hiddenStates: float[,,], attentionMask: int[]): float[]
+    -L2Normalize(vector: float[]): float[]
+}
+
+class WordPieceTokenizer {
+    -_vocab: Dictionary<string, int>
+    -_maxSeqLen: int = 256
+    --
+    +WordPieceTokenizer(vocabPath: string)
+    +Tokenize(text: string): TokenizedInput
+    -CaseFold(text: string): string
+    -SplitPunctuation(text: string): List<string>
+    -WordPieceEncode(word: string): List<int>
+}
+
+class TokenizedInput {
+    +InputIds: int[,]
+    +AttentionMask: int[,]
+    +TokenTypeIds: int[,]
+    --
+    Shape: [1, 256]
+}
+
+class EmbeddingModelConfig {
+    +ModelPath: string
+    +VocabPath: string
+    +MaxSequenceLength: int = 256
+    +EmbeddingDimension: int = 384
+}
+
+' ── Vector Store ──
+
+class QdrantVectorStore {
+    -_client: QdrantClient
+    -_collectionName: string = "requirements"
+    +{static} MaxBatchSize: int = 100
+    --
+    +UpsertAsync(id: Guid, vector: float[], payload: Dictionary<string, string>): Task
+    +UpsertBatchAsync(vectors: IEnumerable<VectorEntry>): Task
+    +SearchAsync(queryVector: float[], limit: int): Task<IEnumerable<SearchResult>>
+}
+
+' ── Background Service ──
+
+class EmbeddingBackgroundService <<IHostedService>> {
+    -_timer: Timer
+    -_pollInterval: TimeSpan = 30s
+    -_embeddingService: IEmbeddingService
+    -_vectorStore: IVectorStore
+    -_repository: IRequirementRepository
+    --
+    +StartAsync(cancellationToken: CancellationToken): Task
+    +StopAsync(cancellationToken: CancellationToken): Task
+    -ExecuteAsync(): Task
+}
+
+' ── Domain ──
+
+class Requirement {
+    +Id: string
+    +Number: string
+    +Name: string
+    +Description: string
+    +Type: string
+    +State: string
+    +Module: string
+    +IsEmbedded: bool
+}
+
+' ── Relationships ──
+
+OnnxEmbeddingService .up.|> IEmbeddingService
+OnnxEmbeddingService --> WordPieceTokenizer : uses
+OnnxEmbeddingService --> EmbeddingModelConfig : configured by
+WordPieceTokenizer --> TokenizedInput : creates
+
+QdrantVectorStore .up.|> IVectorStore
+
+EmbeddingBackgroundService --> IEmbeddingService : generates embeddings
+EmbeddingBackgroundService --> IVectorStore : stores vectors
+EmbeddingBackgroundService --> IRequirementRepository : fetches/marks
+
+IRequirementRepository ..> Requirement : manages
+
+@enduml

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram name="C4 Component — Backend" id="c4-comp-backend">
+    <mxGraphModel dx="1024" dy="768" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" value="TraceQ — C4 Component Diagram (Backend)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="200" y="10" width="400" height="30" as="geometry"/>
+        </mxCell>
+        <!-- API Boundary -->
+        <mxCell id="apiBoundary" value="API Server [Container: ASP.NET Core 8]" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;strokeColor=#0050ef;fillColor=none;fontColor=#0050ef;fontSize=11;fontStyle=1;dashed=1;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="20" y="50" width="810" height="640" as="geometry"/>
+        </mxCell>
+        <!-- Controllers -->
+        <mxCell id="searchCtrl" value="&lt;b&gt;SearchController&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;POST /api/search" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3A7BBF;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="reqCtrl" value="&lt;b&gt;RequirementsController&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;CRUD /api/requirements" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3A7BBF;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="200" y="80" width="150" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="importCtrl" value="&lt;b&gt;ImportController&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;POST /api/import/csv" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3A7BBF;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="370" y="80" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="reportsCtrl" value="&lt;b&gt;ReportsController&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;GET /api/reports/*" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3A7BBF;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="530" y="80" width="140" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="dashCtrl" value="&lt;b&gt;DashboardController&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;/api/dashboard/layouts" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3A7BBF;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="690" y="80" width="130" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="auditCtrl" value="&lt;b&gt;AuditController&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;GET /api/audit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3A7BBF;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="690" y="160" width="130" height="55" as="geometry"/>
+        </mxCell>
+        <!-- Services -->
+        <mxCell id="searchSvc" value="&lt;b&gt;SearchService&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;Orchestrates semantic&lt;br&gt;search + clustering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#5D8AB4;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="60" y="210" width="160" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="importSvc" value="&lt;b&gt;ImportService&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;CSV import orchestration&lt;br&gt;+ inline embedding" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#5D8AB4;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="340" y="210" width="160" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="auditSvc" value="&lt;b&gt;AuditService&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;Event logging to SQLite" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#5D8AB4;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="600" y="210" width="150" height="60" as="geometry"/>
+        </mxCell>
+        <!-- Infrastructure -->
+        <mxCell id="csvParser" value="&lt;b&gt;CsvParser&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;Windchill PLM CSV" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#5D8AB4;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="350" y="330" width="140" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="embeddingSvc" value="&lt;b&gt;OnnxEmbeddingService&lt;/b&gt;&lt;br&gt;[Component: Singleton]&lt;br&gt;all-MiniLM-L6-v2&lt;br&gt;384-dim vectors" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#5D8AB4;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="60" y="340" width="170" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="vectorStore" value="&lt;b&gt;QdrantVectorStore&lt;/b&gt;&lt;br&gt;[Component: Singleton]&lt;br&gt;gRPC client wrapper&lt;br&gt;Graceful degradation" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#5D8AB4;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="60" y="450" width="170" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="reqRepo" value="&lt;b&gt;RequirementRepository&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;EF Core data access&lt;br&gt;CRUD + facets + search" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#5D8AB4;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="340" y="440" width="170" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="dashRepo" value="&lt;b&gt;DashboardLayoutRepository&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;Layout persistence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#5D8AB4;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="600" y="340" width="170" height="55" as="geometry"/>
+        </mxCell>
+        <mxCell id="bgSvc" value="&lt;b&gt;EmbeddingBackgroundService&lt;/b&gt;&lt;br&gt;[Component: HostedService]&lt;br&gt;Polls every 30s for&lt;br&gt;unembedded requirements" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#82B366;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="330" y="560" width="200" height="70" as="geometry"/>
+        </mxCell>
+        <!-- External -->
+        <mxCell id="qdrantDb" value="&lt;b&gt;Qdrant&lt;/b&gt;&lt;br&gt;[External: Vector DB]" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#999999;strokeColor=#707070;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="90" y="570" width="110" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="sqliteDb" value="&lt;b&gt;SQLite&lt;/b&gt;&lt;br&gt;[External: File DB]" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=8;fillColor=#999999;strokeColor=#707070;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="620" y="460" width="110" height="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="onnxFile" value="&lt;b&gt;ONNX Model File&lt;/b&gt;&lt;br&gt;[External: File]" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;size=10;fillColor=#999999;strokeColor=#707070;fontColor=#FFFFFF;fontSize=9;" vertex="1" parent="1">
+          <mxGeometry x="60" y="260" width="120" height="50" as="geometry"/>
+        </mxCell>
+        <!-- Key relationships -->
+        <mxCell id="e1" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="searchCtrl" target="searchSvc" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="reqCtrl" target="reqRepo" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="importCtrl" target="importSvc" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="reportsCtrl" target="reqRepo" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e5" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="reportsCtrl" target="searchSvc" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e6" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="dashCtrl" target="dashRepo" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e7" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="auditCtrl" target="auditSvc" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e8" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="searchSvc" target="embeddingSvc" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e9" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="searchSvc" target="vectorStore" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e10" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="searchSvc" target="reqRepo" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e11" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="importSvc" target="csvParser" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e12" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="importSvc" target="reqRepo" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e13" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="importSvc" target="embeddingSvc" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e14" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="vectorStore" target="qdrantDb" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e15" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="reqRepo" target="sqliteDb" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e16" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="dashRepo" target="sqliteDb" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e17" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="auditSvc" target="sqliteDb" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e18" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="bgSvc" target="reqRepo" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e19" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="bgSvc" target="embeddingSvc" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e20" style="rounded=1;strokeColor=#707070;fontSize=8;" edge="1" source="bgSvc" target="vectorStore" parent="1"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
