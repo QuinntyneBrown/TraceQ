@@ -188,7 +188,7 @@ This opens two terminal windows — one for the backend and one for the frontend
 
 ## CLI Tool (`tq`)
 
-TraceQ ships a .NET global tool called `tq` for command-line CSV validation. It requires .NET 8 or later.
+TraceQ ships a .NET global tool called `tq` for command-line CSV validation and import. It requires .NET 8 or later.
 
 ### Install from NuGet
 
@@ -200,6 +200,7 @@ Then use it anywhere:
 
 ```bash
 tq validate path/to/requirements.csv
+tq import path/to/requirements.csv --db traceq.db
 ```
 
 ### Update to latest version
@@ -219,8 +220,9 @@ dotnet run --project .\src\TraceQ.Cli -- validate .\tests\TestData\windchill_exp
 | Command | Description |
 |---------|-------------|
 | `tq validate <path>` | Validate a Windchill PLM CSV export for importability |
+| `tq import <path> [--db <path>]` | Import a CSV into the SQLite database with upsert semantics |
 
-The validate command checks file integrity, required columns (`Number`, `Name`), and row-level data. It exits with code `0` when the file can be imported and `1` when errors are found.
+The validate command checks file integrity, required columns (`Number`, `Name`), and row-level data. The import command parses and persists requirements into SQLite, creating the database automatically if needed. Both commands exit with code `0` on success and `1` on failure.
 
 ## Running Tests
 

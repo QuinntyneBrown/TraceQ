@@ -5,6 +5,7 @@ using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TraceQ.Core.Interfaces;
+using static TraceQ.Cli.ConsoleHelpers;
 
 namespace TraceQ.Cli.Commands;
 
@@ -186,7 +187,6 @@ public static class ValidateCommand
         Console.WriteLine();
         if (hasErrors)
         {
-            var errorCount = errorRows + (parseResults.Count == 0 ? 0 : 0);
             WriteVerdict(false, errorRows);
             return 1;
         }
@@ -207,83 +207,5 @@ public static class ValidateCommand
         csv.ReadHeader();
 
         return csv.HeaderRecord ?? [];
-    }
-
-    // --- Console output helpers ---
-
-    private static void WriteHeader(string message)
-    {
-        Console.WriteLine();
-        SetColor(ConsoleColor.Cyan);
-        Console.WriteLine($"  {message}");
-        ResetColor();
-        Console.WriteLine(new string('─', Math.Min(60, message.Length + 4)));
-        Console.WriteLine();
-    }
-
-    private static void WriteSectionHeader(string title)
-    {
-        SetColor(ConsoleColor.White);
-        Console.WriteLine($"  [{title}]");
-        ResetColor();
-    }
-
-    private static void WritePass(string message)
-    {
-        SetColor(ConsoleColor.Green);
-        Console.Write("    PASS  ");
-        ResetColor();
-        Console.WriteLine(message);
-    }
-
-    private static void WriteError(string message)
-    {
-        SetColor(ConsoleColor.Red);
-        Console.Write("    FAIL  ");
-        ResetColor();
-        Console.WriteLine(message);
-    }
-
-    private static void WriteWarning(string message)
-    {
-        SetColor(ConsoleColor.Yellow);
-        Console.Write("    WARN  ");
-        ResetColor();
-        Console.WriteLine(message);
-    }
-
-    private static void WriteInfo(string message)
-    {
-        SetColor(ConsoleColor.Gray);
-        Console.Write("    INFO  ");
-        ResetColor();
-        Console.WriteLine(message);
-    }
-
-    private static void WriteVerdict(bool passed, int errorCount)
-    {
-        Console.WriteLine();
-        if (passed)
-        {
-            SetColor(ConsoleColor.Green);
-            Console.WriteLine("  Result: PASS — file can be imported");
-        }
-        else
-        {
-            SetColor(ConsoleColor.Red);
-            Console.WriteLine($"  Result: FAIL — {errorCount} error(s) found");
-        }
-        ResetColor();
-        Console.WriteLine();
-    }
-
-    private static void SetColor(ConsoleColor color)
-    {
-        try { Console.ForegroundColor = color; } catch { /* redirected output */ }
-    }
-
-    private static void ResetColor()
-    {
-        try { Console.ResetColor(); } catch { /* redirected output */ }
     }
 }

@@ -11,7 +11,7 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>tq</ToolCommandName>
     <PackageId>QuinntyneBrown.TraceQ</PackageId>
-    <PackageVersion>1.0.0</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
     <Authors>Quinntyne Brown</Authors>
     <Description>TraceQ CLI — requirements intelligence tool for Space and Defense</Description>
     <PackageTags>traceq;requirements;plm;windchill;csv;validation</PackageTags>

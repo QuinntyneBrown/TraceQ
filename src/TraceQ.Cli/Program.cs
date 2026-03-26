@@ -15,6 +15,7 @@ public class Program
 
         var rootCommand = new RootCommand("TraceQ CLI — requirements intelligence tool");
         rootCommand.AddCommand(ValidateCommand.Create(services));
+        rootCommand.AddCommand(ImportCommand.Create());
 
         return await rootCommand.InvokeAsync(args);
     }
