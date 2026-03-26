@@ -9,6 +9,9 @@
       ],
       "components": [
         "./dist/components"
+      ],
+      "features": [
+        "./dist/features"
       ]
     },
     "strict": true,
@@ -42,6 +45,18 @@
     },
     {
       "path": "./projects/api/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/features/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/features/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/trace-q/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/trace-q/tsconfig.spec.json"
     }
   ]
 }
