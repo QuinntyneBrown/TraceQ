@@ -9,7 +9,7 @@ export default defineConfig({
   reporter: 'list',
   timeout: 30_000,
   use: {
-    baseURL: 'http://localhost:4200',
+    baseURL: 'http://localhost:4280',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
@@ -20,8 +20,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npx ng serve trace-q --port 4200',
-    url: 'http://localhost:4200',
+    command: 'npx ng serve trace-q --port 4280',
+    url: 'http://localhost:4280',
     reuseExistingServer: !process.env['CI'],
     timeout: 120_000,
   },
