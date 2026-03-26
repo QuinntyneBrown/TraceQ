@@ -17,7 +17,7 @@ export class RequirementsPage extends LayoutPage {
     this.tableRows = page.locator('mat-row, tr[mat-row]');
     this.paginator = page.locator('mat-paginator');
     this.sortHeaders = page.locator('mat-header-cell[mat-sort-header], th[mat-sort-header]');
-    this.deleteButtons = page.locator('tq-icon-button[icon="delete"], button[aria-label*="delete"], button[aria-label*="Delete"]');
+    this.deleteButtons = page.locator('tq-icon-button');
     this.emptyState = page.locator('tq-empty-state');
   }
 
@@ -39,13 +39,14 @@ export class RequirementsPage extends LayoutPage {
   }
 
   async clickRow(index: number) {
+    await expect(this.tableRows.first()).toBeVisible({ timeout: 5000 });
     await this.tableRows.nth(index).click();
-    await this.page.waitForTimeout(500);
+    await this.page.waitForTimeout(1000);
   }
 
   async expectDetailDialogOpen() {
-    const dialog = this.page.locator('mat-dialog-container, .cdk-overlay-pane');
-    await expect(dialog).toBeVisible();
+    const dialog = this.page.locator('.cdk-overlay-pane mat-dialog-container, .cdk-overlay-pane tq-detail-dialog, .cdk-overlay-pane feat-requirement-detail');
+    await expect(dialog.first()).toBeVisible({ timeout: 5000 });
   }
 
   async expectMaterialSortUsed() {

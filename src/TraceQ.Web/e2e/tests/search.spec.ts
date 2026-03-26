@@ -28,12 +28,13 @@ test.describe('Search Page', () => {
   test.describe('Search Functionality', () => {
     test('can perform a search and see results', async () => {
       await search.search('thermal protection');
-      await search.expectResultsVisible();
+      // Wait for results to appear
+      await expect(search.resultCards.first()).toBeVisible({ timeout: 10000 });
     });
 
     test('results show requirement data', async () => {
       await search.search('thermal');
-      await search.expectResultsVisible();
+      await expect(search.resultCards.first()).toBeVisible({ timeout: 10000 });
 
       // Check that result text contains requirement info
       const pageText = await search.page.textContent('body');

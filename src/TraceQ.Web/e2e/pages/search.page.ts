@@ -16,7 +16,7 @@ export class SearchPage extends LayoutPage {
     this.searchButton = page.locator('tq-button').filter({ hasText: /search/i }).first();
     this.filterSelects = page.locator('mat-select');
     this.resultsList = page.locator('.search-results, .results-list');
-    this.resultCards = page.locator('.result-card, .search-result-item, mat-card').filter({ has: page.locator('.score, .similarity') });
+    this.resultCards = page.locator('mat-card.result-card');
     this.emptyState = page.locator('tq-empty-state');
     this.spinner = page.locator('mat-spinner');
   }

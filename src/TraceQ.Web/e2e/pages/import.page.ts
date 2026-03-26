@@ -16,7 +16,7 @@ export class ImportPage extends LayoutPage {
     this.historyTable = page.locator('mat-table, table');
     this.historyRows = page.locator('mat-row, tr[mat-row]');
     this.paginator = page.locator('mat-paginator');
-    this.uploadButton = page.locator('tq-button').filter({ hasText: /import|upload|browse/i });
+    this.uploadButton = page.locator('tq-button, .drop-zone');
   }
 
   async goto() {

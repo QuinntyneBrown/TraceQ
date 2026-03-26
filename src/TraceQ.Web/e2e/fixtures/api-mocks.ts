@@ -135,11 +135,11 @@ export const MOCK_IMPORT_HISTORY = [
 export const MOCK_SEARCH_RESULTS = [
   {
     requirement: MOCK_REQUIREMENTS[0],
-    score: 0.95,
+    similarityScore: 0.95,
   },
   {
     requirement: MOCK_REQUIREMENTS[2],
-    score: 0.87,
+    similarityScore: 0.87,
   },
 ];
 

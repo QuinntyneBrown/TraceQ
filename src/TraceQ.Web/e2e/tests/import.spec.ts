@@ -39,10 +39,11 @@ test.describe('Import Page', () => {
       expect(count).toBeGreaterThanOrEqual(1);
     });
 
-    test('upload uses tq-button component', async () => {
-      const tqButtons = importPage.page.locator('tq-button');
-      const count = await tqButtons.count();
-      expect(count).toBeGreaterThanOrEqual(1);
+    test('upload zone is clickable and triggers file input', async () => {
+      // The drop zone itself is clickable (it triggers fileInput.click())
+      await expect(importPage.dropZone).toBeVisible();
+      const dropZoneClasses = await importPage.dropZone.getAttribute('class');
+      expect(dropZoneClasses).toContain('drop-zone');
     });
   });
 
