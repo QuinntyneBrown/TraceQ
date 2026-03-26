@@ -156,8 +156,11 @@ DashboardController ..> DashboardLayoutDto : receives/returns
 ReportsController ..> DistributionDto : returns
 DashboardLayoutRepository ..> DashboardLayout : queries
 
-DashboardLayoutRepository ..> "SQLite\n(External)" as SQLite : EF Core
+class "SQLite" as SQLite <<External>>
+class "Qdrant" as Qdrant <<External>>
+
+DashboardLayoutRepository ..> SQLite : EF Core
 IRequirementRepository ..> SQLite : EF Core
-ISearchService ..> "Qdrant\n(External)" as Qdrant : gRPC
+ISearchService ..> Qdrant : gRPC
 
 @enduml

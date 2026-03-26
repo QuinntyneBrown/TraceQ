@@ -113,6 +113,8 @@ RequirementRepository ..> TraceabilityCoverageDto : produces
 RequirementRepository ..> RequirementSummaryDto : produces
 RequirementRepository ..> DistributionDto : produces
 
-RequirementRepository ..> "SQLite\n(External)" as SQLite : EF Core
+class "SQLite" as SQLite <<External>>
+
+RequirementRepository ..> SQLite : EF Core
 
 @enduml

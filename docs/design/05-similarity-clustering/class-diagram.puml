@@ -150,7 +150,10 @@ SimilarityClusterDto --> ClusterMemberDto : contains
 SimilarityClusterDto --> PairwiseScoreDto : contains
 RequirementRepository ..> Requirement : queries
 
-QdrantVectorStore ..> "Qdrant\n(External)" as Qdrant : gRPC
-RequirementRepository ..> "SQLite\n(External)" as SQLite : EF Core
+class "Qdrant" as Qdrant <<External>>
+class "SQLite" as SQLite <<External>>
+
+QdrantVectorStore ..> Qdrant : gRPC
+RequirementRepository ..> SQLite : EF Core
 
 @enduml
