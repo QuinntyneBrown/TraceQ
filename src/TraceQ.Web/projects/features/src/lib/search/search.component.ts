@@ -13,7 +13,7 @@ import { finalize } from 'rxjs';
 
 import { RequirementsService, SearchService } from 'api';
 import type { Facets, SearchFilters, SearchResult } from 'api';
-import { TqButtonComponent, TqIconButtonComponent, TqEmptyStateComponent, TqToastService } from 'components';
+import { TqButtonComponent, TqEmptyStateComponent, TqToastService } from 'components';
 
 @Component({
   selector: 'feat-search',
@@ -30,7 +30,6 @@ import { TqButtonComponent, TqIconButtonComponent, TqEmptyStateComponent, TqToas
     MatProgressSpinnerModule,
     MatTooltipModule,
     TqButtonComponent,
-    TqIconButtonComponent,
     TqEmptyStateComponent,
   ],
   templateUrl: './search.component.html',
