@@ -31,6 +31,7 @@ Defense contractors and government agencies need to analyze software and system 
 ## Features
 
 - **CSV Import** — Parse Windchill PLM exports (RFC 4180 compliant) with batch tracking and audit logging
+- **CLI Validation** — Validate Windchill PLM CSV exports from the command line before import
 - **Local Embeddings** — Generate 384-dimensional vectors using all-MiniLM-L6-v2 via ONNX Runtime (CPU-only)
 - **Vector Search** — Semantic and keyword search over requirements using Qdrant
 - **Dashboard** — Interactive reporting with distribution charts, traceability coverage, and similarity clusters
@@ -145,6 +146,16 @@ docs/specs/sample-requirements.csv
 
 This imports 30 aerospace requirements. The background service will automatically generate embeddings — check the API console logs for `Completed embedding 30 requirements`.
 
+### Optional — Validate a CSV with the CLI first
+
+TraceQ also ships with a CLI project for validating CSV files before import:
+
+```powershell
+dotnet run --project .\src\TraceQ.Cli -- validate .\tests\TestData\windchill_export_sample.csv
+```
+
+The CLI exits with `0` when the file is importable and `1` when validation fails.
+
 ### Step 8 — Search
 
 Navigate to the **Search** page and try queries like:
@@ -168,6 +179,30 @@ This opens two terminal windows — one for the backend and one for the frontend
 > **Note:** Qdrant must already be running. Start it with `docker start qdrant` if you've previously created the container.
 > For the default setup in this repo, the persistent container name is `traceq-qdrant`, so use `docker start traceq-qdrant`.
 
+## CLI Usage
+
+The CLI project lives in `src/TraceQ.Cli` and currently exposes a `validate` command for Windchill CSV files.
+
+### Run locally from source
+
+```powershell
+dotnet run --project .\src\TraceQ.Cli -- validate .\tests\TestData\windchill_export_sample.csv
+```
+
+### Package as a .NET tool
+
+`TraceQ.Cli` is configured as a .NET tool with the command name `tq`.
+
+```powershell
+dotnet pack .\src\TraceQ.Cli -c Release
+```
+
+After packing, the generated NuGet package can be installed from a local source and invoked as:
+
+```powershell
+tq validate .\tests\TestData\windchill_export_sample.csv
+```
+
 ## Running Tests
 
 ### Backend (.NET)
@@ -175,6 +210,8 @@ This opens two terminal windows — one for the backend and one for the frontend
 ```bash
 dotnet test
 ```
+
+This runs the API, Core, Infrastructure, and CLI test projects.
 
 If binaries are blocked by execution policy:
 
@@ -209,6 +246,7 @@ All backend configuration is in `src/TraceQ.Api/appsettings.json`:
 | Component | Technology |
 |-----------|------------|
 | Backend | C# 12 / .NET 8 / ASP.NET Core |
+| CLI | .NET 8 / System.CommandLine |
 | Frontend | Angular 21 / Angular Material / Chart.js |
 | Vector Store | Qdrant (local, gRPC) |
 | Metadata DB | SQLite (EF Core 8) |
@@ -223,11 +261,13 @@ All backend configuration is in `src/TraceQ.Api/appsettings.json`:
 TraceQ/
 ├── src/
 │   ├── TraceQ.Api/              # ASP.NET Core host, controllers
+│   ├── TraceQ.Cli/              # .NET CLI for CSV validation and automation
 │   ├── TraceQ.Core/             # Domain models, DTOs, interfaces
 │   ├── TraceQ.Infrastructure/   # Implementations (CSV, ONNX, Qdrant, SQLite)
 │   └── TraceQ.Web/              # Angular frontend (multi-project workspace)
 ├── tests/
 │   ├── TraceQ.Api.Tests/
+│   ├── TraceQ.Cli.Tests/
 │   ├── TraceQ.Core.Tests/
 │   └── TraceQ.Infrastructure.Tests/
 ├── models/                      # ONNX model files (not checked in)
