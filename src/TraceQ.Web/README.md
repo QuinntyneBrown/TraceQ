@@ -1,59 +1,93 @@
-# TraceQWeb
+# TraceQ.Web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.5.
+Angular 21 frontend for TraceQ. Multi-project monorepo workspace with Angular Material, lazy-loaded features, and a shared component library.
 
-## Development server
-
-To start a local development server, run:
+## Getting started
 
 ```bash
+npm install
 npm start
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Opens on `http://localhost:4200`. Expects the API running at `http://localhost:5000`.
 
-## Code scaffolding
+## Workspace structure
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+The Angular workspace contains four projects under `projects/`:
 
-```bash
-ng generate component component-name
-```
+| Project | Type | Description |
+|---------|------|-------------|
+| `trace-q` | Application | Main app shell — routing, layout, navigation |
+| `features` | Library | Feature pages: Dashboard, Search, Import, Requirements |
+| `components` | Library | Reusable UI components (`Tq`-prefixed) |
+| `api` | Library | API services, models, and base URL configuration |
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Routes
 
-```bash
-ng generate --help
-```
+| Path | Feature | Description |
+|------|---------|-------------|
+| `/dashboard` | Dashboard | Analytics widgets — distribution charts, traceability, similarity clusters |
+| `/search` | Search | Semantic search with faceted filters |
+| `/import` | Import | Drag-and-drop CSV upload with import history |
+| `/requirements` | Requirements | Paginated table with detail view and similarity lookup |
 
-## Building
+All routes are lazy-loaded from the `features` library.
 
-To build the project run:
+## Feature components
 
-```bash
-npm run build
-```
+### Dashboard
+- `DashboardComponent` — widget grid layout
+- `DistributionChartComponent` — requirement distribution by field
+- `TraceabilityComponent` — trace-link coverage metrics
+- `SimilarityClustersComponent` — duplicate/related requirement clusters
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Search
+- `SearchComponent` — natural-language query with filter chips and ranked result cards
 
-## Running unit tests
+### Import
+- `ImportComponent` — file upload zone, progress indicator, import history table
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+### Requirements
+- `RequirementsComponent` — sortable/paginated Material table
+- `RequirementDetailComponent` — full detail view with trace links and similar requirements
 
-```bash
-npm test
-```
+## Shared components (`components` library)
 
-## Running end-to-end tests
+Reusable UI building blocks with `Tq` prefix:
 
-For end-to-end (e2e) testing, run:
+- **Buttons**: `TqButtonComponent`, `TqIconButtonComponent`, `TqFabComponent`, `TqButtonGroupComponent`
+- **Dialogs**: `TqConfirmDialogComponent`, `TqFormDialogComponent`, `TqDetailDialogComponent`, `TqDestructiveDialogComponent`
+- **Feedback**: `TqToastComponent` + `TqToastService`, `TqValidationBannerComponent`, `TqInlineErrorComponent`
+- **States**: `TqEmptyStateComponent`, `TqErrorPageComponent`
 
-```bash
-ng e2e
-```
+## API services (`api` library)
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+| Service | Key methods |
+|---------|-------------|
+| `SearchService` | `search(request)` |
+| `ImportService` | `uploadCsv(file)`, `getHistory(params)`, `getBatch(id)` |
+| `RequirementsService` | `list(params)`, `get(id)`, `getSimilar(id)`, `getFacets()`, `delete(id)` |
+| `ReportsService` | `getDistribution(field)`, `getTraceability()`, `getSimilarityClusters(threshold)` |
+| `DashboardService` | `getLayouts()`, `saveLayout(layout)`, `deleteLayout(id)` |
+| `AuditService` | `list(params)` |
 
-## Additional Resources
+API base URL defaults to `http://localhost:5000` via the `API_BASE_URL` injection token.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start dev server (`ng serve trace-q`) |
+| `npm run build` | Production build (`ng build trace-q`) |
+| `npm run watch` | Build in watch mode |
+| `npm test` | Run unit tests with Vitest |
+| `ng e2e` | Run E2E tests with Playwright |
+
+## Key dependencies
+
+- Angular 21 + Angular Material + CDK
+- RxJS 7.8
+- TypeScript 5.9
+- Vitest (unit testing)
+- Playwright (E2E testing)
+- Fonts: IBM Plex Mono, Space Grotesk, Material Symbols

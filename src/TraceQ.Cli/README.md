@@ -1,0 +1,84 @@
+# TraceQ.Cli
+
+.NET global tool for TraceQ command-line operations. Validates Windchill PLM CSV exports before import.
+
+## Install from NuGet
+
+```bash
+dotnet tool install -g QuinntyneBrown.TraceQ
+```
+
+Requires .NET 8 or later (the tool uses `RollForward: LatestMajor` to run on any .NET 8+ runtime).
+
+## Usage
+
+```bash
+tq validate path/to/requirements.csv
+```
+
+### Exit codes
+
+| Code | Meaning |
+|------|---------|
+| `0` | Validation passed — file can be imported |
+| `1` | Validation failed — errors found |
+
+### What `validate` checks
+
+**File-level** — file exists, has `.csv` extension, is not empty.
+
+**Structure-level** — header row present, required columns (`Number`, `Name`) exist. Unknown columns are reported as warnings but do not cause failure.
+
+**Row-level** — each row is parsed through the same `CsvParser` used by the API import pipeline. Missing or blank `RequirementNumber` values and parse errors are reported with row numbers.
+
+### Example output
+
+```
+  Validating: requirements.csv
+───────────────────────────────────
+
+  [File Checks]
+    PASS  File exists
+    PASS  File has .csv extension
+    PASS  File is not empty (8,353 bytes)
+  [Structure Checks]
+    INFO  Columns found: Number, Name, Description, Type, ...
+    PASS  Required column 'Number' present
+    PASS  Required column 'Name' present
+  [Row Validation]
+    INFO  Total rows:  30
+    PASS  Valid rows:  30
+
+  Result: PASS — file can be imported
+```
+
+## Run from source
+
+```bash
+dotnet run --project src/TraceQ.Cli -- validate path/to/file.csv
+```
+
+## Pack locally
+
+```bash
+dotnet pack src/TraceQ.Cli -c Release -o ./artifacts
+```
+
+Produces `QuinntyneBrown.TraceQ.<version>.nupkg`.
+
+## Project configuration
+
+| Property | Value |
+|----------|-------|
+| Target framework | `net8.0` |
+| Roll forward | `LatestMajor` (.NET 8+) |
+| Tool command name | `tq` |
+| NuGet package ID | `QuinntyneBrown.TraceQ` |
+
+## Dependencies
+
+- **TraceQ.Core** — domain models, `ICsvParser` interface
+- **TraceQ.Infrastructure** — `CsvParser` implementation
+- **System.CommandLine** — command-line parsing
+- **Microsoft.Extensions.DependencyInjection** — service container
+- **Microsoft.Extensions.Logging** — structured logging
