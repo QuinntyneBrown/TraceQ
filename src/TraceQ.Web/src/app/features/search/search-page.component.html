@@ -1,0 +1,87 @@
+<div class="search-page">
+  <h2>Semantic Search</h2>
+  <p class="subtitle">Search requirements using natural language. Results are ranked by semantic similarity.</p>
+
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-form">
+    <!-- Search Input -->
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Search requirements...</mat-label>
+      <input matInput formControlName="query" placeholder="e.g. thermal protection during re-entry">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" type="submit" class="search-btn"
+            [disabled]="isSearching || !searchForm.get('query')?.value?.trim()">
+      <mat-icon>search</mat-icon>
+      Search
+    </button>
+  </form>
+
+  <!-- Filter Bar -->
+  <div class="filter-bar" *ngIf="facets">
+    <mat-form-field appearance="outline" class="filter-select">
+      <mat-label>Type</mat-label>
+      <mat-select [formControl]="$any(searchForm.get('type'))">
+        <mat-option [value]="null">All</mat-option>
+        <mat-option *ngFor="let item of facets.types" [value]="item.value">
+          {{ item.value }} ({{ item.count }})
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-select">
+      <mat-label>State</mat-label>
+      <mat-select [formControl]="$any(searchForm.get('state'))">
+        <mat-option [value]="null">All</mat-option>
+        <mat-option *ngFor="let item of facets.states" [value]="item.value">
+          {{ item.value }} ({{ item.count }})
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-select">
+      <mat-label>Priority</mat-label>
+      <mat-select [formControl]="$any(searchForm.get('priority'))">
+        <mat-option [value]="null">All</mat-option>
+        <mat-option *ngFor="let item of facets.priorities" [value]="item.value">
+          {{ item.value }} ({{ item.count }})
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-select">
+      <mat-label>Module</mat-label>
+      <mat-select [formControl]="$any(searchForm.get('module'))">
+        <mat-option [value]="null">All</mat-option>
+        <mat-option *ngFor="let item of facets.modules" [value]="item.value">
+          {{ item.value }} ({{ item.count }})
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-select">
+      <mat-label>Owner</mat-label>
+      <mat-select [formControl]="$any(searchForm.get('owner'))">
+        <mat-option [value]="null">All</mat-option>
+        <mat-option *ngFor="let item of facets.owners" [value]="item.value">
+          {{ item.value }} ({{ item.count }})
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-button (click)="clearFilters()" class="clear-filters-btn">
+      <mat-icon>clear</mat-icon>
+      Clear Filters
+    </button>
+  </div>
+
+  <!-- Loading -->
+  <mat-progress-bar *ngIf="isSearching" mode="indeterminate" class="search-progress"></mat-progress-bar>
+
+  <!-- Results -->
+  <app-search-results
+    *ngIf="hasSearched && !isSearching"
+    [results]="results"
+    (findSimilar)="onFindSimilar($event)">
+  </app-search-results>
+</div>

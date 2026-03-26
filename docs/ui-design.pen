@@ -3680,10 +3680,622 @@
                       "id": "ZTZnT",
                       "name": "detailBody",
                       "width": "fill_container",
-                      "height": "fit_content(0)",
                       "layout": "vertical",
                       "gap": 16,
-                      "padding": 24
+                      "padding": 24,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "SlI4P",
+                          "name": "detailName",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Z4ecB",
+                              "fill": "#555555",
+                              "content": "NAME",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 10,
+                              "fontWeight": "600",
+                              "letterSpacing": 1
+                            },
+                            {
+                              "type": "text",
+                              "id": "v90sS",
+                              "fill": "#FFFFFF",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Thermal Protection System Interface Control",
+                              "fontFamily": "Space Grotesk",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tXKnl",
+                          "name": "detailMeta",
+                          "width": "fill_container",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "Ly5dC",
+                              "name": "metaType",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "TlNWv",
+                                  "fill": "#555555",
+                                  "content": "TYPE",
+                                  "fontFamily": "IBM Plex Mono",
+                                  "fontSize": 10,
+                                  "fontWeight": "600",
+                                  "letterSpacing": 1
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "Q34i2",
+                                  "name": "typeBadge",
+                                  "height": 24,
+                                  "stroke": {
+                                    "thickness": 1,
+                                    "fill": "#333333"
+                                  },
+                                  "padding": [
+                                    0,
+                                    10
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "opcrd",
+                                      "fill": "#C9A962",
+                                      "content": "FUNCTIONAL",
+                                      "fontFamily": "IBM Plex Mono",
+                                      "fontSize": 10,
+                                      "fontWeight": "600",
+                                      "letterSpacing": 1
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "VHqwi",
+                              "name": "metaState",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "WQGHi",
+                                  "fill": "#555555",
+                                  "content": "STATE",
+                                  "fontFamily": "IBM Plex Mono",
+                                  "fontSize": 10,
+                                  "fontWeight": "600",
+                                  "letterSpacing": 1
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "Zr4FU",
+                                  "name": "stateBadge",
+                                  "height": 24,
+                                  "fill": "#4ADE8020",
+                                  "stroke": {
+                                    "thickness": 1,
+                                    "fill": "#4ADE8040"
+                                  },
+                                  "padding": [
+                                    0,
+                                    10
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "Qcfwm",
+                                      "fill": "#4ADE80",
+                                      "content": "APPROVED",
+                                      "fontFamily": "IBM Plex Mono",
+                                      "fontSize": 10,
+                                      "fontWeight": "600",
+                                      "letterSpacing": 1
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "WlCcD",
+                              "name": "metaPri",
+                              "width": "fill_container",
+                              "layout": "vertical",
+                              "gap": 4,
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "HX1Ua",
+                                  "fill": "#555555",
+                                  "content": "PRIORITY",
+                                  "fontFamily": "IBM Plex Mono",
+                                  "fontSize": 10,
+                                  "fontWeight": "600",
+                                  "letterSpacing": 1
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "xXhwd",
+                                  "fill": "#FFFFFF",
+                                  "content": "High",
+                                  "fontFamily": "IBM Plex Mono",
+                                  "fontSize": 13,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "yjDtO",
+                          "name": "detailDesc",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "mbQWH",
+                              "fill": "#555555",
+                              "content": "DESCRIPTION",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 10,
+                              "fontWeight": "600",
+                              "letterSpacing": 1
+                            },
+                            {
+                              "type": "text",
+                              "id": "ZZOSK",
+                              "fill": "#999999",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "The thermal protection system shall provide interface control documentation for all external interfaces, including data formats, protocols, and physical connectors.",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "fphRI",
+                          "name": "tracedSection",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 6,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "cYfcC",
+                              "fill": "#555555",
+                              "content": "TRACED TO",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 10,
+                              "fontWeight": "600",
+                              "letterSpacing": 1
+                            },
+                            {
+                              "type": "frame",
+                              "id": "1XGVl",
+                              "name": "tracedChips",
+                              "width": "fill_container",
+                              "gap": 8,
+                              "children": [
+                                {
+                                  "type": "frame",
+                                  "id": "72E7C",
+                                  "name": "chip1",
+                                  "height": 26,
+                                  "stroke": {
+                                    "thickness": 1,
+                                    "fill": "#C9A96240"
+                                  },
+                                  "gap": 4,
+                                  "padding": [
+                                    0,
+                                    10
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "oA2lM",
+                                      "fill": "#C9A962",
+                                      "content": "REQ-018",
+                                      "fontFamily": "IBM Plex Mono",
+                                      "fontSize": 10,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "T6GeU",
+                                  "name": "chip2",
+                                  "height": 26,
+                                  "stroke": {
+                                    "thickness": 1,
+                                    "fill": "#C9A96240"
+                                  },
+                                  "gap": 4,
+                                  "padding": [
+                                    0,
+                                    10
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "5FQJO",
+                                      "fill": "#C9A962",
+                                      "content": "REQ-091",
+                                      "fontFamily": "IBM Plex Mono",
+                                      "fontSize": 10,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "frame",
+                                  "id": "LrkdF",
+                                  "name": "chip3",
+                                  "height": 26,
+                                  "stroke": {
+                                    "thickness": 1,
+                                    "fill": "#C9A96240"
+                                  },
+                                  "gap": 4,
+                                  "padding": [
+                                    0,
+                                    10
+                                  ],
+                                  "alignItems": "center",
+                                  "children": [
+                                    {
+                                      "type": "text",
+                                      "id": "SwdxL",
+                                      "fill": "#C9A962",
+                                      "content": "REQ-203",
+                                      "fontFamily": "IBM Plex Mono",
+                                      "fontSize": 10,
+                                      "fontWeight": "600"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "OGx4c",
+                      "name": "detailFooter",
+                      "width": "fill_container",
+                      "stroke": {
+                        "thickness": {
+                          "top": 1
+                        },
+                        "fill": "#222222"
+                      },
+                      "gap": 12,
+                      "padding": [
+                        16,
+                        24
+                      ],
+                      "justifyContent": "end",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "FjUeO",
+                          "name": "findSimBtn",
+                          "height": 36,
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#C9A962"
+                          },
+                          "gap": 6,
+                          "padding": [
+                            0,
+                            20
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "zd9Um",
+                              "fill": "#C9A962",
+                              "content": "FIND SIMILAR",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 11,
+                              "fontWeight": "600",
+                              "letterSpacing": 1
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "m8q3H",
+                          "name": "closeDetailBtn",
+                          "height": 36,
+                          "fill": "#C9A962",
+                          "padding": [
+                            0,
+                            20
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "zMmxJ",
+                              "fill": "#0A0A0A",
+                              "content": "CLOSE",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 11,
+                              "fontWeight": "600",
+                              "letterSpacing": 1
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VnNRV",
+              "name": "Destructive Dialog",
+              "width": "fill_container",
+              "height": 420,
+              "fill": "#0A0A0A80",
+              "cornerRadius": 4,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "D9kPo",
+                  "x": 12,
+                  "y": 16,
+                  "name": "destructDialog",
+                  "width": 440,
+                  "fill": "#111111",
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#EF4444"
+                  },
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "zsxox",
+                      "name": "destructHeader",
+                      "width": "fill_container",
+                      "fill": "#EF444415",
+                      "stroke": {
+                        "thickness": {
+                          "bottom": 1
+                        },
+                        "fill": "#EF444440"
+                      },
+                      "gap": 12,
+                      "padding": [
+                        20,
+                        24
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "Ihj7N",
+                          "width": 20,
+                          "height": 20,
+                          "iconFontName": "triangle-alert",
+                          "iconFontFamily": "lucide",
+                          "fill": "#EF4444"
+                        },
+                        {
+                          "type": "text",
+                          "id": "y75xl",
+                          "fill": "#EF4444",
+                          "content": "Dangerous Action",
+                          "fontFamily": "Space Grotesk",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "sCchP",
+                      "name": "destructBody",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 16,
+                      "padding": 24,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QeN5E",
+                          "fill": "#999999",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "You are about to permanently delete all requirements in module TPS-CORE. This will remove 247 requirements and their associated embeddings.",
+                          "fontFamily": "IBM Plex Mono",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ZUzJL",
+                          "fill": "#EF4444",
+                          "content": "This action is irreversible.",
+                          "fontFamily": "IBM Plex Mono",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "CYokc",
+                          "name": "typeField",
+                          "width": "fill_container",
+                          "layout": "vertical",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "bLKjQ",
+                              "fill": "#FFFFFF",
+                              "content": "Type DELETE to confirm:",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 12,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "4S08y",
+                              "name": "typeInput",
+                              "width": "fill_container",
+                              "height": 40,
+                              "fill": "#0A0A0A",
+                              "stroke": {
+                                "thickness": 1,
+                                "fill": "#EF444460"
+                              },
+                              "padding": [
+                                0,
+                                14
+                              ],
+                              "alignItems": "center",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "m3DkO",
+                                  "fill": "#FFFFFF",
+                                  "content": "DELE",
+                                  "fontFamily": "IBM Plex Mono",
+                                  "fontSize": 13,
+                                  "fontWeight": "normal"
+                                },
+                                {
+                                  "type": "rectangle",
+                                  "id": "sVn2N",
+                                  "name": "typeCursor",
+                                  "fill": "#EF4444",
+                                  "width": 2,
+                                  "height": 18
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "s6Ygs",
+                      "name": "destructFooter",
+                      "width": "fill_container",
+                      "stroke": {
+                        "thickness": {
+                          "top": 1
+                        },
+                        "fill": "#222222"
+                      },
+                      "gap": 12,
+                      "padding": [
+                        16,
+                        24
+                      ],
+                      "justifyContent": "end",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "8cJ5Z",
+                          "name": "destructCancel",
+                          "height": 36,
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#777777"
+                          },
+                          "padding": [
+                            0,
+                            20
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Dh5O9",
+                              "fill": "#FFFFFF",
+                              "content": "CANCEL",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 11,
+                              "fontWeight": "600",
+                              "letterSpacing": 1
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "TB64X",
+                          "name": "destructConfirm",
+                          "height": 36,
+                          "fill": "#EF444440",
+                          "gap": 6,
+                          "padding": [
+                            0,
+                            20
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "JYapc",
+                              "width": 14,
+                              "height": 14,
+                              "iconFontName": "trash-2",
+                              "iconFontFamily": "lucide",
+                              "fill": "#FFFFFF50"
+                            },
+                            {
+                              "type": "text",
+                              "id": "aI3RG",
+                              "fill": "#FFFFFF50",
+                              "content": "DELETE ALL",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 11,
+                              "fontWeight": "600",
+                              "letterSpacing": 1
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
                 }
@@ -3700,13 +4312,717 @@
       "y": 3700,
       "name": "Error Messages & Empty States",
       "width": 1440,
-      "height": "fit_content(900)",
       "fill": "#0A0A0A",
       "layout": "vertical",
       "gap": 48,
       "padding": [
         48,
         56
+      ],
+      "children": [
+        {
+          "type": "text",
+          "id": "kNdxv",
+          "fill": "#FFFFFF",
+          "content": "Error Messages & Empty States",
+          "fontFamily": "Space Grotesk",
+          "fontSize": 42,
+          "fontWeight": "700",
+          "letterSpacing": -1
+        },
+        {
+          "type": "text",
+          "id": "Wzt80",
+          "fill": "#777777",
+          "content": "Inline errors, page-level errors, empty states, and validation summaries.",
+          "fontFamily": "IBM Plex Mono",
+          "fontSize": 13,
+          "fontWeight": "normal"
+        },
+        {
+          "type": "frame",
+          "id": "bI1Bj",
+          "name": "Inline Form Errors",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "EN5QN",
+              "fill": "#C9A962",
+              "content": "INLINE FORM ERRORS",
+              "fontFamily": "IBM Plex Mono",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 2
+            },
+            {
+              "type": "frame",
+              "id": "YozFU",
+              "name": "inlineDemo",
+              "width": "fill_container",
+              "gap": 32,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "rb5rx",
+                  "name": "fieldValid",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ZsEM5",
+                      "fill": "#777777",
+                      "content": "LAYOUT NAME",
+                      "fontFamily": "IBM Plex Mono",
+                      "fontSize": 11,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "vIynm",
+                      "name": "inputValid",
+                      "width": "fill_container",
+                      "height": 40,
+                      "fill": "#0A0A0A",
+                      "stroke": {
+                        "thickness": 1,
+                        "fill": "#333333"
+                      },
+                      "padding": [
+                        0,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "DX27T",
+                          "fill": "#FFFFFF",
+                          "content": "Weekly Report Layout",
+                          "fontFamily": "IBM Plex Mono",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "zZRUx",
+                  "name": "fieldError",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 6,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "v4nGj",
+                      "fill": "#777777",
+                      "content": "FILE UPLOAD",
+                      "fontFamily": "IBM Plex Mono",
+                      "fontSize": 11,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zXTT2",
+                      "name": "inputError",
+                      "width": "fill_container",
+                      "height": 40,
+                      "fill": "#0A0A0A",
+                      "stroke": {
+                        "thickness": 1,
+                        "fill": "#EF4444"
+                      },
+                      "padding": [
+                        0,
+                        14
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "jGJFJ",
+                          "fill": "#FFFFFF",
+                          "content": "report.xlsx",
+                          "fontFamily": "IBM Plex Mono",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "I8D1s",
+                      "name": "errorMsg",
+                      "gap": 6,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "FyFup",
+                          "width": 14,
+                          "height": 14,
+                          "iconFontName": "circle-x",
+                          "iconFontFamily": "lucide",
+                          "fill": "#EF4444"
+                        },
+                        {
+                          "type": "text",
+                          "id": "bza21",
+                          "fill": "#EF4444",
+                          "content": "File must be .csv format",
+                          "fontFamily": "IBM Plex Mono",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "hpqHR",
+          "name": "Page-Level Errors",
+          "width": "fill_container",
+          "gap": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "bzHkF",
+              "name": "404 – Not Found",
+              "width": "fill_container",
+              "height": 360,
+              "stroke": {
+                "thickness": 1,
+                "fill": "#222222"
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                48,
+                32
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "isaAS",
+                  "width": 64,
+                  "height": 64,
+                  "iconFontName": "file-search",
+                  "iconFontFamily": "lucide",
+                  "fill": "#333333"
+                },
+                {
+                  "type": "text",
+                  "id": "y8geW",
+                  "fill": "#222222",
+                  "content": "404",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 64,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "eS4H2",
+                  "fill": "#FFFFFF",
+                  "content": "Page Not Found",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 20,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "tzoSs",
+                  "fill": "#777777",
+                  "content": "The page you're looking for doesn't exist or has been moved.",
+                  "textAlign": "center",
+                  "fontFamily": "IBM Plex Mono",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "LKFeM",
+                  "name": "go404Btn",
+                  "height": 40,
+                  "fill": "#C9A962",
+                  "gap": 8,
+                  "padding": [
+                    0,
+                    24
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "f4qd2",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "arrow-left",
+                      "iconFontFamily": "lucide",
+                      "fill": "#0A0A0A"
+                    },
+                    {
+                      "type": "text",
+                      "id": "V0uHF",
+                      "fill": "#0A0A0A",
+                      "content": "GO TO DASHBOARD",
+                      "fontFamily": "IBM Plex Mono",
+                      "fontSize": 12,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "2uTC4",
+              "name": "500 – Server Error",
+              "width": "fill_container",
+              "height": 360,
+              "stroke": {
+                "thickness": 1,
+                "fill": "#222222"
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                48,
+                32
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "OJsBn",
+                  "width": 64,
+                  "height": 64,
+                  "iconFontName": "server-crash",
+                  "iconFontFamily": "lucide",
+                  "fill": "#333333"
+                },
+                {
+                  "type": "text",
+                  "id": "CyMK4",
+                  "fill": "#222222",
+                  "content": "500",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 64,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "pTpKZ",
+                  "fill": "#FFFFFF",
+                  "content": "Something Went Wrong",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 20,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "2HF2U",
+                  "fill": "#777777",
+                  "content": "An unexpected error occurred. Please try again.",
+                  "textAlign": "center",
+                  "fontFamily": "IBM Plex Mono",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "0Lgjl",
+                  "name": "retryBtn",
+                  "height": 40,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#C9A962"
+                  },
+                  "gap": 8,
+                  "padding": [
+                    0,
+                    24
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "h3AXs",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "refresh-cw",
+                      "iconFontFamily": "lucide",
+                      "fill": "#C9A962"
+                    },
+                    {
+                      "type": "text",
+                      "id": "v8HSU",
+                      "fill": "#C9A962",
+                      "content": "RETRY",
+                      "fontFamily": "IBM Plex Mono",
+                      "fontSize": 12,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "PaQ77",
+          "name": "Empty States",
+          "width": "fill_container",
+          "gap": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "d2j1N",
+              "name": "Empty – No Data",
+              "width": "fill_container",
+              "height": 300,
+              "stroke": {
+                "thickness": 1,
+                "fill": "#222222"
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                40,
+                32
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "PtMVx",
+                  "width": 56,
+                  "height": 56,
+                  "iconFontName": "inbox",
+                  "iconFontFamily": "lucide",
+                  "fill": "#333333"
+                },
+                {
+                  "type": "text",
+                  "id": "EgoT6",
+                  "fill": "#FFFFFF",
+                  "content": "No Requirements Imported",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "Nq4Fy",
+                  "fill": "#777777",
+                  "content": "Import a CSV file to get started with requirement analysis.",
+                  "textAlign": "center",
+                  "fontFamily": "IBM Plex Mono",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "llHdO",
+                  "name": "emptyBtn",
+                  "height": 40,
+                  "fill": "#C9A962",
+                  "gap": 8,
+                  "padding": [
+                    0,
+                    24
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "YmVy4",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "upload",
+                      "iconFontFamily": "lucide",
+                      "fill": "#0A0A0A"
+                    },
+                    {
+                      "type": "text",
+                      "id": "e0rza",
+                      "fill": "#0A0A0A",
+                      "content": "IMPORT CSV",
+                      "fontFamily": "IBM Plex Mono",
+                      "fontSize": 12,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "dqvQN",
+              "name": "Empty – No Results",
+              "width": "fill_container",
+              "height": 300,
+              "stroke": {
+                "thickness": 1,
+                "fill": "#222222"
+              },
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                40,
+                32
+              ],
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "FFJrV",
+                  "width": 56,
+                  "height": 56,
+                  "iconFontName": "search-x",
+                  "iconFontFamily": "lucide",
+                  "fill": "#333333"
+                },
+                {
+                  "type": "text",
+                  "id": "fPEuP",
+                  "fill": "#FFFFFF",
+                  "content": "No Results Found",
+                  "fontFamily": "Space Grotesk",
+                  "fontSize": 18,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "mlNDX",
+                  "fill": "#777777",
+                  "content": "No results found for \"thermal shielding v3\". Try a different query.",
+                  "textAlign": "center",
+                  "fontFamily": "IBM Plex Mono",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "dHXWu",
+                  "name": "clearBtn",
+                  "height": 40,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#777777"
+                  },
+                  "gap": 8,
+                  "padding": [
+                    0,
+                    24
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "9ZmHf",
+                      "fill": "#FFFFFF",
+                      "content": "CLEAR SEARCH",
+                      "fontFamily": "IBM Plex Mono",
+                      "fontSize": 12,
+                      "fontWeight": "600",
+                      "letterSpacing": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "VdRTk",
+          "name": "Validation Error Summary",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "children": [
+            {
+              "type": "text",
+              "id": "whj0i",
+              "fill": "#C9A962",
+              "content": "VALIDATION ERROR SUMMARY",
+              "fontFamily": "IBM Plex Mono",
+              "fontSize": 11,
+              "fontWeight": "600",
+              "letterSpacing": 2
+            },
+            {
+              "type": "frame",
+              "id": "Lkm6J",
+              "name": "Error Banner",
+              "width": 600,
+              "fill": "#EF444410",
+              "stroke": {
+                "thickness": 1,
+                "fill": "#EF444440"
+              },
+              "gap": 12,
+              "padding": [
+                16,
+                20
+              ],
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "afBc0",
+                  "width": 20,
+                  "height": 20,
+                  "iconFontName": "triangle-alert",
+                  "iconFontFamily": "lucide",
+                  "fill": "#EF4444"
+                },
+                {
+                  "type": "frame",
+                  "id": "qN8uH",
+                  "name": "validContent",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "N78KL",
+                      "fill": "#EF4444",
+                      "content": "Please fix the following errors:",
+                      "fontFamily": "Space Grotesk",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "acdzn",
+                      "name": "validList",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "MKrTv",
+                          "name": "err1",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "0iVMH",
+                              "fill": "#EF4444",
+                              "content": "•",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "R7bpn",
+                              "fill": "#CCCCCC",
+                              "content": "File must be .csv format (received .xlsx)",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "8PESY",
+                          "name": "err2",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "JnQ5D",
+                              "fill": "#EF4444",
+                              "content": "•",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "HTqpl",
+                              "fill": "#CCCCCC",
+                              "content": "File size exceeds 50 MB limit (received 67.3 MB)",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "aAENd",
+                          "name": "err3",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "hVeRE",
+                              "fill": "#EF4444",
+                              "content": "•",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            },
+                            {
+                              "type": "text",
+                              "id": "52WKV",
+                              "fill": "#CCCCCC",
+                              "content": "Layout name is required",
+                              "fontFamily": "IBM Plex Mono",
+                              "fontSize": 12,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "icon_font",
+                  "id": "Dv6nv",
+                  "name": "validDismiss",
+                  "width": 16,
+                  "height": 16,
+                  "iconFontName": "x",
+                  "iconFontFamily": "lucide",
+                  "fill": "#555555"
+                }
+              ]
+            }
+          ]
+        }
       ]
     }
   ]

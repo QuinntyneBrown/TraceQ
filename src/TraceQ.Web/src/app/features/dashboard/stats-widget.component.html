@@ -1,0 +1,28 @@
+<div class="stats-container" *ngIf="!isLoading && !errorMessage">
+  <mat-card class="stat-card">
+    <div class="stat-value">{{ stats?.total | number }}</div>
+    <div class="stat-label">Total Requirements</div>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <div class="stat-value accent">{{ embeddedPercent }}%</div>
+    <div class="stat-label">Embedded</div>
+    <mat-progress-bar mode="determinate" [value]="embeddedPercent" color="accent"></mat-progress-bar>
+  </mat-card>
+
+  <mat-card class="stat-card">
+    <div class="stat-value primary">{{ coveragePercent }}%</div>
+    <div class="stat-label">Traceability Coverage</div>
+    <mat-progress-bar mode="determinate" [value]="coveragePercent" color="primary"></mat-progress-bar>
+  </mat-card>
+</div>
+
+<div class="loading-container" *ngIf="isLoading">
+  <mat-spinner diameter="36"></mat-spinner>
+</div>
+
+<div class="error-container" *ngIf="errorMessage">
+  <mat-icon>error_outline</mat-icon>
+  <p>{{ errorMessage }}</p>
+  <button mat-stroked-button (click)="refresh()">Retry</button>
+</div>

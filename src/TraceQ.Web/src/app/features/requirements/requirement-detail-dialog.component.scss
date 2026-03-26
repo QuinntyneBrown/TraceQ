@@ -1,0 +1,97 @@
+.dialog-title {
+  .req-number {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #00897b;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .req-name {
+    display: block;
+    font-size: 18px;
+  }
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+
+  .detail-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 2px;
+  }
+
+  .detail-value {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.embed-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+
+  &.embedded {
+    color: #2e7d32;
+  }
+}
+
+.description-section {
+  margin-top: 16px;
+
+  h4 {
+    font-weight: 500;
+    margin: 0 0 8px 0;
+  }
+
+  .description-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(0, 0, 0, 0.7);
+    white-space: pre-wrap;
+  }
+}
+
+.traced-section {
+  margin-top: 16px;
+
+  h4 {
+    font-weight: 500;
+    margin: 0 0 8px 0;
+  }
+
+  .trace-chip {
+    cursor: pointer;
+  }
+}
+
+:host-context(.dark-theme) {
+  .detail-row .detail-label {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .description-text {
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+@media (max-width: 600px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}

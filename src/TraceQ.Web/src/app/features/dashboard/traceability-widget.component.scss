@@ -1,0 +1,140 @@
+.traceability-container {
+  width: 100%;
+  height: 100%;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.coverage-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.coverage-circle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  .coverage-text {
+    position: absolute;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .coverage-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: #00897b;
+    line-height: 1;
+  }
+
+  .coverage-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+}
+
+.coverage-summary {
+  display: flex;
+  gap: 20px;
+
+  .summary-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .summary-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a237e;
+  }
+
+  .summary-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.5px;
+  }
+}
+
+h4 {
+  margin: 8px 0 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.density-chart {
+  height: 120px;
+  margin-bottom: 8px;
+}
+
+.compact-table {
+  width: 100%;
+  font-size: 12px;
+
+  th {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  td,
+  th {
+    padding: 4px 8px;
+  }
+}
+
+.name-cell {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  color: rgba(0, 0, 0, 0.35);
+
+  mat-icon {
+    font-size: 36px;
+    height: 36px;
+    width: 36px;
+    margin-bottom: 8px;
+  }
+
+  p {
+    margin: 0 0 12px;
+    font-size: 13px;
+  }
+}
+
+:host-context(.dark-theme) {
+  .coverage-circle .coverage-label,
+  .coverage-summary .summary-label,
+  h4 {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .loading-container,
+  .error-container {
+    color: rgba(255, 255, 255, 0.35);
+  }
+}

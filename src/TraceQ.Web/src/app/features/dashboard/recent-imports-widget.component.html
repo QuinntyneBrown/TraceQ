@@ -1,0 +1,56 @@
+<div class="imports-container" *ngIf="!isLoading && !errorMessage">
+  <table mat-table [dataSource]="imports" class="compact-table" *ngIf="imports.length > 0">
+    <ng-container matColumnDef="importedAt">
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let row" [matTooltip]="row.importedAt | date:'medium'">
+        {{ getRelativeTime(row.importedAt) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="fileName">
+      <th mat-header-cell *matHeaderCellDef>File</th>
+      <td mat-cell *matCellDef="let row" class="file-cell" [matTooltip]="row.fileName">
+        {{ row.fileName }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="insertedCount">
+      <th mat-header-cell *matHeaderCellDef>Ins</th>
+      <td mat-cell *matCellDef="let row">
+        <span class="count-badge inserted">{{ row.insertedCount }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="updatedCount">
+      <th mat-header-cell *matHeaderCellDef>Upd</th>
+      <td mat-cell *matCellDef="let row">
+        <span class="count-badge updated">{{ row.updatedCount }}</span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="errorCount">
+      <th mat-header-cell *matHeaderCellDef>Err</th>
+      <td mat-cell *matCellDef="let row">
+        <span class="count-badge" [class.errors]="row.errorCount > 0">{{ row.errorCount }}</span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <div class="no-data-container" *ngIf="imports.length === 0">
+    <mat-icon>cloud_upload</mat-icon>
+    <p>No imports yet.</p>
+  </div>
+</div>
+
+<div class="loading-container" *ngIf="isLoading">
+  <mat-spinner diameter="36"></mat-spinner>
+</div>
+
+<div class="error-container" *ngIf="errorMessage">
+  <mat-icon>error_outline</mat-icon>
+  <p>{{ errorMessage }}</p>
+  <button mat-stroked-button (click)="refresh()">Retry</button>
+</div>
