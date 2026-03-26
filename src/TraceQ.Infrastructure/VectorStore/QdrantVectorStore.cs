@@ -8,15 +8,14 @@ namespace TraceQ.Infrastructure.VectorStore;
 
 /// <summary>
 /// IVectorStore implementation backed by a Qdrant vector database.
-/// Supports degraded mode: if Qdrant is unreachable at initialization,
-/// all operations gracefully return empty results / no-op.
+/// Startup fails if Qdrant cannot be reached or the collection cannot be initialized.
 /// </summary>
 public class QdrantVectorStore : IVectorStore
 {
     private readonly IQdrantClient _client;
     private readonly QdrantOptions _options;
     private readonly ILogger<QdrantVectorStore> _logger;
-    private bool _isAvailable;
+    private bool _isInitialized;
 
     /// <summary>
     /// Maximum number of points to upsert in a single batch request.
@@ -24,11 +23,6 @@ public class QdrantVectorStore : IVectorStore
     internal const int MaxBatchSize = 100;
 
     /// <summary>
-    /// Indicates whether the Qdrant server was reachable during initialization.
-    /// Exposed internally for testability.
-    /// </summary>
-    public bool IsAvailable => _isAvailable;
-
     public QdrantVectorStore(
         IQdrantClient client,
         IOptions<QdrantOptions> options,
@@ -42,57 +36,41 @@ public class QdrantVectorStore : IVectorStore
     /// <inheritdoc />
     public async Task InitializeAsync()
     {
-        try
+        _logger.LogInformation(
+            "Connecting to Qdrant at {Host}:{Port}, collection '{Collection}'",
+            _options.Host, _options.GrpcPort, _options.CollectionName);
+
+        var exists = await _client.CollectionExistsAsync(_options.CollectionName);
+
+        if (!exists)
         {
             _logger.LogInformation(
-                "Connecting to Qdrant at {Host}:{Port}, collection '{Collection}'",
-                _options.Host, _options.GrpcPort, _options.CollectionName);
+                "Collection '{Collection}' does not exist. Creating with vector size 384, cosine distance",
+                _options.CollectionName);
 
-            var exists = await _client.CollectionExistsAsync(_options.CollectionName);
+            await _client.CreateCollectionAsync(
+                _options.CollectionName,
+                new VectorParams
+                {
+                    Size = 384,
+                    Distance = Distance.Cosine
+                });
 
-            if (!exists)
-            {
-                _logger.LogInformation(
-                    "Collection '{Collection}' does not exist. Creating with vector size 384, cosine distance",
-                    _options.CollectionName);
-
-                await _client.CreateCollectionAsync(
-                    _options.CollectionName,
-                    new VectorParams
-                    {
-                        Size = 384,
-                        Distance = Distance.Cosine
-                    });
-
-                _logger.LogInformation("Collection '{Collection}' created successfully", _options.CollectionName);
-            }
-            else
-            {
-                _logger.LogInformation("Collection '{Collection}' already exists", _options.CollectionName);
-            }
-
-            _isAvailable = true;
-            _logger.LogInformation("Qdrant vector store initialized successfully");
+            _logger.LogInformation("Collection '{Collection}' created successfully", _options.CollectionName);
         }
-        catch (Exception ex)
+        else
         {
-            _isAvailable = false;
-            _logger.LogWarning(
-                ex,
-                "Qdrant is unreachable at {Host}:{Port}. Vector store running in degraded mode — " +
-                "vector operations will be skipped until restart",
-                _options.Host, _options.GrpcPort);
+            _logger.LogInformation("Collection '{Collection}' already exists", _options.CollectionName);
         }
+
+        _isInitialized = true;
+        _logger.LogInformation("Qdrant vector store initialized successfully");
     }
 
     /// <inheritdoc />
     public async Task UpsertAsync(Guid id, float[] vector, Dictionary<string, string> payload)
     {
-        if (!_isAvailable)
-        {
-            _logger.LogDebug("Qdrant unavailable — skipping upsert for {Id}", id);
-            return;
-        }
+        EnsureInitialized();
 
         var point = CreatePointStruct(id, vector, payload);
 
@@ -107,11 +85,7 @@ public class QdrantVectorStore : IVectorStore
     public async Task UpsertBatchAsync(
         IEnumerable<(Guid id, float[] vector, Dictionary<string, string> payload)> points)
     {
-        if (!_isAvailable)
-        {
-            _logger.LogDebug("Qdrant unavailable — skipping batch upsert");
-            return;
-        }
+        EnsureInitialized();
 
         var allPoints = points.ToList();
         var chunks = ChunkPoints(allPoints, MaxBatchSize);
@@ -136,11 +110,7 @@ public class QdrantVectorStore : IVectorStore
         int top = 20,
         Dictionary<string, string>? filters = null)
     {
-        if (!_isAvailable)
-        {
-            _logger.LogDebug("Qdrant unavailable — returning empty search results");
-            return new List<(Guid id, float score)>();
-        }
+        EnsureInitialized();
 
         Filter? filter = null;
         if (filters is { Count: > 0 })
@@ -173,15 +143,20 @@ public class QdrantVectorStore : IVectorStore
     /// <inheritdoc />
     public async Task DeleteAsync(Guid id)
     {
-        if (!_isAvailable)
-        {
-            _logger.LogDebug("Qdrant unavailable — skipping delete for {Id}", id);
-            return;
-        }
+        EnsureInitialized();
 
         await _client.DeleteAsync(_options.CollectionName, id);
 
         _logger.LogDebug("Deleted point {Id} from collection '{Collection}'", id, _options.CollectionName);
+    }
+
+    private void EnsureInitialized()
+    {
+        if (!_isInitialized)
+        {
+            throw new InvalidOperationException(
+                "Qdrant vector store has not been initialized. Call InitializeAsync during application startup.");
+        }
     }
 
     /// <summary>

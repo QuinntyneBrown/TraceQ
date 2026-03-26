@@ -1,7 +1,5 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using TraceQ.Core.Interfaces;
 
 namespace TraceQ.Infrastructure.Embeddings;
@@ -24,37 +22,9 @@ public static class EmbeddingServiceExtensions
         services.Configure<EmbeddingModelOptions>(
             configuration.GetSection(EmbeddingModelOptions.SectionName));
 
-        // Register embedding service as singleton (InferenceSession is thread-safe for reads)
-        services.AddSingleton<IEmbeddingService>(sp =>
-        {
-            var options = sp.GetRequiredService<IOptions<EmbeddingModelOptions>>();
-            var loggerFactory = sp.GetRequiredService<ILoggerFactory>();
-            var modelOptions = options.Value;
-
-            if (!File.Exists(modelOptions.ModelPath) || !File.Exists(modelOptions.VocabPath))
-            {
-                return new FallbackEmbeddingService(
-                    options,
-                    loggerFactory.CreateLogger<FallbackEmbeddingService>());
-            }
-
-            try
-            {
-                return new OnnxEmbeddingService(
-                    options,
-                    loggerFactory.CreateLogger<OnnxEmbeddingService>());
-            }
-            catch (Exception ex)
-            {
-                loggerFactory.CreateLogger<FallbackEmbeddingService>().LogError(
-                    ex,
-                    "Failed to initialize the ONNX embedding service. Falling back to zero-vector embeddings.");
-
-                return new FallbackEmbeddingService(
-                    options,
-                    loggerFactory.CreateLogger<FallbackEmbeddingService>());
-            }
-        });
+        // Register the production embedding service only. Startup should fail
+        // immediately if the model files are missing or cannot be loaded.
+        services.AddSingleton<IEmbeddingService, OnnxEmbeddingService>();
 
         // Register background service for periodic embedding of new requirements
         services.AddHostedService<EmbeddingBackgroundService>();

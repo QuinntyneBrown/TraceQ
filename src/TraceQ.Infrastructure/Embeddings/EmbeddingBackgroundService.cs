@@ -70,15 +70,6 @@ public class EmbeddingBackgroundService : BackgroundService
         var requirementRepository = scope.ServiceProvider.GetRequiredService<IRequirementRepository>();
         var vectorStore = scope.ServiceProvider.GetRequiredService<IVectorStore>();
 
-        if (!_embeddingService.IsAvailable || !vectorStore.IsAvailable)
-        {
-            _logger.LogDebug(
-                "Skipping background embedding pass because dependencies are unavailable (Embeddings: {EmbeddingsAvailable}, VectorStore: {VectorStoreAvailable})",
-                _embeddingService.IsAvailable,
-                vectorStore.IsAvailable);
-            return;
-        }
-
         var unembedded = await requirementRepository.GetUnembeddedAsync();
 
         if (unembedded.Count == 0)

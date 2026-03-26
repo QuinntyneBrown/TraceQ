@@ -2,7 +2,6 @@ namespace TraceQ.Core.Interfaces;
 
 public interface IVectorStore
 {
-    bool IsAvailable { get; }
     Task InitializeAsync();
     Task UpsertAsync(Guid id, float[] vector, Dictionary<string, string> payload);
     Task UpsertBatchAsync(IEnumerable<(Guid id, float[] vector, Dictionary<string, string> payload)> points);

@@ -148,16 +148,9 @@ public class ImportService : IImportService
             "Import complete: {Inserted} inserted, {Updated} updated, {Skipped} skipped, {Errors} errors",
             batch.InsertedCount, batch.UpdatedCount, batch.SkippedCount, batch.ErrorCount);
 
-        // Trigger embedding generation for unembedded requirements inline
-        // (The EmbeddingBackgroundService also handles this periodically)
-        try
-        {
-            await GenerateEmbeddingsAsync();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Post-import embedding generation failed (will be retried by background service)");
-        }
+        // Generate embeddings before returning so imported requirements are
+        // immediately searchable when the import succeeds.
+        await GenerateEmbeddingsAsync();
 
         return new ImportResultDto
         {
@@ -245,54 +238,38 @@ public class ImportService : IImportService
 
     private async Task GenerateEmbeddingsAsync()
     {
-        try
+        var unembedded = await _requirementRepository.GetUnembeddedAsync();
+        if (!unembedded.Any())
+            return;
+
+        var textItems = unembedded.Select(r => (
+            id: r.Id.ToString(),
+            text: $"{r.RequirementNumber} {r.Name} {r.Description ?? string.Empty}"
+        ));
+
+        var embeddings = await _embeddingService.GenerateBatchEmbeddingsAsync(textItems);
+
+        var points = new List<(Guid id, float[] vector, Dictionary<string, string> payload)>();
+        foreach (var req in unembedded)
         {
-            if (!_embeddingService.IsAvailable || !_vectorStore.IsAvailable)
+            if (embeddings.TryGetValue(req.Id.ToString(), out var vector))
             {
-                _logger.LogInformation(
-                    "Skipping inline embedding generation because dependencies are unavailable (Embeddings: {EmbeddingsAvailable}, VectorStore: {VectorStoreAvailable})",
-                    _embeddingService.IsAvailable,
-                    _vectorStore.IsAvailable);
-                return;
-            }
-
-            var unembedded = await _requirementRepository.GetUnembeddedAsync();
-            if (!unembedded.Any())
-                return;
-
-            var textItems = unembedded.Select(r => (
-                id: r.Id.ToString(),
-                text: $"{r.RequirementNumber} {r.Name} {r.Description ?? string.Empty}"
-            ));
-
-            var embeddings = await _embeddingService.GenerateBatchEmbeddingsAsync(textItems);
-
-            var points = new List<(Guid id, float[] vector, Dictionary<string, string> payload)>();
-            foreach (var req in unembedded)
-            {
-                if (embeddings.TryGetValue(req.Id.ToString(), out var vector))
+                var payload = new Dictionary<string, string>
                 {
-                    var payload = new Dictionary<string, string>
-                    {
-                        ["number"] = req.RequirementNumber,
-                        ["name"] = req.Name,
-                        ["type"] = req.Type ?? string.Empty,
-                        ["state"] = req.State ?? string.Empty,
-                        ["module"] = req.Module ?? string.Empty
-                    };
-                    points.Add((req.Id, vector, payload));
-                }
-            }
-
-            if (points.Any())
-            {
-                await _vectorStore.UpsertBatchAsync(points);
-                await _requirementRepository.MarkAsEmbeddedAsync(unembedded.Select(r => r.Id));
+                    ["number"] = req.RequirementNumber,
+                    ["name"] = req.Name,
+                    ["type"] = req.Type ?? string.Empty,
+                    ["state"] = req.State ?? string.Empty,
+                    ["module"] = req.Module ?? string.Empty
+                };
+                points.Add((req.Id, vector, payload));
             }
         }
-        catch (Exception ex)
+
+        if (points.Any())
         {
-            _logger.LogError(ex, "Failed to generate embeddings for unembedded requirements");
+            await _vectorStore.UpsertBatchAsync(points);
+            await _requirementRepository.MarkAsEmbeddedAsync(unembedded.Select(r => r.Id));
         }
     }
 }

@@ -62,11 +62,12 @@ try
         ?? "Data Source=traceq.db";
     builder.Services.AddTraceQInfrastructure(connectionString);
 
-    // Register local ONNX embedding service and background embedding worker
-    // Uses all-MiniLM-L6-v2 model for 384-dim embeddings — no cloud calls
+    // Register local ONNX embedding service and background embedding worker.
+    // Startup fails if the production model files cannot be loaded.
     builder.Services.AddEmbeddingServices(builder.Configuration);
 
-    // Register Qdrant vector store (localhost-only)
+    // Register Qdrant vector store (localhost-only). Startup fails if the
+    // vector store cannot connect and initialize the configured collection.
     builder.Services.AddQdrantVectorStore(builder.Configuration);
 
     // -------------------------------------------------------------------------
@@ -95,8 +96,10 @@ try
         await db.Database.EnsureCreatedAsync();
     }
 
-    // Initialize the vector store (connects to Qdrant, creates collection if needed)
-    // If Qdrant is unreachable, the store enters degraded mode gracefully
+    // Force production dependencies to initialize before the app starts serving.
+    _ = app.Services.GetRequiredService<IEmbeddingService>();
+
+    // Initialize the vector store (connects to Qdrant, creates collection if needed).
     var vectorStore = app.Services.GetRequiredService<IVectorStore>();
     await vectorStore.InitializeAsync();
 
