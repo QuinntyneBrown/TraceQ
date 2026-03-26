@@ -1,0 +1,29 @@
+<div class="tq-toast" [class]="'tq-toast-' + data.type">
+  <div class="tq-toast-accent"></div>
+  <div class="tq-toast-body">
+    <mat-icon class="tq-toast-icon" [class]="'tq-icon-' + data.type">
+      {{ iconMap[data.type] }}
+    </mat-icon>
+    <div class="tq-toast-content">
+      <span class="tq-toast-title">{{ data.title }}</span>
+      <span class="tq-toast-message">{{ data.message }}</span>
+      @if (data.showProgress) {
+        <mat-progress-bar
+          mode="determinate"
+          [value]="data.progressValue ?? 0"
+          class="tq-toast-progress"
+        />
+      }
+    </div>
+    <div class="tq-toast-actions">
+      @if (data.actionLabel) {
+        <button mat-button class="tq-toast-action" [class]="'tq-action-' + data.type" (click)="onAction()">
+          {{ data.actionLabel }}
+        </button>
+      }
+      <button mat-icon-button class="tq-toast-close" (click)="dismiss()" aria-label="Dismiss">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

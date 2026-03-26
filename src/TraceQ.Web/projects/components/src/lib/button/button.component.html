@@ -1,0 +1,11 @@
+<button
+  mat-flat-button
+  [class]="buttonClasses()"
+  [disabled]="disabled()"
+  (click)="clicked.emit($event)"
+>
+  @if (icon()) {
+    <mat-icon [fontSet]="iconFontSet()" [fontIcon]="icon()!">{{ useLigature() ? icon() : '' }}</mat-icon>
+  }
+  <span class="tq-btn-label"><ng-content /></span>
+</button>

@@ -1,0 +1,40 @@
+<div class="tq-dialog tq-destructive">
+  <div class="tq-dialog-header">
+    <mat-icon class="tq-header-icon">warning</mat-icon>
+    <span class="tq-header-title">{{ data.title }}</span>
+  </div>
+  <div class="tq-dialog-body">
+    <p class="tq-body-message">{{ data.message }}</p>
+    @if (data.warningText) {
+      <p class="tq-body-warning">{{ data.warningText }}</p>
+    }
+    <div class="tq-confirm-field">
+      <label class="tq-field-label">
+        Type {{ data.confirmationWord || 'DELETE' }} to confirm:
+      </label>
+      <input
+        class="tq-confirm-input"
+        [placeholder]="data.confirmationWord || 'DELETE'"
+        (input)="onInput($event)"
+      />
+    </div>
+  </div>
+  <div class="tq-dialog-footer">
+    <button
+      mat-flat-button
+      class="tq-btn-cancel"
+      (click)="dialogRef.close(false)"
+    >
+      {{ data.cancelLabel || 'CANCEL' }}
+    </button>
+    <button
+      mat-flat-button
+      class="tq-btn-destroy"
+      [disabled]="!isConfirmed()"
+      (click)="dialogRef.close(true)"
+    >
+      <mat-icon>delete</mat-icon>
+      {{ data.confirmLabel || 'DELETE ALL' }}
+    </button>
+  </div>
+</div>

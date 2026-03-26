@@ -1,0 +1,37 @@
+<div class="tq-dialog">
+  <div class="tq-dialog-header">
+    <div class="tq-header-titles">
+      @if (tag()) {
+        <span class="tq-header-tag">{{ tag() }}</span>
+      }
+      <span class="tq-header-title">{{ title() }}</span>
+    </div>
+    <button mat-icon-button class="tq-close-btn" (click)="closed.emit()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="tq-dialog-body">
+    <ng-content />
+  </div>
+  <div class="tq-dialog-footer">
+    <ng-content select="[tqDetailActions]" />
+    @if (!hasCustomActions()) {
+      @if (secondaryActionLabel()) {
+        <button
+          mat-flat-button
+          class="tq-btn-secondary"
+          (click)="secondaryAction.emit()"
+        >
+          {{ secondaryActionLabel() }}
+        </button>
+      }
+      <button
+        mat-flat-button
+        class="tq-btn-primary"
+        (click)="closed.emit()"
+      >
+        {{ closeLabel() }}
+      </button>
+    }
+  </div>
+</div>

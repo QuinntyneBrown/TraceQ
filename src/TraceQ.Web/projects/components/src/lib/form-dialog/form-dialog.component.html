@@ -1,0 +1,28 @@
+<div class="tq-dialog">
+  <div class="tq-dialog-header">
+    <span class="tq-header-title">{{ title() }}</span>
+    <button mat-icon-button class="tq-close-btn" (click)="closed.emit()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="tq-dialog-body">
+    <ng-content />
+  </div>
+  <div class="tq-dialog-footer">
+    <button
+      mat-flat-button
+      class="tq-btn-cancel"
+      (click)="closed.emit()"
+    >
+      {{ cancelLabel() }}
+    </button>
+    <button
+      mat-flat-button
+      class="tq-btn-submit"
+      [disabled]="submitDisabled()"
+      (click)="submitted.emit()"
+    >
+      {{ submitLabel() }}
+    </button>
+  </div>
+</div>

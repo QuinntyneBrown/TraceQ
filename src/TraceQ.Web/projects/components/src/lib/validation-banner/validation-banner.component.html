@@ -1,0 +1,19 @@
+<div class="tq-validation-banner">
+  <mat-icon class="tq-banner-icon">warning</mat-icon>
+  <div class="tq-banner-content">
+    <span class="tq-banner-title">{{ title() }}</span>
+    <ul class="tq-banner-list">
+      @for (error of errors(); track error) {
+        <li class="tq-banner-item">
+          <span class="tq-bullet">&bull;</span>
+          <span class="tq-error-text">{{ error }}</span>
+        </li>
+      }
+    </ul>
+  </div>
+  @if (dismissible()) {
+    <button mat-icon-button class="tq-banner-dismiss" (click)="dismissed.emit()" aria-label="Dismiss">
+      <mat-icon>close</mat-icon>
+    </button>
+  }
+</div>

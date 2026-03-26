@@ -1,0 +1,9 @@
+<button
+  mat-fab
+  [class]="'tq-fab-' + size()"
+  [disabled]="disabled()"
+  [attr.aria-label]="ariaLabel()"
+  (click)="clicked.emit($event)"
+>
+  <mat-icon>{{ icon() }}</mat-icon>
+</button>

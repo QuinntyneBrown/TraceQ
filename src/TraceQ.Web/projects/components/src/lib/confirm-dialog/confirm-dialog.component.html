@@ -1,0 +1,31 @@
+<div class="tq-dialog">
+  <div class="tq-dialog-header">
+    <mat-icon class="tq-header-icon">warning</mat-icon>
+    <span class="tq-header-title">{{ data.title }}</span>
+  </div>
+  <div class="tq-dialog-body">
+    <p class="tq-body-message">{{ data.message }}</p>
+    @if (data.detail) {
+      <p class="tq-body-detail">{{ data.detail }}</p>
+    }
+  </div>
+  <div class="tq-dialog-footer">
+    <button
+      mat-flat-button
+      class="tq-btn-cancel"
+      (click)="dialogRef.close(false)"
+    >
+      {{ data.cancelLabel || 'CANCEL' }}
+    </button>
+    <button
+      mat-flat-button
+      [class]="data.confirmColor === 'danger' ? 'tq-btn-danger' : 'tq-btn-primary'"
+      (click)="dialogRef.close(true)"
+    >
+      @if (data.confirmIcon) {
+        <mat-icon>{{ data.confirmIcon }}</mat-icon>
+      }
+      {{ data.confirmLabel || 'CONFIRM' }}
+    </button>
+  </div>
+</div>

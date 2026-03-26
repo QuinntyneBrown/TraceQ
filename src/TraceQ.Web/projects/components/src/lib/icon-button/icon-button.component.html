@@ -1,0 +1,9 @@
+<button
+  mat-icon-button
+  [class]="buttonClasses()"
+  [disabled]="disabled()"
+  [attr.aria-label]="ariaLabel()"
+  (click)="clicked.emit($event)"
+>
+  <mat-icon>{{ icon() }}</mat-icon>
+</button>

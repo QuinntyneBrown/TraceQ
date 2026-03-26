@@ -1,0 +1,14 @@
+<div class="tq-error-page">
+  <mat-icon class="tq-error-icon">{{ iconMap[type()] }}</mat-icon>
+  <span class="tq-error-code">{{ type() }}</span>
+  <h2 class="tq-error-title">{{ title() || defaultTitles[type()] }}</h2>
+  <p class="tq-error-message">{{ message() || defaultMessages[type()] }}</p>
+  <button
+    mat-flat-button
+    [class]="type() === '404' ? 'tq-btn-primary' : 'tq-btn-secondary'"
+    (click)="actionClicked.emit()"
+  >
+    <mat-icon>{{ type() === '404' ? 'arrow_back' : 'refresh' }}</mat-icon>
+    {{ actionLabel() || defaultActions[type()] }}
+  </button>
+</div>

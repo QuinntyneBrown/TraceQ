@@ -1,0 +1,19 @@
+.tq-inline-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tq-error-icon {
+  color: #c62828;
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.tq-error-text {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #c62828;
+}

@@ -1,0 +1,19 @@
+<div class="tq-empty-state">
+  <mat-icon class="tq-empty-icon">{{ icon() || defaultIcons[type()] }}</mat-icon>
+  <h3 class="tq-empty-title">{{ title() || defaultTitles[type()] }}</h3>
+  <p class="tq-empty-message">{{ message() || defaultMessages[type()] }}</p>
+  @if (actionLabel() || defaultActions[type()]) {
+    <button
+      mat-flat-button
+      [class]="type() === 'no-data' ? 'tq-btn-primary' : 'tq-btn-secondary'"
+      (click)="actionClicked.emit()"
+    >
+      @if (actionIcon()) {
+        <mat-icon>{{ actionIcon() }}</mat-icon>
+      } @else if (type() === 'no-data') {
+        <mat-icon>upload</mat-icon>
+      }
+      {{ actionLabel() || defaultActions[type()] }}
+    </button>
+  }
+</div>

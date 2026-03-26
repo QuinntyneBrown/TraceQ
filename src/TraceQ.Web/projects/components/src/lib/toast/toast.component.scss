@@ -1,0 +1,108 @@
+.tq-toast {
+  display: flex;
+  background: #111111;
+  min-width: 440px;
+  max-width: 480px;
+  overflow: hidden;
+}
+
+.tq-toast-accent {
+  width: 4px;
+  flex-shrink: 0;
+}
+
+.tq-toast-success .tq-toast-accent { background: #2e7d32; }
+.tq-toast-error .tq-toast-accent { background: #c62828; }
+.tq-toast-warning .tq-toast-accent { background: #f57f17; }
+.tq-toast-info .tq-toast-accent { background: #1565c0; }
+
+.tq-toast-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  flex: 1;
+  min-width: 0;
+}
+
+.tq-toast-icon {
+  flex-shrink: 0;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.tq-icon-success { color: #2e7d32; }
+.tq-icon-error { color: #c62828; }
+.tq-icon-warning { color: #f57f17; }
+.tq-icon-info { color: #1565c0; }
+
+.tq-toast-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.tq-toast-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.tq-toast-message {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: #999999;
+}
+
+.tq-toast-progress {
+  margin-top: 4px;
+  border-radius: 2px;
+  height: 4px;
+}
+
+:host ::ng-deep .tq-toast-progress .mdc-linear-progress__bar-inner {
+  border-color: #1565c0;
+}
+
+:host ::ng-deep .tq-toast-progress .mdc-linear-progress__buffer-bar {
+  background-color: #333333;
+}
+
+.tq-toast-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.tq-toast-action {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 0;
+  min-width: auto;
+  line-height: 1;
+}
+
+.tq-action-success { color: #2e7d32; }
+.tq-action-error { color: #c62828; }
+.tq-action-warning { color: #f57f17; }
+.tq-action-info { color: #1565c0; }
+
+.tq-toast-close {
+  width: 24px;
+  height: 24px;
+
+  mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    color: #555555;
+  }
+}
