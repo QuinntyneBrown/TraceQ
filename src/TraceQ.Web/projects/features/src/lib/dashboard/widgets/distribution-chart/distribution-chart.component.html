@@ -1,0 +1,32 @@
+<mat-card class="chart-card">
+  <div class="card-header">
+    <h3 class="card-title">{{ title() }}</h3>
+    <tq-icon-button icon="refresh" variant="ghost" size="sm" tooltip="Refresh" (clicked)="refresh()" />
+  </div>
+
+  <mat-card-content>
+    @if (isLoading()) {
+      <div class="loading-container">
+        <mat-spinner diameter="32"></mat-spinner>
+      </div>
+    } @else if (data().length === 0) {
+      <tq-empty-state type="no-data" title="No Data" message="Import requirements to see distribution." />
+    } @else {
+      <div class="bar-chart">
+        @for (item of data(); track item.label; let i = $index) {
+          <div class="bar-row">
+            <span class="bar-label" [title]="item.label">{{ item.label }}</span>
+            <div class="bar-track">
+              <div
+                class="bar-fill"
+                [style.width]="getBarWidth(item.count)"
+                [style.background-color]="getColor(i)"
+              ></div>
+            </div>
+            <span class="bar-count">{{ item.count }}</span>
+          </div>
+        }
+      </div>
+    }
+  </mat-card-content>
+</mat-card>

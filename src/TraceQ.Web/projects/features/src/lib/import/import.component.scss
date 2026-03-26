@@ -1,0 +1,160 @@
+.import-page {
+  padding: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--mat-sys-on-surface-variant);
+  margin: 0 0 24px;
+}
+
+.upload-card {
+  margin-bottom: 24px;
+}
+
+.drop-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  border: 2px dashed var(--mat-sys-outline-variant);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+
+  &:hover,
+  &.dragging {
+    border-color: var(--mat-sys-primary);
+    background: color-mix(in srgb, var(--mat-sys-primary) 4%, transparent);
+  }
+
+  &.uploading {
+    cursor: default;
+    border-color: var(--mat-sys-primary);
+  }
+}
+
+.upload-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: var(--mat-sys-primary);
+  margin-bottom: 12px;
+}
+
+.drop-label {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.drop-hint {
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+  margin: 0;
+}
+
+.upload-progress {
+  width: 200px;
+  margin-top: 16px;
+}
+
+.result-card {
+  margin-bottom: 24px;
+
+  .result-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+
+    &.success {
+      color: var(--mat-sys-primary);
+    }
+
+    &.error {
+      color: var(--mat-sys-error);
+    }
+  }
+}
+
+.error-card {
+  border-left: 4px solid var(--mat-sys-error);
+}
+
+.result-stats {
+  display: flex;
+  gap: 32px;
+  padding: 16px 0 8px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 600;
+
+  &.inserted {
+    color: var(--mat-sys-primary);
+  }
+
+  &.updated {
+    color: var(--mat-sys-tertiary);
+  }
+
+  &.skipped {
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &.errors {
+    color: var(--mat-sys-error);
+  }
+}
+
+.stat-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.history-section {
+  margin-top: 32px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 0 16px;
+}
+
+.history-card {
+  overflow: hidden;
+}
+
+.history-table {
+  width: 100%;
+}
+
+.stat-chip {
+  font-size: 12px;
+  min-height: 24px;
+
+  &.has-errors {
+    --mat-chip-label-text-color: var(--mat-sys-error);
+  }
+}

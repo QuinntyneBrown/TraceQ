@@ -1,0 +1,64 @@
+.requirements-page {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--mat-sys-on-surface-variant);
+  margin: 0 0 24px;
+}
+
+.toolbar-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.keyword-field {
+  flex: 1;
+  max-width: 400px;
+}
+
+.table-card {
+  overflow: hidden;
+}
+
+.requirements-table {
+  width: 100%;
+}
+
+.col-number {
+  font-weight: 600;
+  color: var(--mat-sys-primary);
+  white-space: nowrap;
+}
+
+.col-name {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.col-actions {
+  width: 48px;
+  text-align: right;
+}
+
+.clickable-row {
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background: color-mix(in srgb, var(--mat-sys-on-surface) 4%, transparent);
+  }
+}

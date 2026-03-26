@@ -1,0 +1,94 @@
+<mat-card class="trace-card">
+  <div class="card-header">
+    <h3 class="card-title">Traceability Coverage</h3>
+    <tq-icon-button icon="refresh" variant="ghost" size="sm" tooltip="Refresh" (clicked)="refresh()" />
+  </div>
+
+  <mat-card-content>
+    @if (isLoading()) {
+      <div class="loading-container">
+        <mat-spinner diameter="32"></mat-spinner>
+      </div>
+    } @else if (coverage(); as cov) {
+      <!-- Coverage Summary -->
+      <div class="coverage-summary">
+        <div class="coverage-ring">
+          <svg viewBox="0 0 120 120" class="ring-svg">
+            <circle cx="60" cy="60" r="50" fill="none" stroke-width="10"
+              stroke="color-mix(in srgb, var(--mat-sys-on-surface) 8%, transparent)" />
+            <circle cx="60" cy="60" r="50" fill="none" stroke-width="10"
+              stroke="var(--mat-sys-primary)"
+              stroke-linecap="round"
+              [attr.stroke-dasharray]="314"
+              [attr.stroke-dashoffset]="314 - (314 * cov.coveragePercentage / 100)"
+              transform="rotate(-90 60 60)" />
+          </svg>
+          <span class="coverage-pct">{{ cov.coveragePercentage | number:'1.0-0' }}%</span>
+        </div>
+        <div class="coverage-stats">
+          <div class="stat-row">
+            <span class="stat-label">Total Requirements</span>
+            <span class="stat-value">{{ cov.totalRequirements }}</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">With Trace Links</span>
+            <span class="stat-value traced">{{ cov.tracedRequirements }}</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Without Trace Links</span>
+            <span class="stat-value untraced">{{ cov.untracedRequirements.length }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trace Link Distribution -->
+      @if (cov.traceLinkDistribution.length > 0) {
+        <h4 class="subsection-title">Trace Link Distribution</h4>
+        <div class="distribution-bars">
+          @for (item of cov.traceLinkDistribution; track item.label) {
+            <div class="dist-row">
+              <span class="dist-label">{{ item.label }}</span>
+              <div class="dist-track">
+                <div
+                  class="dist-fill"
+                  [style.width.%]="(item.count / getMaxDistribution()) * 100"
+                ></div>
+              </div>
+              <span class="dist-count">{{ item.count }}</span>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- Untraced Requirements (first 10) -->
+      @if (cov.untracedRequirements.length > 0) {
+        <h4 class="subsection-title">Untraced Requirements</h4>
+        <table mat-table [dataSource]="cov.untracedRequirements.slice(0, 10)" class="untraced-table">
+          <ng-container matColumnDef="requirementNumber">
+            <th mat-header-cell *matHeaderCellDef>Number</th>
+            <td mat-cell *matCellDef="let row" class="col-number">{{ row.requirementNumber }}</td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let row">{{ row.name }}</td>
+          </ng-container>
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>Type</th>
+            <td mat-cell *matCellDef="let row">{{ row.type || '—' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="module">
+            <th mat-header-cell *matHeaderCellDef>Module</th>
+            <td mat-cell *matCellDef="let row">{{ row.module || '—' }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="untracedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: untracedColumns;"></tr>
+        </table>
+        @if (cov.untracedRequirements.length > 10) {
+          <p class="more-hint">...and {{ cov.untracedRequirements.length - 10 }} more</p>
+        }
+      }
+    } @else {
+      <tq-empty-state type="no-data" title="No Data" message="Import requirements to see traceability coverage." />
+    }
+  </mat-card-content>
+</mat-card>

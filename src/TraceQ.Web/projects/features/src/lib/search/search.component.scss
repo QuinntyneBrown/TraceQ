@@ -1,0 +1,161 @@
+.search-page {
+  padding: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--mat-sys-on-surface-variant);
+  margin: 0 0 24px;
+}
+
+.search-card {
+  margin-bottom: 24px;
+  padding: 20px;
+}
+
+.search-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.search-field {
+  flex: 1;
+}
+
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+  align-items: flex-start;
+}
+
+.filter-field {
+  min-width: 140px;
+  flex: 1;
+}
+
+.similar-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  margin-bottom: 16px;
+  background: color-mix(in srgb, var(--mat-sys-tertiary) 8%, transparent);
+
+  mat-icon {
+    color: var(--mat-sys-tertiary);
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 0;
+
+  p {
+    color: var(--mat-sys-on-surface-variant);
+    margin: 0;
+  }
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.results-count {
+  font-size: 14px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.result-card {
+  padding: 20px;
+  transition: box-shadow 0.2s;
+
+  &:hover {
+    box-shadow: var(--mat-sys-level2);
+  }
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.result-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.result-number {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mat-sys-primary);
+  white-space: nowrap;
+}
+
+.result-name {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-score {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--mat-sys-primary);
+  background: color-mix(in srgb, var(--mat-sys-primary) 10%, transparent);
+  padding: 4px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.result-description {
+  font-size: 14px;
+  color: var(--mat-sys-on-surface-variant);
+  margin: 8px 0 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.result-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.result-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}

@@ -1,0 +1,117 @@
+<h2 mat-dialog-title class="detail-title">
+  <span class="req-number">{{ req.requirementNumber }}</span>
+  <span class="req-name">{{ req.name }}</span>
+</h2>
+
+<mat-dialog-content class="detail-content">
+  <!-- Metadata -->
+  <section class="detail-section">
+    <div class="meta-grid">
+      @if (req.type) {
+        <div class="meta-item">
+          <span class="meta-label">Type</span>
+          <mat-chip>{{ req.type }}</mat-chip>
+        </div>
+      }
+      @if (req.state) {
+        <div class="meta-item">
+          <span class="meta-label">State</span>
+          <mat-chip>{{ req.state }}</mat-chip>
+        </div>
+      }
+      @if (req.priority) {
+        <div class="meta-item">
+          <span class="meta-label">Priority</span>
+          <mat-chip>{{ req.priority }}</mat-chip>
+        </div>
+      }
+      @if (req.module) {
+        <div class="meta-item">
+          <span class="meta-label">Module</span>
+          <mat-chip>{{ req.module }}</mat-chip>
+        </div>
+      }
+      @if (req.owner) {
+        <div class="meta-item">
+          <span class="meta-label">Owner</span>
+          <span class="meta-value">{{ req.owner }}</span>
+        </div>
+      }
+      @if (req.parentNumber) {
+        <div class="meta-item">
+          <span class="meta-label">Parent</span>
+          <span class="meta-value link" (click)="navigateToRequirement(req.parentNumber!)">{{ req.parentNumber }}</span>
+        </div>
+      }
+      @if (req.createdDate) {
+        <div class="meta-item">
+          <span class="meta-label">Created</span>
+          <span class="meta-value">{{ req.createdDate | date:'mediumDate' }}</span>
+        </div>
+      }
+      @if (req.modifiedDate) {
+        <div class="meta-item">
+          <span class="meta-label">Modified</span>
+          <span class="meta-value">{{ req.modifiedDate | date:'mediumDate' }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Description -->
+  @if (req.description) {
+    <mat-divider />
+    <section class="detail-section">
+      <h3 class="section-label">Description</h3>
+      <p class="description-text">{{ req.description }}</p>
+    </section>
+  }
+
+  <!-- Traced-To Links -->
+  @if (req.tracedTo.length > 0) {
+    <mat-divider />
+    <section class="detail-section">
+      <h3 class="section-label">Traced To</h3>
+      <div class="traced-chips">
+        @for (link of req.tracedTo; track link) {
+          <mat-chip class="trace-chip" (click)="navigateToRequirement(link)">
+            <mat-icon matChipAvatar>link</mat-icon>
+            {{ link }}
+          </mat-chip>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- Similar Requirements -->
+  <mat-divider />
+  <section class="detail-section">
+    <h3 class="section-label">Similar Requirements</h3>
+    @if (loadingSimilar()) {
+      <div class="loading-row">
+        <mat-spinner diameter="20"></mat-spinner>
+        <span>Finding similar requirements...</span>
+      </div>
+    } @else if (similarRequirements().length > 0) {
+      <div class="similar-list">
+        @for (item of similarRequirements(); track item.requirement.id) {
+          <div class="similar-item" (click)="navigateToRequirement(item.requirement.requirementNumber)">
+            <div class="similar-info">
+              <span class="similar-number">{{ item.requirement.requirementNumber }}</span>
+              <span class="similar-name">{{ item.requirement.name }}</span>
+            </div>
+            <span class="similar-score">{{ (item.similarityScore * 100) | number:'1.0-0' }}%</span>
+          </div>
+        }
+      </div>
+    } @else if (!req.isEmbedded) {
+      <p class="no-data-hint">Embedding not yet generated for this requirement.</p>
+    } @else {
+      <p class="no-data-hint">No similar requirements found.</p>
+    }
+  </section>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <tq-button variant="secondary" (clicked)="dialogRef.close()">Close</tq-button>
+</mat-dialog-actions>

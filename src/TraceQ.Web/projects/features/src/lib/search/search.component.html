@@ -1,0 +1,166 @@
+<div class="search-page">
+  <h1 class="page-title">Search</h1>
+  <p class="page-subtitle">Find requirements using natural language semantic search</p>
+
+  <!-- Search Bar -->
+  <mat-card class="search-card">
+    <div class="search-row">
+      <mat-form-field class="search-field" appearance="outline">
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-label>Search requirements...</mat-label>
+        <input
+          matInput
+          [(ngModel)]="query"
+          (keydown)="onKeydown($event)"
+          placeholder="e.g. thermal protection system"
+        />
+        @if (query) {
+          <button matSuffix mat-icon-button (click)="query = ''">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+      <tq-button icon="search" (clicked)="search()" [disabled]="isSearching()">
+        Search
+      </tq-button>
+    </div>
+
+    <!-- Filters -->
+    @if (facets(); as f) {
+      <div class="filters-row">
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Type</mat-label>
+          <mat-select [(ngModel)]="filters.type">
+            <mat-option [value]="undefined">All</mat-option>
+            @for (facet of f.types; track facet.value) {
+              <mat-option [value]="facet.value">{{ facet.value }} ({{ facet.count }})</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>State</mat-label>
+          <mat-select [(ngModel)]="filters.state">
+            <mat-option [value]="undefined">All</mat-option>
+            @for (facet of f.states; track facet.value) {
+              <mat-option [value]="facet.value">{{ facet.value }} ({{ facet.count }})</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Priority</mat-label>
+          <mat-select [(ngModel)]="filters.priority">
+            <mat-option [value]="undefined">All</mat-option>
+            @for (facet of f.priorities; track facet.value) {
+              <mat-option [value]="facet.value">{{ facet.value }} ({{ facet.count }})</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Module</mat-label>
+          <mat-select [(ngModel)]="filters.module">
+            <mat-option [value]="undefined">All</mat-option>
+            @for (facet of f.modules; track facet.value) {
+              <mat-option [value]="facet.value">{{ facet.value }} ({{ facet.count }})</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-field">
+          <mat-label>Owner</mat-label>
+          <mat-select [(ngModel)]="filters.owner">
+            <mat-option [value]="undefined">All</mat-option>
+            @for (facet of f.owners; track facet.value) {
+              <mat-option [value]="facet.value">{{ facet.value }} ({{ facet.count }})</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        @if (hasActiveFilters()) {
+          <tq-button variant="ghost" icon="filter_list_off" (clicked)="filters = {}">
+            Clear Filters
+          </tq-button>
+        }
+      </div>
+    }
+  </mat-card>
+
+  <!-- Similar Mode Banner -->
+  @if (similarMode(); as reqNum) {
+    <mat-card class="similar-banner">
+      <mat-icon>hub</mat-icon>
+      <span>Showing requirements similar to <strong>{{ reqNum }}</strong></span>
+      <tq-button variant="ghost" size="sm" (clicked)="clearSearch()">Back to Search</tq-button>
+    </mat-card>
+  }
+
+  <!-- Loading -->
+  @if (isSearching()) {
+    <div class="loading-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Searching...</p>
+    </div>
+  }
+
+  <!-- Results -->
+  @if (!isSearching()) {
+    @if (results().length > 0) {
+      <div class="results-header">
+        <span class="results-count">{{ results().length }} results</span>
+        <tq-button variant="ghost" size="sm" icon="clear_all" (clicked)="clearSearch()">Clear</tq-button>
+      </div>
+
+      <div class="results-list">
+        @for (item of results(); track item.requirement.id) {
+          <mat-card class="result-card">
+            <div class="result-header">
+              <div class="result-title-row">
+                <span class="result-number">{{ item.requirement.requirementNumber }}</span>
+                <h3 class="result-name">{{ item.requirement.name }}</h3>
+              </div>
+              <div class="result-score" [matTooltip]="'Similarity: ' + formatScore(item.similarityScore)">
+                {{ formatScore(item.similarityScore) }}
+              </div>
+            </div>
+
+            @if (item.requirement.description) {
+              <p class="result-description">{{ item.requirement.description }}</p>
+            }
+
+            <div class="result-footer">
+              <div class="result-badges">
+                @if (item.requirement.type) {
+                  <mat-chip>{{ item.requirement.type }}</mat-chip>
+                }
+                @if (item.requirement.state) {
+                  <mat-chip>{{ item.requirement.state }}</mat-chip>
+                }
+                @if (item.requirement.priority) {
+                  <mat-chip>{{ item.requirement.priority }}</mat-chip>
+                }
+                @if (item.requirement.module) {
+                  <mat-chip>{{ item.requirement.module }}</mat-chip>
+                }
+              </div>
+              <tq-button
+                variant="ghost"
+                size="sm"
+                icon="hub"
+                (clicked)="findSimilar(item.requirement.id, item.requirement.requirementNumber)"
+              >
+                Find Similar
+              </tq-button>
+            </div>
+          </mat-card>
+        }
+      </div>
+    } @else if (hasSearched()) {
+      <tq-empty-state
+        type="no-results"
+        (actionClicked)="clearSearch()"
+      />
+    }
+  }
+</div>

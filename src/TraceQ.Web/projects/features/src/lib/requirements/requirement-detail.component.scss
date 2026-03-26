@@ -1,0 +1,144 @@
+.detail-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.req-number {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--mat-sys-primary);
+}
+
+.req-name {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.detail-content {
+  min-width: 480px;
+  max-width: 640px;
+}
+
+.detail-section {
+  padding: 16px 0;
+}
+
+.section-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--mat-sys-on-surface-variant);
+  margin: 0 0 12px;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-label {
+  font-size: 12px;
+  color: var(--mat-sys-on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.meta-value {
+  font-size: 14px;
+
+  &.link {
+    color: var(--mat-sys-primary);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.description-text {
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.traced-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.trace-chip {
+  cursor: pointer;
+}
+
+.loading-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.similar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.similar-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background: color-mix(in srgb, var(--mat-sys-on-surface) 6%, transparent);
+  }
+}
+
+.similar-info {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.similar-number {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mat-sys-primary);
+  white-space: nowrap;
+}
+
+.similar-name {
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.similar-score {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mat-sys-primary);
+  white-space: nowrap;
+}
+
+.no-data-hint {
+  font-size: 13px;
+  color: var(--mat-sys-on-surface-variant);
+  font-style: italic;
+  margin: 0;
+}
