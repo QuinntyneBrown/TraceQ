@@ -13,12 +13,12 @@
     3. Tokenizer configuration (tokenizer.json)
 
 .EXAMPLE
-    .\scripts\download-model.ps1
+    .\eng\scripts\download-model.ps1
 #>
 
 $ErrorActionPreference = "Stop"
 
-$modelsDir = Join-Path $PSScriptRoot ".." "models"
+$modelsDir = Join-Path $PSScriptRoot "..\..\models"
 $modelsDir = [System.IO.Path]::GetFullPath($modelsDir)
 
 Write-Host "TraceQ Model Downloader" -ForegroundColor Cyan

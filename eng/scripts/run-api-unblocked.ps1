@@ -4,7 +4,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$projectRoot = Split-Path -Parent $PSScriptRoot
+$projectRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $projectPath = Join-Path $projectRoot "src\TraceQ.Api\TraceQ.Api.csproj"
 $outputDir = Join-Path $env:TEMP "TraceQApiBuildOut"
 $entryAssembly = Join-Path $outputDir "TraceQ.Api.dll"

@@ -9,7 +9,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$projectRoot = Split-Path -Parent $PSScriptRoot
+$projectRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $baseOutputDir = Join-Path $env:TEMP "TraceQTestRuns"
 
 if (Test-Path $baseOutputDir) {
