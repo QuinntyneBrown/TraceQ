@@ -57,42 +57,48 @@ test.describe('Requirements Page', () => {
 
   test.describe('Row Interactions', () => {
     test('clicking a row opens detail dialog', async () => {
+      // Wait for table to be populated
+      await expect(requirements.tableRows.first()).toBeVisible({ timeout: 5000 });
       await requirements.clickRow(0);
       await requirements.expectDetailDialogOpen();
     });
 
     test('detail dialog shows requirement information', async () => {
+      await expect(requirements.tableRows.first()).toBeVisible({ timeout: 5000 });
       await requirements.clickRow(0);
       await requirements.expectDetailDialogOpen();
 
-      const dialogText = await requirements.page.locator('.cdk-overlay-pane, mat-dialog-container').textContent();
-      expect(dialogText).toContain('REQ-001');
+      const overlayText = await requirements.page.locator('.cdk-overlay-pane').textContent();
+      expect(overlayText).toContain('REQ-001');
     });
 
     test('detail dialog can be closed', async () => {
+      await expect(requirements.tableRows.first()).toBeVisible({ timeout: 5000 });
       await requirements.clickRow(0);
       await requirements.expectDetailDialogOpen();
 
-      // Close dialog by pressing Escape or clicking close button
+      // Close dialog by pressing Escape
       await requirements.page.keyboard.press('Escape');
-      await requirements.page.waitForTimeout(500);
+      await requirements.page.waitForTimeout(1000);
 
-      const dialog = requirements.page.locator('mat-dialog-container');
-      await expect(dialog).not.toBeVisible();
+      const dialog = requirements.page.locator('.cdk-overlay-pane');
+      await expect(dialog).not.toBeVisible({ timeout: 5000 });
     });
   });
 
   test.describe('Delete Flow', () => {
     test('delete button triggers destructive dialog', async () => {
-      // Find and click delete button in first row
-      const deleteBtn = requirements.page.locator('mat-row tq-icon-button, tr[mat-row] tq-icon-button').first();
-      if (await deleteBtn.isVisible()) {
-        await deleteBtn.click();
-        await requirements.page.waitForTimeout(500);
+      // Wait for table rows
+      await expect(requirements.tableRows.first()).toBeVisible({ timeout: 5000 });
 
-        const dialog = requirements.page.locator('mat-dialog-container, .cdk-overlay-pane');
-        await expect(dialog).toBeVisible();
-      }
+      // Find tq-icon-button in the actions column
+      const deleteBtn = requirements.page.locator('tr[mat-row] tq-icon-button, mat-row tq-icon-button, .col-actions tq-icon-button').first();
+      await expect(deleteBtn).toBeVisible({ timeout: 5000 });
+      await deleteBtn.click();
+      await requirements.page.waitForTimeout(1000);
+
+      const dialog = requirements.page.locator('.cdk-overlay-pane');
+      await expect(dialog).toBeVisible({ timeout: 5000 });
     });
   });
 
