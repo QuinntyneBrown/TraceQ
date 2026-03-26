@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ChartConfiguration } from 'chart.js';
+import { ChartData, ChartOptions } from 'chart.js';
 import { Subject, takeUntil } from 'rxjs';
 import { DashboardService } from './dashboard.service';
 import { TraceabilityCoverageDto, DistributionDto } from '../../shared/models/dashboard.model';
@@ -19,8 +19,9 @@ export class TraceabilityWidgetComponent implements OnInit, OnDestroy {
   untracedRequirements: RequirementDto[] = [];
   untracedDisplayedColumns: string[] = ['requirementNumber', 'name', 'module'];
 
-  densityChartData: ChartConfiguration<'bar'>['data'] = { labels: [], datasets: [] };
-  densityChartOptions: ChartConfiguration<'bar'>['options'] = {
+  densityLabels: string[] = [];
+  densityDatasets: ChartData['datasets'] = [];
+  densityChartOptions: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: { legend: { display: false } },
@@ -29,6 +30,7 @@ export class TraceabilityWidgetComponent implements OnInit, OnDestroy {
       y: { beginAtZero: true, ticks: { precision: 0 } },
     },
   };
+  hasDensityData = false;
 
   isLoading = true;
   errorMessage = '';
@@ -80,19 +82,17 @@ export class TraceabilityWidgetComponent implements OnInit, OnDestroy {
   }
 
   private buildDensityChart(dist: DistributionDto[]): void {
-    const labels = dist.map(d => d.label);
+    this.hasDensityData = dist.length > 0;
+    this.densityLabels = dist.map(d => d.label);
     const values = dist.map(d => d.count);
     const colors = getChartColors(dist.length);
 
-    this.densityChartData = {
-      labels,
-      datasets: [
-        {
-          data: values,
-          backgroundColor: colors,
-          borderWidth: 0,
-        },
-      ],
-    };
+    this.densityDatasets = [
+      {
+        data: values,
+        backgroundColor: colors,
+        borderWidth: 0,
+      },
+    ];
   }
 }

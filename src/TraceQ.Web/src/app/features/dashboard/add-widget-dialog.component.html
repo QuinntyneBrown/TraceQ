@@ -3,7 +3,7 @@
 <mat-dialog-content>
   <div class="form-group">
     <label class="form-label">Widget Type</label>
-    <mat-selection-list [multiple]="false" (selectionChange)="selectedType = $event.options[0]?.value ?? 'stats'">
+    <mat-selection-list [multiple]="false" (selectionChange)="selectedType = $event.options[0].value ?? 'stats'">
       <mat-list-option *ngFor="let wt of widgetTypes"
                        [value]="wt.value"
                        [selected]="wt.value === selectedType">

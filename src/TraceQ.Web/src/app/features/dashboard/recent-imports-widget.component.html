@@ -2,7 +2,7 @@
   <table mat-table [dataSource]="imports" class="compact-table" *ngIf="imports.length > 0">
     <ng-container matColumnDef="importedAt">
       <th mat-header-cell *matHeaderCellDef>Date</th>
-      <td mat-cell *matCellDef="let row" [matTooltip]="row.importedAt | date:'medium'">
+      <td mat-cell *matCellDef="let row" [matTooltip]="(row.importedAt | date:'medium') ?? ''">
         {{ getRelativeTime(row.importedAt) }}
       </td>
     </ng-container>

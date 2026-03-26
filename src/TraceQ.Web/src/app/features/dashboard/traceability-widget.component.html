@@ -29,12 +29,13 @@
     </div>
   </div>
 
-  <div class="density-section" *ngIf="densityChartData.labels && densityChartData.labels.length > 0">
+  <div class="density-section" *ngIf="hasDensityData">
     <h4>Trace-Link Density</h4>
     <div class="density-chart">
       <canvas baseChart
         type="bar"
-        [data]="densityChartData"
+        [labels]="densityLabels"
+        [datasets]="densityDatasets"
         [options]="densityChartOptions">
       </canvas>
     </div>

@@ -1,4 +1,4 @@
-import { Chart, ChartOptions } from 'chart.js';
+import { Chart } from 'chart.js';
 
 const DEFENSE_PALETTE: string[] = [
   '#1a237e', // Navy
@@ -58,58 +58,3 @@ export function configureChartDefaults(): void {
     padding: 10,
   };
 }
-
-export const DEFAULT_BAR_OPTIONS: ChartOptions<'bar'> = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: { display: false },
-  },
-  scales: {
-    x: {
-      grid: { display: false },
-    },
-    y: {
-      beginAtZero: true,
-      ticks: { precision: 0 },
-    },
-  },
-};
-
-export const DEFAULT_HORIZONTAL_BAR_OPTIONS: ChartOptions<'bar'> = {
-  responsive: true,
-  maintainAspectRatio: false,
-  indexAxis: 'y',
-  plugins: {
-    legend: { display: false },
-  },
-  scales: {
-    x: {
-      beginAtZero: true,
-      ticks: { precision: 0 },
-    },
-    y: {
-      grid: { display: false },
-    },
-  },
-};
-
-export const DEFAULT_PIE_OPTIONS: ChartOptions<'pie'> = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: 'right',
-    },
-  },
-};
-
-export const DEFAULT_DOUGHNUT_OPTIONS: ChartOptions<'doughnut'> = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: 'right',
-    },
-  },
-};

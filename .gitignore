@@ -486,7 +486,7 @@ $RECYCLE.BIN/
 models/*.onnx
 models/*.bin
 # SQLite database
-data/
+/data/
 *.db
 *.db-shm
 *.db-wal

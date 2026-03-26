@@ -1,7 +1,8 @@
 <div class="chart-container" *ngIf="!isLoading && !errorMessage && hasData">
   <canvas baseChart
     [type]="chartType"
-    [data]="chartData"
+    [labels]="chartLabels"
+    [datasets]="chartDatasets"
     [options]="chartOptions"
     (chartClick)="onChartClick($event)">
   </canvas>

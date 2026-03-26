@@ -1,18 +1,9 @@
 import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
-import { ChartConfiguration, ChartType } from 'chart.js';
+import { ChartData, ChartEvent, ChartOptions, ChartType } from 'chart.js';
 import { Subject, takeUntil } from 'rxjs';
 import { DashboardService } from './dashboard.service';
 import { DistributionDto } from '../../shared/models/dashboard.model';
-import {
-  getChartColors,
-  getChartColorsTranslucent,
-  DEFAULT_BAR_OPTIONS,
-  DEFAULT_HORIZONTAL_BAR_OPTIONS,
-  DEFAULT_PIE_OPTIONS,
-  DEFAULT_DOUGHNUT_OPTIONS,
-} from './chart-theme';
-
-type SupportedChartType = 'bar' | 'pie' | 'doughnut';
+import { getChartColors, getChartColorsTranslucent } from './chart-theme';
 
 @Component({
   selector: 'app-distribution-chart-widget',
@@ -22,9 +13,10 @@ type SupportedChartType = 'bar' | 'pie' | 'doughnut';
 export class DistributionChartWidgetComponent implements OnInit, OnDestroy, OnChanges {
   @Input() field: 'type' | 'state' | 'priority' | 'module' = 'type';
 
-  chartType: SupportedChartType = 'doughnut';
-  chartData: ChartConfiguration['data'] = { labels: [], datasets: [] };
-  chartOptions: ChartConfiguration['options'] = {};
+  chartType: ChartType = 'doughnut';
+  chartLabels: string[] = [];
+  chartDatasets: ChartData['datasets'] = [];
+  chartOptions: ChartOptions = {};
   hasData = false;
   isLoading = true;
   errorMessage = '';
@@ -58,19 +50,44 @@ export class DistributionChartWidgetComponent implements OnInit, OnDestroy, OnCh
     switch (this.field) {
       case 'type':
         this.chartType = 'doughnut';
-        this.chartOptions = { ...DEFAULT_DOUGHNUT_OPTIONS };
+        this.chartOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'right' } },
+        };
         break;
       case 'state':
         this.chartType = 'bar';
-        this.chartOptions = { ...DEFAULT_HORIZONTAL_BAR_OPTIONS };
+        this.chartOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { beginAtZero: true, ticks: { precision: 0 } },
+            y: { grid: { display: false } },
+          },
+        };
         break;
       case 'priority':
         this.chartType = 'pie';
-        this.chartOptions = { ...DEFAULT_PIE_OPTIONS };
+        this.chartOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'right' } },
+        };
         break;
       case 'module':
         this.chartType = 'bar';
-        this.chartOptions = { ...DEFAULT_BAR_OPTIONS };
+        this.chartOptions = {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false } },
+            y: { beginAtZero: true, ticks: { precision: 0 } },
+          },
+        };
         break;
     }
   }
@@ -102,6 +119,8 @@ export class DistributionChartWidgetComponent implements OnInit, OnDestroy, OnCh
 
     this.hasData = data.length > 0;
     if (!this.hasData) {
+      this.chartLabels = [];
+      this.chartDatasets = [];
       return;
     }
 
@@ -110,36 +129,33 @@ export class DistributionChartWidgetComponent implements OnInit, OnDestroy, OnCh
     const colors = getChartColors(data.length);
     const bgColors = getChartColorsTranslucent(data.length);
 
+    this.chartLabels = labels;
+
     if (this.chartType === 'bar') {
-      this.chartData = {
-        labels,
-        datasets: [
-          {
-            data: values,
-            backgroundColor: bgColors,
-            borderColor: colors,
-            borderWidth: 1,
-          },
-        ],
-      };
+      this.chartDatasets = [
+        {
+          data: values,
+          backgroundColor: bgColors,
+          borderColor: colors,
+          borderWidth: 1,
+        },
+      ];
     } else {
-      this.chartData = {
-        labels,
-        datasets: [
-          {
-            data: values,
-            backgroundColor: colors,
-            hoverBackgroundColor: bgColors,
-          },
-        ],
-      };
+      this.chartDatasets = [
+        {
+          data: values,
+          backgroundColor: colors,
+          hoverBackgroundColor: bgColors,
+        },
+      ];
     }
   }
 
-  onChartClick(event: { active?: Array<{ index: number }> }): void {
+  onChartClick(event: { event?: ChartEvent; active?: object[] }): void {
     if (event.active && event.active.length > 0) {
-      const idx = event.active[0].index;
-      const label = (this.chartData.labels as string[])?.[idx] ?? 'unknown';
+      const activeEl = event.active[0] as { index?: number };
+      const idx = activeEl.index ?? 0;
+      const label = this.chartLabels[idx] ?? 'unknown';
       console.log(`[DistributionChart] Clicked segment: field=${this.field}, category=${label}`);
     }
   }
