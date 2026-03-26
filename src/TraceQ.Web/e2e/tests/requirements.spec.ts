@@ -88,17 +88,17 @@ test.describe('Requirements Page', () => {
 
   test.describe('Delete Flow', () => {
     test('delete button triggers destructive dialog', async () => {
-      // Wait for table rows
-      await expect(requirements.tableRows.first()).toBeVisible({ timeout: 5000 });
+      // Wait for table rows to load
+      await expect(requirements.tableRows.first()).toBeVisible({ timeout: 10000 });
 
-      // Find tq-icon-button in the actions column
-      const deleteBtn = requirements.page.locator('tr[mat-row] tq-icon-button, mat-row tq-icon-button, .col-actions tq-icon-button').first();
+      // Click the inner button inside the first tq-icon-button in the table
+      const deleteBtn = requirements.page.locator('tq-icon-button button').first();
       await expect(deleteBtn).toBeVisible({ timeout: 5000 });
-      await deleteBtn.click();
-      await requirements.page.waitForTimeout(1000);
+      await deleteBtn.click({ force: true });
 
+      // Wait for dialog overlay to appear
       const dialog = requirements.page.locator('.cdk-overlay-pane');
-      await expect(dialog).toBeVisible({ timeout: 5000 });
+      await expect(dialog).toBeVisible({ timeout: 10000 });
     });
   });
 

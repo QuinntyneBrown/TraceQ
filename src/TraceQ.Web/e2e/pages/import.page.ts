@@ -11,7 +11,7 @@ export class ImportPage extends LayoutPage {
 
   constructor(page: Page) {
     super(page);
-    this.dropZone = page.locator('.drop-zone, .upload-zone, [class*="drop"], [class*="upload-area"]');
+    this.dropZone = page.locator('.drop-zone');
     this.fileInput = page.locator('input[type="file"]');
     this.historyTable = page.locator('mat-table, table');
     this.historyRows = page.locator('mat-row, tr[mat-row]');

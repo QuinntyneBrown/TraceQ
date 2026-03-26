@@ -21,6 +21,8 @@ test.describe('Import Page', () => {
     });
 
     test('drop zone area is visible', async () => {
+      // Wait for the lazy-loaded import component to render
+      await expect(importPage.page.locator('.import-page')).toBeVisible({ timeout: 10000 });
       await importPage.expectDropZoneVisible();
     });
   });
@@ -40,7 +42,7 @@ test.describe('Import Page', () => {
     });
 
     test('upload zone is clickable and triggers file input', async () => {
-      // The drop zone itself is clickable (it triggers fileInput.click())
+      await expect(importPage.page.locator('.import-page')).toBeVisible({ timeout: 10000 });
       await expect(importPage.dropZone).toBeVisible();
       const dropZoneClasses = await importPage.dropZone.getAttribute('class');
       expect(dropZoneClasses).toContain('drop-zone');
