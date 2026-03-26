@@ -1,5 +1,9 @@
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using TraceQ.Core.Interfaces;
+using TraceQ.Infrastructure;
+using TraceQ.Infrastructure.Data;
+using TraceQ.Infrastructure.Services;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -40,26 +44,23 @@ try
     // Add controllers
     builder.Services.AddControllers();
 
-    // Register application services
-    // ICsvParser — implemented in TraceQ.Infrastructure
-    // IImportService — implemented in TraceQ.Infrastructure
-    // IEmbeddingService — implemented in TraceQ.Infrastructure
-    // IVectorStore — implemented in TraceQ.Infrastructure
-    // IRequirementRepository — implemented in TraceQ.Infrastructure
-    // IDashboardLayoutRepository — implemented in TraceQ.Infrastructure
-    // ISearchService — implemented in TraceQ.Infrastructure
-    //
-    // Service registrations will be added here once implementations are created.
-    // Example:
-    // builder.Services.AddScoped<ICsvParser, CsvParser>();
-    // builder.Services.AddScoped<IImportService, ImportService>();
-    // builder.Services.AddScoped<IEmbeddingService, OnnxEmbeddingService>();
-    // builder.Services.AddSingleton<IVectorStore, QdrantVectorStore>();
-    // builder.Services.AddScoped<IRequirementRepository, RequirementRepository>();
-    // builder.Services.AddScoped<IDashboardLayoutRepository, DashboardLayoutRepository>();
-    // builder.Services.AddScoped<ISearchService, SearchService>();
+    // Register TraceQ Infrastructure services (DbContext, repositories, parsers, etc.)
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=traceq.db";
+    builder.Services.AddTraceQInfrastructure(connectionString);
+
+    // Register placeholder services for IEmbeddingService and IVectorStore
+    // These will be replaced by real implementations in later sprints
+    builder.Services.AddSingleton<IEmbeddingService, NoOpEmbeddingService>();
+    builder.Services.AddSingleton<IVectorStore, NoOpVectorStore>();
 
     var app = builder.Build();
+
+    // Ensure database is created
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<TraceQDbContext>();
+        await db.Database.EnsureCreatedAsync();
+    }
 
     // Configure the HTTP request pipeline
     app.UseSerilogRequestLogging();

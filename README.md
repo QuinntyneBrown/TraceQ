@@ -104,6 +104,10 @@ TraceQ/
 - [L2 — Detailed Requirements & Acceptance Criteria](docs/specs/L2.md)
 - [ONNX Model Setup](models/README.md)
 
+## Contributing
+
+See [CONTRIBUTORS.md](CONTRIBUTORS.md) for contribution guidelines and a list of contributors.
+
 ## License
 
-Proprietary. All rights reserved.
+This project is licensed under the [MIT License](LICENSE).

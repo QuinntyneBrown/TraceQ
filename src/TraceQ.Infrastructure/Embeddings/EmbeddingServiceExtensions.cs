@@ -1,0 +1,33 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using TraceQ.Core.Interfaces;
+
+namespace TraceQ.Infrastructure.Embeddings;
+
+/// <summary>
+/// Extension methods for registering embedding services in the DI container.
+/// </summary>
+public static class EmbeddingServiceExtensions
+{
+    /// <summary>
+    /// Registers the ONNX embedding service, tokenizer, and background embedding worker.
+    /// The OnnxEmbeddingService is registered as a singleton because the InferenceSession
+    /// is thread-safe for concurrent inference calls.
+    /// </summary>
+    public static IServiceCollection AddEmbeddingServices(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        // Bind configuration
+        services.Configure<EmbeddingModelOptions>(
+            configuration.GetSection(EmbeddingModelOptions.SectionName));
+
+        // Register embedding service as singleton (InferenceSession is thread-safe for reads)
+        services.AddSingleton<IEmbeddingService, OnnxEmbeddingService>();
+
+        // Register background service for periodic embedding of new requirements
+        services.AddHostedService<EmbeddingBackgroundService>();
+
+        return services;
+    }
+}
